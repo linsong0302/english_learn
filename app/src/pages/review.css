@@ -154,3 +154,126 @@
   font-size: 12px;
   color: var(--sub);
 }
+
+/* 错题本 */
+.rev-wrong-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.rev-wrong-empty {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.rev-wrong-clear {
+  font-size: 13px;
+  color: var(--ok);
+  margin: 0;
+}
+
+.rev-wrong-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #faf5ea;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.rev-wrong-item.mastered {
+  opacity: 0.65;
+}
+
+.rev-wrong-say {
+  border: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rev-wrong-say:active {
+  opacity: 0.85;
+}
+
+.rev-wrong-main {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rev-wrong-word {
+  font-size: 16px;
+}
+
+.rev-wrong-kk {
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.rev-wrong-count {
+  font-size: 12px;
+  color: var(--sub);
+}
+
+.rev-wrong-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.rev-wrong-wait {
+  font-size: 11px;
+  color: var(--brand-ink);
+  background: #fff6e0;
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.rev-wrong-master {
+  border: 1px solid var(--ok);
+  background: #fff;
+  color: var(--ok);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rev-wrong-master:active {
+  background: #e2f6ea;
+}
+
+.rev-wrong-ok {
+  font-size: 12px;
+  color: var(--ok);
+  white-space: nowrap;
+}
+
+.rev-wrong-done {
+  margin-top: 4px;
+}
+
+.rev-wrong-toggle {
+  border: 0;
+  background: none;
+  color: var(--sub);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 0;
+}
