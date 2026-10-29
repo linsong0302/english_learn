@@ -1,0 +1,252 @@
+/* 规则页专属样式（lane3 所有；全局 token 见 styles.css） */
+
+.rules-intro {
+  color: var(--sub);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.rule-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.rule-summary {
+  font-size: 14px;
+  margin: 0 0 6px;
+  color: var(--brand-ink);
+}
+
+.rule-detail {
+  font-size: 13px;
+  color: var(--sub);
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+
+.rule-mnemonic {
+  font-size: 13px;
+  background: #fff6e0;
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin: 0 0 10px;
+  color: var(--brand-ink);
+}
+
+/* 例词列表 */
+.rule-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rule-example {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #faf5ea;
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.ex-speak {
+  border: 0;
+  background: var(--brand);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.ex-speak:active {
+  opacity: 0.85;
+}
+
+.ex-word {
+  font-size: 16px;
+  min-width: 64px;
+}
+
+.ex-kk {
+  color: var(--accent);
+  font-size: 14px;
+  min-width: 74px;
+}
+
+.ex-note {
+  color: var(--sub);
+  font-size: 12px;
+  flex: 1;
+}
+
+/* 规则 5 辅音组合表 */
+.combo-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.combo-row {
+  display: flex;
+  gap: 10px;
+  background: #faf5ea;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.combo-left {
+  min-width: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.combo-kk {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.combo-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.combo-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.combo-word {
+  border: 0;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.combo-word:active {
+  opacity: 0.85;
+}
+
+.combo-word i {
+  font-style: normal;
+  color: var(--sub);
+}
+
+.combo-note {
+  display: block;
+  color: var(--sub);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* 小测验 */
+.rule-quiz-toggle {
+  width: 100%;
+  border: 1px dashed #e5c98c;
+  background: #fffaf0;
+  color: var(--brand-ink);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.rule-quiz {
+  margin-top: 12px;
+  border-top: 1px solid #f0e6d2;
+  padding-top: 10px;
+}
+
+.rq-head {
+  font-size: 13px;
+  color: var(--brand-ink);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.rq-q {
+  margin-bottom: 14px;
+}
+
+.rq-prompt {
+  font-size: 14px;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rq-say {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 0;
+}
+
+.rq-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rq-opt {
+  border: 1px solid #e3d9c2;
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.rq-opt.right {
+  background: #e2f6ea;
+  border-color: var(--ok);
+  color: var(--ok);
+  font-weight: 700;
+}
+
+.rq-opt.wrong {
+  background: #fdeaea;
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.rq-opt:disabled {
+  cursor: default;
+}
+
+.rq-fb {
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+
+.rq-fb.ok {
+  color: var(--ok);
+}
+
+.rq-fb.bad {
+  color: var(--bad);
+}
+
+.rq-score {
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand-ink);
+}
