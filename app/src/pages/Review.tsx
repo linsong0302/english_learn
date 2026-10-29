@@ -98,6 +98,9 @@ export default function Review() {
       {/* 错题本 */}
       <WrongBook wrong={wrong} onMaster={master} />
 
+      {/* 学习建议卡（周老师课堂方法） */}
+      <TipsCard />
+
       <IpaMap />
     </div>
   )
@@ -176,6 +179,30 @@ function WrongBook(props: { wrong: Record<string, WrongWord>; onMaster: (word: s
             ))}
         </div>
       )}
+    </div>
+  )
+}
+
+/** 学习建议卡：周老师课堂上的复习方法，附来源声明 */
+function TipsCard() {
+  const tips = [
+    { icon: '🔁', text: '同一内容至少读 20 遍：多读几遍，嘴巴自然记住发音位置。' },
+    { icon: '🌅', text: '早晚各读 3 遍口诀：a → z 顺一遍，早一次晚一次，记得最牢。' },
+    { icon: '🦴', text: '先搞定辅音骨架，再判断元音血肉：先读准 b、k、t 这些硬音，再补元音。' },
+    { icon: '🪜', text: '先简单后困难：先把简单词读顺，再挑战难词，一步一个台阶。' },
+  ]
+  return (
+    <div className="card rev-tips">
+      <div className="rev-tips-title">学习建议</div>
+      <ul className="rev-tips-list">
+        {tips.map((t) => (
+          <li key={t.icon}>
+            <span className="rev-tips-icon">{t.icon}</span>
+            <span>{t.text}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="rev-tips-source">内容整理自网络公开的学习者笔记（周育如音标课程），仅作学习交流。</p>
     </div>
   )
 }
