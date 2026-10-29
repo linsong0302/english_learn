@@ -31,10 +31,10 @@
   { "letter": "o", "upper": "O", "kk": "/ɑ/", "hint": "啊啊", "sample": "hot", "tips": ["嘴巴大开"] },
   { "letter": "p", "upper": "P", "kk": "/p/", "hint": "泼泼", "sample": "pen" },
   { "letter": "q", "upper": "Q", "kk": "/kw/", "hint": "阔阔", "sample": "quick" },
-  { "letter": "r", "upper": "R", "kk": "/r/", "hint": "前若若 / 后尔尔", "sample": "red",
+  { "letter": "r", "upper": "R", "kk": "/r/", "hint": "前若若 / 后尔尔", "sample": "red", "tips": ["舌尖向上卷起，不要碰到上颚"],
     "variants": [
       { "position": "initial", "kk": "/r/", "hint": "前：若若" },
-      { "position": "final", "kk": "/r/", "hint": "后：尔尔" }
+      { "position": "final", "kk": "/ɚ/", "hint": "后：尔尔（轻卷舌）" }
     ]
   },
   { "letter": "s", "upper": "S", "kk": "/s/", "hint": "斯斯", "sample": "sun" },
