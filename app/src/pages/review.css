@@ -1,9 +1,47 @@
-/* 复习页专属样式（lane4 所有；全局 token 见 styles.css） */
+/* 复习页专属样式（lane4 所有；全局 token 见 styles.css）
+   本页先在 .rev-page 上定义局部色调 token，深色模式只改 token 即可整体切换。 */
 
-/* 连续天数 */
+.rev-page {
+  /* 局部色调 token（浅色默认值） */
+  --rev-tint: #faf5ea;      /* 列表 / 日历格浅底 */
+  --rev-line: #f0e8d5;      /* 虚线分隔 */
+  --rev-btn-line: #eee3cf;  /* 按钮描边 */
+  --rev-btn-bg: #ffffff;    /* 未选中按钮底 */
+  --rev-done-bg: #f0eee6;   /* 已完成置灰底 */
+  --rev-done-line: #ddd8c8;
+  --rev-done-ink: #a09a88;
+  --rev-dim: #ddd6c4;       /* 未打卡图标灰 */
+  --rev-hl: #fff3cd;        /* 对照差异高亮 */
+  --rev-shadow: none;
+}
+
+/* ---------- 页头 + 待复习徽标 ---------- */
+.rev-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rev-head h1 {
+  margin-bottom: 12px;
+}
+
+.rev-badge {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--brand-ink);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+}
+
+/* ---------- 连续天数 ---------- */
 .rev-streak {
   text-align: center;
   padding: 18px 16px 14px;
+  box-shadow: var(--rev-shadow);
 }
 
 .rev-streak-num b {
@@ -24,7 +62,7 @@
   color: var(--sub);
 }
 
-/* 早晚打卡 */
+/* ---------- 早晚打卡 ---------- */
 .rev-checkin-title {
   font-size: 16px;
   font-weight: 700;
@@ -53,9 +91,9 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  border: 1px solid #eee3cf;
+  border: 1px solid var(--rev-btn-line);
   border-radius: 14px;
-  background: #fff;
+  background: var(--rev-btn-bg);
   padding: 14px 8px;
   cursor: pointer;
   min-height: 96px;
@@ -63,11 +101,11 @@
 }
 
 .rev-check-btn.am:active {
-  background: #fff6e0;
+  background: var(--brand-soft);
 }
 
 .rev-check-btn.pm:active {
-  background: #eef3ff;
+  background: var(--accent-soft);
 }
 
 .rev-check-btn.am {
@@ -79,9 +117,9 @@
 }
 
 .rev-check-btn.done {
-  background: #f3f1ea;
-  border-color: #e0dccd;
-  color: #a8a290;
+  background: var(--rev-done-bg);
+  border-color: var(--rev-done-line);
+  color: var(--rev-done-ink);
   cursor: default;
 }
 
@@ -100,7 +138,7 @@
   opacity: 0.75;
 }
 
-/* 14 天日历 */
+/* ---------- 14 天日历 ---------- */
 .rev-cal-title {
   font-size: 16px;
   font-weight: 700;
@@ -118,7 +156,7 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  background: #faf5ea;
+  background: var(--rev-tint);
   border-radius: 10px;
   padding: 7px 2px 6px;
 }
@@ -142,7 +180,7 @@
   font-style: normal;
   font-size: 13px;
   line-height: 1;
-  color: #ddd6c4;
+  color: var(--rev-dim);
 }
 
 .rev-cal-marks i.on {
@@ -155,7 +193,7 @@
   color: var(--sub);
 }
 
-/* 错题本 */
+/* ---------- 错题本 ---------- */
 .rev-wrong-title {
   font-size: 16px;
   font-weight: 700;
@@ -179,7 +217,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #faf5ea;
+  background: var(--rev-tint);
   border-radius: 12px;
   padding: 10px;
   margin-bottom: 8px;
@@ -238,7 +276,7 @@
 .rev-wrong-wait {
   font-size: 11px;
   color: var(--brand-ink);
-  background: #fff6e0;
+  background: var(--brand-soft);
   border-radius: 999px;
   padding: 2px 8px;
   white-space: nowrap;
@@ -246,7 +284,7 @@
 
 .rev-wrong-master {
   border: 1px solid var(--ok);
-  background: #fff;
+  background: var(--rev-btn-bg);
   color: var(--ok);
   border-radius: 999px;
   padding: 5px 12px;
@@ -256,7 +294,7 @@
 }
 
 .rev-wrong-master:active {
-  background: #e2f6ea;
+  background: var(--ok-soft);
 }
 
 .rev-wrong-ok {
@@ -278,7 +316,7 @@
   padding: 6px 0;
 }
 
-/* 学习建议卡 */
+/* ---------- 学习建议卡 ---------- */
 .rev-tips-title {
   font-size: 16px;
   font-weight: 700;
@@ -298,7 +336,7 @@
   font-size: 13px;
   line-height: 1.6;
   padding: 6px 0;
-  border-bottom: 1px dashed #f0e8d5;
+  border-bottom: 1px dashed var(--rev-line);
 }
 
 .rev-tips-list li:last-child {
@@ -313,4 +351,46 @@
   font-size: 11px;
   color: var(--sub);
   margin: 8px 0 0;
+}
+
+/* ============================================================
+   深色模式（prefers-color-scheme，token 层切换）
+   styles.css 全局 token 归 lane2 所有，故本页在 .rev-page 作用域内
+   重定义全局 token + 本页局部 token；其他页面仍为浅色。
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  .rev-page {
+    /* 全局 token 重定义（仅作用于本页） */
+    --bg: #151a24;
+    --card: #222939;
+    --ink: #e9e6de;
+    --sub: #97a1b3;
+    --brand: #f5a623;
+    --brand-ink: #ffce7b;
+    --brand-soft: #3d3421;
+    --accent: #6f9bff;
+    --accent-soft: #26324e;
+    --ok: #4cc482;
+    --ok-soft: #1e3a2b;
+    --line: #39425a;
+    --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+
+    /* 本页局部 token 重定义 */
+    --rev-tint: #2a3242;
+    --rev-line: #39425a;
+    --rev-btn-line: #39425a;
+    --rev-btn-bg: #2a3242;
+    --rev-done-bg: #1c2230;
+    --rev-done-line: #39425a;
+    --rev-done-ink: #6d7689;
+    --rev-dim: #4a5266;
+    --rev-hl: #4a3c1c;
+    --rev-shadow: none;
+
+    /* 深色底铺满可视区（盖住 app-main 的浅色留白） */
+    background: var(--bg);
+    margin: -16px -16px -92px;
+    padding: 16px 16px calc(92px + 12px);
+    min-height: 100vh;
+  }
 }

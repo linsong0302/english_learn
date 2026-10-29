@@ -46,7 +46,7 @@
   color: var(--sub);
   font-weight: 600;
   padding: 6px 4px;
-  border-bottom: 1px solid #eee3cf;
+  border-bottom: 1px solid var(--line, #eee3cf);
   white-space: nowrap;
 }
 
@@ -60,7 +60,7 @@
 
 .rev-ipa-table td {
   padding: 9px 4px;
-  border-bottom: 1px dashed #f0e8d5;
+  border-bottom: 1px dashed var(--rev-line, #f0e8d5);
   vertical-align: top;
 }
 
@@ -109,9 +109,9 @@
   white-space: nowrap;
 }
 
-/* 写法不同的两列高亮 */
+/* 写法不同的两列高亮（跟随 .rev-page 的深浅色 token） */
 .rev-ipa-table tr.diff .rev-ipa-cell {
-  background: #fff3cd;
+  background: var(--rev-hl, #fff3cd);
   color: var(--brand-ink);
   border-radius: 6px;
 }
