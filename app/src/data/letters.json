@@ -1,0 +1,48 @@
+[
+  { "letter": "a", "upper": "A", "kk": "/æ/", "hint": "诶诶", "sample": "apple", "tips": ["口型稍大"] },
+  { "letter": "b", "upper": "B", "kk": "/b/", "hint": "啵啵", "sample": "book" },
+  { "letter": "c", "upper": "C", "kk": "/k/", "hint": "渴渴", "sample": "cat" },
+  { "letter": "d", "upper": "D", "kk": "/d/", "hint": "的的", "sample": "dog" },
+  { "letter": "e", "upper": "E", "kk": "/ɛ/", "hint": "诶诶", "sample": "egg", "tips": ["口型比 /æ/ 小"] },
+  { "letter": "f", "upper": "F", "kk": "/f/", "hint": "扶扶", "sample": "fish" },
+  { "letter": "g", "upper": "G", "kk": "/g/", "hint": "嗝嗝", "sample": "go" },
+  { "letter": "h", "upper": "H", "kk": "/h/", "hint": "喝喝", "sample": "hat" },
+  { "letter": "i", "upper": "I", "kk": "/ɪ/", "hint": "衣衣", "sample": "pig" },
+  { "letter": "j", "upper": "J", "kk": "/dʒ/", "hint": "驹驹", "sample": "jam" },
+  { "letter": "k", "upper": "K", "kk": "/k/", "hint": "渴渴", "sample": "key" },
+  { "letter": "l", "upper": "L", "kk": "/l/", "hint": "前嘞嘞 / 后奥奥", "sample": "leg",
+    "variants": [
+      { "position": "initial", "kk": "/l/", "hint": "前：嘞嘞" },
+      { "position": "final", "kk": "/l/", "hint": "后：奥奥" }
+    ]
+  },
+  { "letter": "m", "upper": "M", "kk": "/m/", "hint": "前么么 / 后嗯嗯", "sample": "map",
+    "variants": [
+      { "position": "initial", "kk": "/m/", "hint": "前：么么" },
+      { "position": "final", "kk": "/m/", "hint": "后：嗯嗯（闭嘴）" }
+    ]
+  },
+  { "letter": "n", "upper": "N", "kk": "/n/", "hint": "前呢呢 / 后嗯嗯", "sample": "net",
+    "variants": [
+      { "position": "initial", "kk": "/n/", "hint": "前：呢呢" },
+      { "position": "final", "kk": "/n/", "hint": "后：嗯嗯（张嘴）" }
+    ]
+  },
+  { "letter": "o", "upper": "O", "kk": "/ɑ/", "hint": "啊啊", "sample": "hot", "tips": ["嘴巴大开"] },
+  { "letter": "p", "upper": "P", "kk": "/p/", "hint": "泼泼", "sample": "pen" },
+  { "letter": "q", "upper": "Q", "kk": "/kw/", "hint": "阔阔", "sample": "quick" },
+  { "letter": "r", "upper": "R", "kk": "/r/", "hint": "前若若 / 后尔尔", "sample": "red",
+    "variants": [
+      { "position": "initial", "kk": "/r/", "hint": "前：若若" },
+      { "position": "final", "kk": "/r/", "hint": "后：尔尔" }
+    ]
+  },
+  { "letter": "s", "upper": "S", "kk": "/s/", "hint": "斯斯", "sample": "sun" },
+  { "letter": "t", "upper": "T", "kk": "/t/", "hint": "特特", "sample": "top" },
+  { "letter": "u", "upper": "U", "kk": "/ʌ/", "hint": "啊啊", "sample": "bus", "tips": ["嘴巴半开"] },
+  { "letter": "v", "upper": "V", "kk": "/v/", "hint": "捂捂", "sample": "very", "tips": ["上齿咬下唇"] },
+  { "letter": "w", "upper": "W", "kk": "/w/", "hint": "唔唔", "sample": "we", "tips": ["嘟嘴"] },
+  { "letter": "x", "upper": "X", "kk": "/ks/", "hint": "克丝", "sample": "box" },
+  { "letter": "y", "upper": "Y", "kk": "/j/", "hint": "以以", "sample": "yes" },
+  { "letter": "z", "upper": "Z", "kk": "/z/", "hint": "子子", "sample": "zoo" }
+]

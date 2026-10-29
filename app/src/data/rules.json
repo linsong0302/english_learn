@@ -1,0 +1,81 @@
+[
+  {
+    "id": "rule1",
+    "title": "规则 1：词尾 e 不发音，前面元音读本身音",
+    "summary": "单词以「元音+辅音+e」结尾时，末尾 e 不发音，前面的元音读字母本身的音。",
+    "detail": "看到「元音+辅音+e」结尾的词，末尾的 e 直接忽略，前面那个元音读它字母本来的音，比如 name 里的 a 就读字母名 /eɪ/。",
+    "examples": [
+      { "word": "name", "kk": "/neɪm/", "note": "a 读 /eɪ/，词尾 e 不发音" },
+      { "word": "ride", "kk": "/raɪd/", "note": "i 读 /aɪ/" },
+      { "word": "came", "kk": "/keɪm/", "note": "a 读 /eɪ/" },
+      { "word": "home", "kk": "/hoʊm/", "note": "o 读 /oʊ/" }
+    ],
+    "mouthTips": [],
+    "commonMistakes": []
+  },
+  {
+    "id": "rule2",
+    "title": "规则 2：元音 + r 的发音",
+    "summary": "a/e/i/o/u + r：第一次出现（重音节）读长音 /ɝ/；第二次出现或词尾（非重音）读短音 /ɚ/。",
+    "detail": "看元音+r 在单词里的位置：第一次出现就卷舌拖长读 /ɝ/；第二次出现或在词尾就轻轻卷舌读 /ɚ/。比如 worker：work 里的 or 读 /ɝ/，词尾 er 读 /ɚ/。",
+    "examples": [
+      { "word": "work", "kk": "/wɝk/", "note": "重音节，or 读 /ɝ/ 卷舌拖长" },
+      { "word": "bird", "kk": "/bɝd/", "note": "ir 读 /ɝ/" },
+      { "word": "her", "kk": "/hɝ/", "note": "er 读 /ɝ/" },
+      { "word": "worker", "kk": "/ˈwɝkɚ/", "note": "词尾 er 读 /ɚ/，轻卷舌" },
+      { "word": "doctor", "kk": "/ˈdɑktɚ/", "note": "词尾 or 读 /ɚ/" },
+      { "word": "mister", "kk": "/ˈmɪstɚ/", "note": "词尾 er 读 /ɚ/" }
+    ],
+    "mouthTips": [],
+    "commonMistakes": []
+  },
+  {
+    "id": "rule3",
+    "title": "规则 3：oo 相连的发音",
+    "summary": "多数情况读短音 /ʊ/（good、book）；少数情况读长音 /u/（room、food）。",
+    "detail": "遇到 oo 先按多数情况读短音 /ʊ/，room / food / moon 这类常用词单独记住长音 /u/ 就行。",
+    "examples": [
+      { "word": "good", "kk": "/gʊd/", "note": "多数：短音 /ʊ/" },
+      { "word": "book", "kk": "/bʊk/", "note": "多数：短音 /ʊ/" },
+      { "word": "look", "kk": "/lʊk/", "note": "多数：短音 /ʊ/" },
+      { "word": "foot", "kk": "/fʊt/", "note": "多数：短音 /ʊ/" },
+      { "word": "room", "kk": "/rum/", "note": "少数：长音 /u/" },
+      { "word": "food", "kk": "/fud/", "note": "少数：长音 /u/" }
+    ],
+    "mouthTips": [],
+    "commonMistakes": []
+  },
+  {
+    "id": "rule4",
+    "title": "规则 4：au / ou / aw / ow 组合",
+    "summary": "这四个字母组合通常都发 /aʊ/（类似「傲」）。",
+    "detail": "house、how、now、out 等词里的 au/ou/aw/ow 都读 /aʊ/。个别词有例外（如 low、know），先用规则套，套不上再单独记。",
+    "examples": [
+      { "word": "house", "kk": "/haʊs/", "note": "ou → /aʊ/" },
+      { "word": "hour", "kk": "/aʊɚ/", "note": "h 不发音" },
+      { "word": "how", "kk": "/haʊ/", "note": "ow → /aʊ/" },
+      { "word": "now", "kk": "/naʊ/", "note": "ow → /aʊ/" }
+    ],
+    "mouthTips": [],
+    "commonMistakes": []
+  },
+  {
+    "id": "rule5",
+    "title": "规则 5：常见辅音组合",
+    "summary": "th / ch / sh / ph / ng / nk 这些组合要背下来。",
+    "detail": "这些辅音组合出现频率高、拼读规律稳定，属于「5 个靠规则」里最值得先背的一批。",
+    "examples": [],
+    "combos": [
+      { "pattern": "th（清）", "kk": "/θ/", "examples": [{ "word": "thank", "kk": "/θæŋk/" }], "note": "咬舌，声带不振动" },
+      { "pattern": "th（浊）", "kk": "/ð/", "examples": [{ "word": "this", "kk": "/ðɪs/" }, { "word": "that", "kk": "/ðæt/" }], "note": "咬舌，声带振动" },
+      { "pattern": "ch", "kk": "/tʃ/", "examples": [{ "word": "chair", "kk": "/tʃɛr/" }], "note": "类似「去」的声母" },
+      { "pattern": "sh", "kk": "/ʃ/", "examples": [{ "word": "shirt", "kk": "/ʃɝt/" }], "note": "类似「嘘」" },
+      { "pattern": "ph", "kk": "/f/", "examples": [{ "word": "photo", "kk": "/ˈfoʊto/" }], "note": "同 f" },
+      { "pattern": "ng（词尾）", "kk": "/ŋ/", "examples": [{ "word": "song", "kk": "/sɔŋ/" }], "note": "鼻音「嗯」" },
+      { "pattern": "ng（有时）", "kk": "/ŋg/", "examples": [{ "word": "english", "kk": "/ˈɪŋglɪʃ/" }], "note": "加一个 g 音" },
+      { "pattern": "nk", "kk": "/ŋk/", "examples": [{ "word": "ink", "kk": "/ɪŋk/" }], "note": "「嗯克」" }
+    ],
+    "mouthTips": [],
+    "commonMistakes": []
+  }
+]

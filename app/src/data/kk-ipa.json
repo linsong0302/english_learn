@@ -1,0 +1,6 @@
+[
+  { "word": "egg（中的 e）", "kk": "/ɛ/", "ipa": "/e/", "note": "KK 用 /ɛ/，学校 IPA 常写 /e/" },
+  { "word": "book（中的 oo）", "kk": "/ʊ/", "ipa": "/ʊ/", "note": "两边写法相同" },
+  { "word": "work（中的 or）", "kk": "/ɝ/", "ipa": "/ɜː/", "note": "KK 卷舌，IPA 不卷舌" },
+  { "word": "worker（词尾 er）", "kk": "/ɚ/", "ipa": "/ə/", "note": "轻卷舌 vs 中央元音" }
+]

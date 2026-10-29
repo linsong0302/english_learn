@@ -1,0 +1,53 @@
+/* 全局设计 token 与基础布局（lane2 负责完善设计系统；页面专属样式请另建 css 文件） */
+:root {
+  --bg: #fdf8ef;
+  --card: #ffffff;
+  --ink: #22304a;
+  --sub: #6b7a90;
+  --brand: #ffb020;
+  --brand-ink: #7a4c00;
+  --accent: #2f6df6;
+  --ok: #2eaf6a;
+  --bad: #e25555;
+  --radius: 16px;
+  --shadow: 0 6px 18px rgba(34, 48, 74, 0.08);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell { max-width: 480px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; }
+.app-main { flex: 1; padding: 16px 16px 88px; }
+
+.tab-bar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; display: flex;
+  background: var(--card); border-top: 1px solid #eee3cf;
+  z-index: 10;
+}
+.tab-bar button {
+  flex: 1; border: 0; background: none; padding: 12px 0 14px;
+  font-size: 13px; color: var(--sub); cursor: pointer;
+}
+.tab-bar button.active { color: var(--brand-ink); font-weight: 700; }
+
+.card {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px; margin-bottom: 14px;
+}
+
+h1 { font-size: 20px; margin: 4px 0 12px; }
+.placeholder { color: var(--sub); font-size: 13px; }
+
+.btn-speak {
+  border: 0; border-radius: 999px; background: var(--brand); color: #fff;
+  padding: 8px 14px; font-size: 14px; cursor: pointer;
+}
+.btn-speak:active { opacity: 0.85; }
