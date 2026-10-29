@@ -5,8 +5,9 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const MIN_WORDS = 80 // words.json 最少词数
-const MIN_KK_IPA_ROWS = 4 // kk-ipa.json 最少行数（后续扩充后调高）
+const MIN_WORDS = 150 // words.json 最少词数
+const MIN_WORDS_PER_LEVEL = 25 // 每个难度档至少的词数（分层均匀）
+const MIN_KK_IPA_ROWS = 8 // kk-ipa.json 最少行数
 
 const errors = []
 
@@ -141,6 +142,14 @@ function checkWords(rules) {
       errors.push(`${at}.rule "${w.rule}" 在 rules.json 中不存在`)
     if (![1, 2, 3].includes(w.level)) errors.push(`${at}.level "${w.level}" 应为 1-3`)
   })
+  // 难度分层检查：三个 level 都要有足够词量
+  if (isArr(words)) {
+    for (const level of [1, 2, 3]) {
+      const n = words.filter((w) => w && w.level === level).length
+      if (n < MIN_WORDS_PER_LEVEL)
+        errors.push(`words.json: level ${level} 只有 ${n} 个词，至少应 ${MIN_WORDS_PER_LEVEL} 个（分层均匀）`)
+    }
+  }
   return words
 }
 

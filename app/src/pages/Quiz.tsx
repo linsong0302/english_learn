@@ -1,6 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { generateRound, KIND_LABEL, ruleLabel } from '../lib/quiz'
-import type { QuizQuestion, QuizType } from '../lib/quiz'
+import {
+  dailyHistory,
+  isDailyDone,
+  saveDailyResult,
+  todayKey,
+} from '../lib/quiz'
+import type { DailyRecord, QuizQuestion, QuizType } from '../lib/quiz'
 import { addWrongWord, loadProgress, recordQuizRound } from '../store'
 import type { QuizRound } from '../store'
 import { speakWord } from '../hooks/useSpeech'
@@ -37,9 +43,18 @@ export default function Quiz() {
   const [results, setResults] = useState<boolean[]>([])
   const [lastType, setLastType] = useState<QuizType>('mixed')
   const [history, setHistory] = useState<QuizRound[]>([])
+  // 每日一测：进入页面时读取当天完成状态与历史
+  const [dailyDone, setDailyDone] = useState(() => isDailyDone())
+  const [dailyHist, setDailyHist] = useState<DailyRecord[]>(() => dailyHistory())
+  const dailyRef = useRef(false) // 当前这一轮是否为「今日一测」
 
   const q = questions[qIndex]
   const score = results.filter(Boolean).length
+
+  function refreshDaily() {
+    setDailyDone(isDailyDone())
+    setDailyHist(dailyHistory())
+  }
 
   function start(type: QuizType) {
     setLastType(type)
@@ -48,6 +63,17 @@ export default function Quiz() {
     setPicked(null)
     setResults([])
     setPhase('play')
+  }
+
+  function startDaily() {
+    dailyRef.current = true
+    start('mixed')
+  }
+
+  function backToPick() {
+    dailyRef.current = false
+    refreshDaily()
+    setPhase('pick')
   }
 
   // 听音题：进入新题自动播放一次
@@ -73,6 +99,12 @@ export default function Quiz() {
         .filter((_, i) => !results[i])
         .forEach((w) => addWrongWord(w.word, w.kk))
       setHistory(loadProgress().quizRounds.slice(-5).reverse())
+      // 今日一测：记录当天日期与成绩
+      if (dailyRef.current) {
+        dailyRef.current = false
+        saveDailyResult(todayKey(), score, questions.length)
+        refreshDaily()
+      }
       setPhase('result')
     } else {
       setQIndex((i) => i + 1)
