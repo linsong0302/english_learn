@@ -1,0 +1,42 @@
+/* 首页专属样式（lane2） */
+.home-greet { color: var(--sub); font-size: 13px; margin: 0 0 14px; }
+
+/* 今日任务卡 */
+.home-checkin { display: flex; gap: 10px; }
+.home-checkin .btn { flex: 1; flex-direction: column; gap: 2px; padding: 12px 8px; }
+.home-checkin .btn small { font-size: 11.5px; font-weight: 400; opacity: 0.85; }
+.home-checkin .btn.done { background: var(--ok); }
+.home-checkin .btn.todo { background: var(--brand); }
+
+/* 进度总览 */
+.home-stats { display: flex; gap: 10px; text-align: center; }
+.home-stat { flex: 1; background: var(--bg); border-radius: var(--radius-sm); padding: 10px 4px; }
+.home-stat b { display: block; font-size: 22px; color: var(--brand-ink); }
+.home-stat span { font-size: 11.5px; color: var(--sub); }
+
+/* 四大板块入口 */
+.home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.home-entry {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 14px 12px; display: flex; flex-direction: column; gap: 4px;
+}
+.home-entry-ic {
+  width: 38px; height: 38px; border-radius: 12px; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px;
+}
+.home-entry b { font-size: 15px; }
+.home-entry p { margin: 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; }
+.home-entry .where { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 600; }
+
+/* 课程理念卡 */
+.home-idea { text-align: center; background: linear-gradient(160deg, #fff, var(--brand-soft)); }
+.home-formula { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 10px 0 6px; flex-wrap: wrap; }
+.home-formula .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 14px; color: #fff; font-size: 19px; font-weight: 800;
+}
+.home-formula .cap { display: block; font-size: 10.5px; font-weight: 600; margin-top: 4px; color: var(--ink); }
+.home-eq { font-size: 22px; font-weight: 800; color: var(--brand-ink); }
+.home-idea-tips { text-align: left; font-size: 12.5px; color: var(--sub); line-height: 1.9; margin: 10px 0 0; padding: 0; list-style: none; }
+.home-idea-tips li::before { content: "· "; color: var(--brand); font-weight: 800; }

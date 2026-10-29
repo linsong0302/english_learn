@@ -1,0 +1,123 @@
+/* KK/IPA 对照表专属样式（lane4 所有；全局 token 见 styles.css） */
+
+.rev-ipa-intro-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.rev-ipa-intro-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.rev-ipa-intro-text b {
+  color: var(--brand-ink);
+}
+
+.rev-ipa-intro-sub {
+  font-size: 12px;
+  color: var(--sub);
+  margin: 0;
+}
+
+.rev-ipa-empty {
+  font-size: 13px;
+  color: var(--sub);
+  margin: 0;
+}
+
+/* 表格 */
+.rev-ipa-table-card {
+  padding: 8px 10px;
+}
+
+.rev-ipa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.rev-ipa-table th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 600;
+  padding: 6px 4px;
+  border-bottom: 1px solid #eee3cf;
+  white-space: nowrap;
+}
+
+.rev-ipa-table th:nth-child(2),
+.rev-ipa-table th:nth-child(3),
+.rev-ipa-table td:nth-child(2),
+.rev-ipa-table td:nth-child(3) {
+  width: 58px;
+  text-align: center;
+}
+
+.rev-ipa-table td {
+  padding: 9px 4px;
+  border-bottom: 1px dashed #f0e8d5;
+  vertical-align: top;
+}
+
+.rev-ipa-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.rev-ipa-word-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rev-ipa-say {
+  border: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rev-ipa-say:active {
+  opacity: 0.85;
+}
+
+.rev-ipa-word {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.rev-ipa-note {
+  display: block;
+  font-size: 11px;
+  color: var(--sub);
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.rev-ipa-cell {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* 写法不同的两列高亮 */
+.rev-ipa-table tr.diff .rev-ipa-cell {
+  background: #fff3cd;
+  color: var(--brand-ink);
+  border-radius: 6px;
+}
+
+.rev-ipa-same {
+  color: var(--sub);
+  font-weight: 400;
+  font-size: 12px;
+}
