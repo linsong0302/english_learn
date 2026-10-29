@@ -1,0 +1,156 @@
+/* 复习页专属样式（lane4 所有；全局 token 见 styles.css） */
+
+/* 连续天数 */
+.rev-streak {
+  text-align: center;
+  padding: 18px 16px 14px;
+}
+
+.rev-streak-num b {
+  font-size: 52px;
+  line-height: 1;
+  color: var(--brand-ink);
+}
+
+.rev-streak-num span {
+  font-size: 18px;
+  margin-left: 4px;
+  color: var(--sub);
+}
+
+.rev-streak-text {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--sub);
+}
+
+/* 早晚打卡 */
+.rev-checkin-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.rev-hint {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.rev-hint b {
+  color: var(--brand-ink);
+}
+
+.rev-checkin-row {
+  display: flex;
+  gap: 10px;
+}
+
+.rev-check-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid #eee3cf;
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px 8px;
+  cursor: pointer;
+  min-height: 96px;
+  justify-content: center;
+}
+
+.rev-check-btn.am:active {
+  background: #fff6e0;
+}
+
+.rev-check-btn.pm:active {
+  background: #eef3ff;
+}
+
+.rev-check-btn.am {
+  color: var(--brand-ink);
+}
+
+.rev-check-btn.pm {
+  color: var(--accent);
+}
+
+.rev-check-btn.done {
+  background: #f3f1ea;
+  border-color: #e0dccd;
+  color: #a8a290;
+  cursor: default;
+}
+
+.rev-check-icon {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.rev-check-label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.rev-check-sub {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+/* 14 天日历 */
+.rev-cal-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.rev-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.rev-cal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: #faf5ea;
+  border-radius: 10px;
+  padding: 7px 2px 6px;
+}
+
+.rev-cal-cell.today {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
+
+.rev-cal-date {
+  font-size: 11px;
+  color: var(--sub);
+}
+
+.rev-cal-marks {
+  display: flex;
+  gap: 4px;
+}
+
+.rev-cal-marks i {
+  font-style: normal;
+  font-size: 13px;
+  line-height: 1;
+  color: #ddd6c4;
+}
+
+.rev-cal-marks i.on {
+  color: var(--ok);
+}
+
+.rev-cal-legend {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--sub);
+}
