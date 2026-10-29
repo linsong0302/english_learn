@@ -7,11 +7,24 @@
     "examples": [
       { "word": "name", "kk": "/neɪm/", "note": "a 读 /eɪ/，词尾 e 不发音" },
       { "word": "ride", "kk": "/raɪd/", "note": "i 读 /aɪ/" },
-      { "word": "came", "kk": "/keɪm/", "note": "a 读 /eɪ/" },
-      { "word": "home", "kk": "/hoʊm/", "note": "o 读 /oʊ/" }
+      { "word": "home", "kk": "/hoʊm/", "note": "o 读 /oʊ/" },
+      { "word": "cute", "kk": "/kjut/", "note": "u 读 /ju/，词尾 e 不发音" },
+      { "word": "late", "kk": "/leɪt/", "note": "a 读 /eɪ/" },
+      { "word": "five", "kk": "/faɪv/", "note": "i 读 /aɪ/" },
+      { "word": "nose", "kk": "/noʊz/", "note": "o 读 /oʊ/，词尾 s 读 /z/" }
     ],
-    "mouthTips": [],
-    "commonMistakes": []
+    "mouthTips": [
+      "词尾 e 嘴巴闭住、不出气，像悄悄躲起来的小哑巴",
+      "a 读 /eɪ/：嘴巴从半开慢慢滑向合拢，像说「诶——」",
+      "i 读 /aɪ/：先张嘴说「啊」，再收圆嘴巴滑到「衣」",
+      "o 读 /oʊ/：先张大嘴「啊」，再嘟圆嘴滑到「欧」"
+    ],
+    "commonMistakes": [
+      "把词尾 e 也读出来，把 name 读成两个音节 /neɪmə/",
+      "漏掉长音：把 like 读成短音 /lɪk/，听起来变成别的词",
+      "把 ride 里的 i 读成短音 /ɪ/，忘了读字母名 /aɪ/"
+    ],
+    "mnemonic": "词尾 e 是哑巴，躲在后面不说话；前面元音挺起胸，大声读出字母名。"
   },
   {
     "id": "rule2",
@@ -21,13 +34,25 @@
     "examples": [
       { "word": "work", "kk": "/wɝk/", "note": "重音节，or 读 /ɝ/ 卷舌拖长" },
       { "word": "bird", "kk": "/bɝd/", "note": "ir 读 /ɝ/" },
+      { "word": "girl", "kk": "/gɝl/", "note": "ir 读 /ɝ/" },
+      { "word": "car", "kk": "/kɑr/", "note": "ar 读 /ɑr/，卷舌收尾" },
       { "word": "her", "kk": "/hɝ/", "note": "er 读 /ɝ/" },
       { "word": "worker", "kk": "/ˈwɝkɚ/", "note": "词尾 er 读 /ɚ/，轻卷舌" },
-      { "word": "doctor", "kk": "/ˈdɑktɚ/", "note": "词尾 or 读 /ɚ/" },
-      { "word": "mister", "kk": "/ˈmɪstɚ/", "note": "词尾 er 读 /ɚ/" }
+      { "word": "teacher", "kk": "/ˈtitʃɚ/", "note": "词尾 er 读 /ɚ/" },
+      { "word": "doctor", "kk": "/ˈdɑktɚ/", "note": "词尾 or 读 /ɚ/" }
     ],
-    "mouthTips": [],
-    "commonMistakes": []
+    "mouthTips": [
+      "/ɝ/：舌面抬高、舌尖向上卷起，发音拖长一点，像发「儿」再拖住",
+      "/ɚ/：同样轻轻卷舌，但又短又轻，像轻轻带过的小尾巴",
+      "ar 读 /ɑr/：先张大嘴发「啊」，再卷舌收尾",
+      "读词尾 -er / -or 时，r 前面的音要放松，别读成完整元音"
+    ],
+    "commonMistakes": [
+      "完全不卷舌，把 work 读成 /wək/，丢掉了 r 的味道",
+      "把词尾 /ɚ/ 读得太重太长，读成了重音 /ɝ/",
+      "把 doctor 词尾的 or 读成 /ɑr/，应该读 /ɚ/"
+    ],
+    "mnemonic": "元音遇上 r，卷舌不能少；头一次又长又重读 /ɝ/，第二次轻轻松松读 /ɚ/。"
   },
   {
     "id": "rule3",
@@ -40,10 +65,22 @@
       { "word": "look", "kk": "/lʊk/", "note": "多数：短音 /ʊ/" },
       { "word": "foot", "kk": "/fʊt/", "note": "多数：短音 /ʊ/" },
       { "word": "room", "kk": "/rum/", "note": "少数：长音 /u/" },
-      { "word": "food", "kk": "/fud/", "note": "少数：长音 /u/" }
+      { "word": "food", "kk": "/fud/", "note": "少数：长音 /u/" },
+      { "word": "moon", "kk": "/mun/", "note": "少数：长音 /u/" },
+      { "word": "school", "kk": "/skul/", "note": "少数：长音 /u/" }
     ],
-    "mouthTips": [],
-    "commonMistakes": []
+    "mouthTips": [
+      "/ʊ/：嘴唇轻轻收圆、开口很小，声音短促，像很快说一声「乌」",
+      "/u/：嘴唇明显嘟圆并稍稍前伸，声音拉长，像唱一声「呜——」",
+      "先按短音 /ʊ/ 读，遇到 room / food / moon / school 再换长音",
+      "两个 oo 连在一起，中间不停顿，一口气读出来"
+    ],
+    "commonMistakes": [
+      "把所有 oo 都读成长音 /u/，good 读成了 /gud/",
+      "把短音 /ʊ/ 读得又圆又长，像在唱「呜——」",
+      "把 book 和 food 混在一起读，忘了常用词要单独记"
+    ],
+    "mnemonic": "oo 相连多半短，good book foot 读 /ʊ/；room food moon 要拉长，一声「呜——」读到 /u/。"
   },
   {
     "id": "rule4",
@@ -52,30 +89,129 @@
     "detail": "house、how、now、out 等词里的 au/ou/aw/ow 都读 /aʊ/。个别词有例外（如 low、know），先用规则套，套不上再单独记。",
     "examples": [
       { "word": "house", "kk": "/haʊs/", "note": "ou → /aʊ/" },
-      { "word": "hour", "kk": "/aʊɚ/", "note": "h 不发音" },
       { "word": "how", "kk": "/haʊ/", "note": "ow → /aʊ/" },
-      { "word": "now", "kk": "/naʊ/", "note": "ow → /aʊ/" }
+      { "word": "now", "kk": "/naʊ/", "note": "ow → /aʊ/" },
+      { "word": "out", "kk": "/aʊt/", "note": "ou → /aʊ/" },
+      { "word": "cow", "kk": "/kaʊ/", "note": "ow → /aʊ/" },
+      { "word": "mouse", "kk": "/maʊs/", "note": "ou → /aʊ/" },
+      { "word": "town", "kk": "/taʊn/", "note": "ow → /aʊ/" }
     ],
-    "mouthTips": [],
-    "commonMistakes": []
+    "mouthTips": [
+      "/aʊ/：嘴巴先张大发「啊」，再收圆滑到「乌」，像喊一声「傲」",
+      "滑音要连起来，中间不能断开或停顿",
+      "ou、ow 两种写法都读同一个音，别因为字母不同就换读法",
+      "声音从大到小、嘴从开到圆，一口气滑完"
+    ],
+    "commonMistakes": [
+      "只读一半：把 now 读成「闹」就停了，忘了滑到「乌」",
+      "遇到 know、low 这类例外词也硬套 /aʊ/",
+      "把 ow 读成「欧」/oʊ/，和 window 里的 ow 混淆"
+    ],
+    "mnemonic": "au ou aw ow 手拉手，四个兄弟一起喊「傲——」/aʊ/；遇上例外再单独记，先套规则不吃亏。"
   },
   {
     "id": "rule5",
     "title": "规则 5：常见辅音组合",
     "summary": "th / ch / sh / ph / ng / nk 这些组合要背下来。",
     "detail": "这些辅音组合出现频率高、拼读规律稳定，属于「5 个靠规则」里最值得先背的一批。",
-    "examples": [],
-    "combos": [
-      { "pattern": "th（清）", "kk": "/θ/", "examples": [{ "word": "thank", "kk": "/θæŋk/" }], "note": "咬舌，声带不振动" },
-      { "pattern": "th（浊）", "kk": "/ð/", "examples": [{ "word": "this", "kk": "/ðɪs/" }, { "word": "that", "kk": "/ðæt/" }], "note": "咬舌，声带振动" },
-      { "pattern": "ch", "kk": "/tʃ/", "examples": [{ "word": "chair", "kk": "/tʃɛr/" }], "note": "类似「去」的声母" },
-      { "pattern": "sh", "kk": "/ʃ/", "examples": [{ "word": "shirt", "kk": "/ʃɝt/" }], "note": "类似「嘘」" },
-      { "pattern": "ph", "kk": "/f/", "examples": [{ "word": "photo", "kk": "/ˈfoʊto/" }], "note": "同 f" },
-      { "pattern": "ng（词尾）", "kk": "/ŋ/", "examples": [{ "word": "song", "kk": "/sɔŋ/" }], "note": "鼻音「嗯」" },
-      { "pattern": "ng（有时）", "kk": "/ŋg/", "examples": [{ "word": "english", "kk": "/ˈɪŋglɪʃ/" }], "note": "加一个 g 音" },
-      { "pattern": "nk", "kk": "/ŋk/", "examples": [{ "word": "ink", "kk": "/ɪŋk/" }], "note": "「嗯克」" }
+    "examples": [
+      { "word": "thank", "kk": "/θæŋk/", "note": "th 清音，咬舌尖" },
+      { "word": "this", "kk": "/ðɪs/", "note": "th 浊音，声带振动" },
+      { "word": "chair", "kk": "/tʃɛr/", "note": "ch → /tʃ/" },
+      { "word": "shirt", "kk": "/ʃɝt/", "note": "sh → /ʃ/" },
+      { "word": "phone", "kk": "/foʊn/", "note": "ph → /f/" },
+      { "word": "song", "kk": "/sɔŋ/", "note": "词尾 ng → /ŋ/" },
+      { "word": "ink", "kk": "/ɪŋk/", "note": "nk → /ŋk/" }
     ],
-    "mouthTips": [],
-    "commonMistakes": []
+    "combos": [
+      {
+        "pattern": "th（清）",
+        "kk": "/θ/",
+        "examples": [
+          { "word": "thank", "kk": "/θæŋk/" },
+          { "word": "think", "kk": "/θɪŋk/" },
+          { "word": "three", "kk": "/θri/" }
+        ],
+        "note": "咬舌，声带不振动"
+      },
+      {
+        "pattern": "th（浊）",
+        "kk": "/ð/",
+        "examples": [
+          { "word": "this", "kk": "/ðɪs/" },
+          { "word": "that", "kk": "/ðæt/" },
+          { "word": "mother", "kk": "/ˈmʌðɚ/" }
+        ],
+        "note": "咬舌，声带振动"
+      },
+      {
+        "pattern": "ch",
+        "kk": "/tʃ/",
+        "examples": [
+          { "word": "chair", "kk": "/tʃɛr/" },
+          { "word": "lunch", "kk": "/lʌntʃ/" },
+          { "word": "cheese", "kk": "/tʃiz/" }
+        ],
+        "note": "类似「去」的声母"
+      },
+      {
+        "pattern": "sh",
+        "kk": "/ʃ/",
+        "examples": [
+          { "word": "shirt", "kk": "/ʃɝt/" },
+          { "word": "shoe", "kk": "/ʃu/" },
+          { "word": "fish", "kk": "/fɪʃ/" }
+        ],
+        "note": "类似「嘘」"
+      },
+      {
+        "pattern": "ph",
+        "kk": "/f/",
+        "examples": [
+          { "word": "photo", "kk": "/ˈfoʊto/" },
+          { "word": "phone", "kk": "/foʊn/" }
+        ],
+        "note": "同 f"
+      },
+      {
+        "pattern": "ng（词尾）",
+        "kk": "/ŋ/",
+        "examples": [
+          { "word": "song", "kk": "/sɔŋ/" },
+          { "word": "ring", "kk": "/rɪŋ/" },
+          { "word": "king", "kk": "/kɪŋ/" }
+        ],
+        "note": "鼻音「嗯」"
+      },
+      {
+        "pattern": "ng（有时）",
+        "kk": "/ŋg/",
+        "examples": [
+          { "word": "english", "kk": "/ˈɪŋglɪʃ/" }
+        ],
+        "note": "加一个 g 音"
+      },
+      {
+        "pattern": "nk",
+        "kk": "/ŋk/",
+        "examples": [
+          { "word": "ink", "kk": "/ɪŋk/" },
+          { "word": "think", "kk": "/θɪŋk/" }
+        ],
+        "note": "「嗯克」"
+      }
+    ],
+    "mouthTips": [
+      "th /θ/ /ð/：舌尖轻轻放在上下齿之间，气流从缝里挤出来",
+      "ch /tʃ/ 和 sh /ʃ/：嘴唇都微微前凸收圆，ch 短促有力，sh 拉长像「嘘」",
+      "词尾 ng /ŋ/：嘴巴保持张开、气从鼻子里出，不要闭嘴也不要补一个 g",
+      "ph 直接按 /f/ 读，上齿轻咬下唇"
+    ],
+    "commonMistakes": [
+      "th 不咬舌尖，读成 /s/ 或 /z/，thank 变成了「三克」",
+      "词尾 ng 多读一个 g，把 song 读成 /sɔŋg/",
+      "ph 读成 /p/，photo 读成了「泼头」"
+    ],
+    "mnemonic": "th 咬舌清又浊，ch 圆唇短促踢，sh 像「嘘」声别读破，ph 读 f，ng 鼻音收。"
   }
 ]
