@@ -34,9 +34,21 @@ export default function Review() {
     setWrong(loadProgress().wrong)
   }
 
+  /** 待复习徽标：未掌握且距上次答错不足 3 天的词数 */
+  const pendingCount = Object.values(wrong).filter(
+    (w) => !w.mastered && Date.now() - w.lastSeen < THREE_DAYS_MS,
+  ).length
+
   return (
     <div className="page rev-page">
-      <h1>复习</h1>
+      <div className="rev-head">
+        <h1>复习</h1>
+        {pendingCount > 0 && (
+          <span className="rev-badge" aria-label={`错题本有 ${pendingCount} 个词待复习`}>
+            📚 待复习 {pendingCount} 词
+          </span>
+        )}
+      </div>
 
       {/* 连续打卡天数 */}
       <div className="card rev-streak">

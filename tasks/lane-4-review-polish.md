@@ -8,4 +8,4 @@
 - [x] KK/IPA 对照页 IpaMap：渲染 kk-ipa.json 表格（word / KK / IPA / note），两列差异高亮，顶部说明卡「学校考 IPA 时把 KK 符号对照替换即可，发音相同」
 - [x] 学习建议卡：把周老师课堂方法做成 Review 页建议卡——同一内容至少读 20 遍、早晚各读 3 遍口诀、先搞定辅音骨架再判断元音血肉、先简单后困难；附来源声明（整理自网络公开的学习者笔记）
 - [ ] 整体打磨与终检：`npm run build` 通过；写 `app/README.md`（项目介绍、运行方式、内容来源声明）；走查所有页面空态（无数据时文案）与移动端可用性
-- [ ] 冲刺：深色模式适配（prefers-color-scheme，token 层切换）；错题待复习计数徽标（错题本中 lastSeen <3 天的数量展示在 Review 页顶部）
+- [~] 冲刺：深色模式适配（prefers-color-scheme，token 层切换）；错题待复习计数徽标（错题本中 lastSeen <3 天的数量展示在 Review 页顶部）

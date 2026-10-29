@@ -1,18 +1,39 @@
-import letters from '../data/letters.json'
+import { useState } from 'react'
+import lettersData from '../data/letters.json'
+import LetterCard from '../components/LetterCard'
+import LetterDetail from '../components/LetterDetail'
+import { loadProgress } from '../store'
+import type { LetterSound } from '../types'
+import './chant.css'
 
-// lane2 负责实现完整口诀页：26 字母卡片墙、l/m/n/r 前后读法、2+2 跟读、连读模式。
+// JSON 用契约类型断言（position 等字面量在 JSON 导入时会被拓宽）
+const LETTERS = lettersData as unknown as LetterSound[]
+
+// lane2 口诀页：26 字母卡片墙 + 单字母详情浮层（连读模式见 AutoBar）。
 export default function Chant() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null)
+  const seenSet = new Set(loadProgress().seenLetters)
+
+  const open: LetterSound | null = openIdx === null ? null : LETTERS[openIdx]
+
   return (
     <div className="page">
       <h1>字母口诀</h1>
-      <div className="card placeholder">口诀页完整版实现中：卡片墙、前后读法切换、2+2 跟读。</div>
-      <div className="card">
-        {letters.map((l) => (
-          <span key={l.letter} style={{ marginRight: 10, display: 'inline-block' }}>
-            <b>{l.upper}</b> {l.kk} {l.hint}
-          </span>
+      <p className="page-sub">
+        点卡片看详情：字母音 + KK 音标 + 联想汉字；点例词直接点读。
+      </p>
+      <div className="chant-wall">
+        {LETTERS.map((l, i) => (
+          <LetterCard
+            key={l.letter}
+            letter={l}
+            seen={seenSet.has(l.letter)}
+            onOpen={() => setOpenIdx(i)}
+          />
         ))}
       </div>
+
+      {open && <LetterDetail letter={open} onClose={() => setOpenIdx(null)} />}
     </div>
   )
 }

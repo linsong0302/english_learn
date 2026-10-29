@@ -1,0 +1,62 @@
+/* 口诀页专属样式（lane2）：卡片墙 + 单字母详情浮层 */
+.chant-wall {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.chant-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 10px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: transform 0.08s ease;
+  position: relative;
+}
+.chant-card:active { transform: scale(0.94); }
+.chant-card.seen::after {
+  content: "";
+  position: absolute; top: 6px; right: 6px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--ok);
+}
+.cc-letter { font-size: 30px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+.cc-kk { color: var(--accent); font-size: 13px; }
+.cc-hint {
+  font-size: 10.5px; color: var(--sub); line-height: 1.35;
+  text-align: center; min-height: 14px;
+}
+.cc-variant { display: inline-flex; gap: 2px; background: var(--accent-soft); border-radius: 999px; padding: 2px; }
+.cc-variant button {
+  border: 0; background: transparent; color: var(--sub);
+  font-size: 10px; padding: 1px 8px; border-radius: 999px; cursor: pointer;
+}
+.cc-variant button.on { background: var(--accent); color: #fff; font-weight: 700; }
+.cc-sample { margin-top: 3px; max-width: 100%; }
+
+/* 详情浮层 */
+.cd-hero { text-align: center; padding: 6px 0 12px; }
+.cd-letter { display: block; font-size: 64px; font-weight: 800; line-height: 1.05; }
+.cd-kk { display: block; font-size: 22px; color: var(--accent); margin-top: 2px; }
+.cd-hint { display: block; font-size: 14px; color: var(--brand-ink); margin-top: 4px; }
+
+.cd-variants { margin-bottom: 10px; }
+.cd-variant-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.cd-variant-list li {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border-radius: var(--radius-sm);
+  padding: 8px 10px; margin-bottom: 6px; font-size: 13px;
+}
+.cd-variant-list b { color: var(--accent); }
+
+.cd-tips ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--sub); line-height: 1.8; }
+
+.cd-actions {
+  display: flex; gap: 8px; justify-content: center; align-items: center;
+  margin-top: 12px; flex-wrap: wrap;
+}
+.cd-echo-note { text-align: center; font-size: 11.5px; color: var(--sub); margin: 10px 0 0; line-height: 1.6; }
