@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { LetterSound } from '../types'
 import { addSeenLetter } from '../store'
 import { speakLetter, speakSequence, speakWord, stopSpeaking } from '../hooks/useSpeech'
+import EchoCompare from './EchoCompare'
 
 interface Props {
   letter: LetterSound
@@ -115,6 +116,8 @@ export default function LetterDetail({ letter, onClose }: Props) {
         <p className="cd-echo-note">
           2+2 跟读：字母音读 2 遍 → 例词读 2 遍，跟着一起大声说。
         </p>
+
+        <EchoCompare upper={letter.upper} sample={letter.sample} />
       </div>
     </div>
   )
