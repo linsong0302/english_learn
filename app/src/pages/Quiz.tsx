@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { generateRound, KIND_LABEL, ruleLabel } from '../lib/quiz'
 import type { QuizQuestion, QuizType } from '../lib/quiz'
+import { addWrongWord, loadProgress, recordQuizRound } from '../store'
+import type { QuizRound } from '../store'
 import { speakWord } from '../hooks/useSpeech'
 import './quiz.css'
 
@@ -12,6 +14,12 @@ const TYPE_OPTIONS: { key: QuizType; label: string; desc: string }[] = [
 ]
 
 const ROUND_COUNT = 10
+
+function fmtDate(ts: number): string {
+  const d = new Date(ts)
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`
+}
 
 function resultMsg(score: number, total: number): string {
   if (score === total) return '满分！你的耳朵和嘴巴都很厉害！'
@@ -28,6 +36,7 @@ export default function Quiz() {
   const [picked, setPicked] = useState<number | null>(null)
   const [results, setResults] = useState<boolean[]>([])
   const [lastType, setLastType] = useState<QuizType>('mixed')
+  const [history, setHistory] = useState<QuizRound[]>([])
 
   const q = questions[qIndex]
   const score = results.filter(Boolean).length
@@ -58,6 +67,12 @@ export default function Quiz() {
 
   function next() {
     if (qIndex + 1 >= questions.length) {
+      // 持久化（每轮只在这里记一次）：成绩进历史，错词进错题本
+      recordQuizRound(score, questions.length)
+      questions
+        .filter((_, i) => !results[i])
+        .forEach((w) => addWrongWord(w.word, w.kk))
+      setHistory(loadProgress().quizRounds.slice(-5).reverse())
       setPhase('result')
     } else {
       setQIndex((i) => i + 1)
@@ -118,6 +133,25 @@ export default function Quiz() {
             </>
           ) : (
             <p className="no-wrong">全对！没有错题，继续保持！</p>
+          )}
+
+          {history.length > 0 && (
+            <>
+              <p className="wrong-title" style={{ marginTop: 14 }}>
+                最近 {history.length} 轮成绩
+              </p>
+              {history.map((h, i) => (
+                <div className="wrong-item" key={`${h.date}-${i}`}>
+                  <span className="hist-date">{fmtDate(h.date)}</span>
+                  <b className="hist-score">
+                    {h.score}/{h.total}
+                  </b>
+                  <span className="wrong-rule">
+                    正确率 {Math.round((h.score / Math.max(1, h.total)) * 100)}%
+                  </span>
+                </div>
+              ))}
+            </>
           )}
 
           <div className="result-actions">

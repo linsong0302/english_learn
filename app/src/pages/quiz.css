@@ -294,3 +294,15 @@
   color: var(--ok);
   font-size: 14px;
 }
+
+/* 历史成绩行 */
+.hist-date {
+  font-size: 13px;
+  color: var(--sub);
+  min-width: 104px;
+}
+
+.hist-score {
+  font-size: 15px;
+  min-width: 48px;
+}
