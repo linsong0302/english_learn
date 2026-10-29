@@ -60,3 +60,29 @@
   margin-top: 12px; flex-wrap: wrap;
 }
 .cd-echo-note { text-align: center; font-size: 11.5px; color: var(--sub); margin: 10px 0 0; line-height: 1.6; }
+
+/* ---------- 连读模式 ---------- */
+.auto-trigger { margin-bottom: 14px; }
+.chant-wall.locked { pointer-events: none; opacity: 0.5; filter: grayscale(0.4); }
+
+.auto-panel {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(66px + env(safe-area-inset-bottom));
+  width: calc(100% - 24px); max-width: 456px;
+  background: var(--card); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lift); padding: 14px 16px;
+  z-index: 15; animation: sheet-in 0.25s ease;
+}
+.auto-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.auto-cur { display: flex; align-items: baseline; gap: 6px; }
+.auto-cur-letter { font-size: 40px; font-weight: 800; line-height: 1; }
+.auto-cur-kk { color: var(--accent); font-size: 16px; }
+.auto-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.auto-meta b { font-size: 13px; color: var(--brand-ink); }
+.auto-meta span { font-size: 11.5px; color: var(--sub); }
+.auto-dots { margin-bottom: 12px; }
+.auto-ctrls { display: flex; gap: 8px; justify-content: center; }
+.auto-ctrls .btn { flex: 1; padding: 10px 6px; min-height: 42px; }
+.auto-done { text-align: center; padding: 4px 0; }
+.auto-done b { font-size: 17px; color: var(--ok); display: block; margin-bottom: 4px; }
+.auto-done p { margin: 0 0 12px; font-size: 13px; color: var(--sub); }
