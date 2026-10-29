@@ -13,6 +13,32 @@
   gap: 10px;
 }
 
+/* 今日一测 */
+.daily-card {
+  border: 1px solid #f2d8a0;
+  background: #fffaf0;
+}
+
+.daily-head {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brand-ink);
+  margin-bottom: 4px;
+}
+
+.daily-desc {
+  font-size: 13px;
+  color: var(--sub);
+  margin: 0 0 10px;
+  line-height: 1.6;
+}
+
+.daily-start {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 15px;
+}
+
 .type-btn {
   display: flex;
   flex-direction: column;

@@ -114,9 +114,34 @@ export default function Quiz() {
 
   // —— 题型选择 ——
   if (phase === 'pick') {
+    const todayRec = dailyHist.find((r) => r.date === todayKey())
     return (
       <div className="page">
         <h1>练习</h1>
+
+        {!dailyDone ? (
+          <div className="card daily-card">
+            <div className="daily-head">今日一测</div>
+            <p className="daily-desc">
+              今天的每日一测还没做：混合 10 题，每天一次，坚持进步快！
+            </p>
+            <button className="btn-speak daily-start" onClick={startDaily}>
+              开始今日一测
+            </button>
+          </div>
+        ) : (
+          <div className="card daily-card done">
+            <div className="daily-head">今日一测已完成 ✓</div>
+            <p className="daily-desc">
+              {todayRec
+                ? `今天成绩 ${todayRec.score}/${todayRec.total}（正确率 ${Math.round(
+                    (todayRec.score / Math.max(1, todayRec.total)) * 100,
+                  )}%），明天再来挑战吧！`
+                : '今天已经完成，明天再来挑战吧！'}
+            </p>
+          </div>
+        )}
+
         <p className="quiz-intro">每轮 {ROUND_COUNT} 题，答错的词会自动收进错题本。</p>
         <div className="type-grid">
           {TYPE_OPTIONS.map((t) => (
@@ -126,6 +151,23 @@ export default function Quiz() {
             </button>
           ))}
         </div>
+
+        {dailyHist.length > 0 && (
+          <div className="card" style={{ marginTop: 14 }}>
+            <p className="wrong-title">每日一测历史</p>
+            {[...dailyHist].reverse().map((r) => (
+              <div className="wrong-item" key={r.date}>
+                <span className="hist-date">{r.date.slice(5).replace('-', '/')}</span>
+                <b className="hist-score">
+                  {r.score}/{r.total}
+                </b>
+                <span className="wrong-rule">
+                  正确率 {Math.round((r.score / Math.max(1, r.total)) * 100)}%
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     )
   }
@@ -190,7 +232,7 @@ export default function Quiz() {
             <button className="btn-again" onClick={() => start(lastType)}>
               再来一轮
             </button>
-            <button className="btn-switch" onClick={() => setPhase('pick')}>
+            <button className="btn-switch" onClick={backToPick}>
               换个题型
             </button>
           </div>
