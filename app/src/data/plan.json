@@ -1,0 +1,79 @@
+[
+  {
+    "day": 1,
+    "title": "口诀上半场 a–m",
+    "goal": "认识 a 到 m 的字母口诀，学会 2+2 跟读法",
+    "tasks": [
+      { "id": "d1-read", "text": "去口诀页，把 a–m 的字母卡看一遍，记住每个联想汉字", "link": "chant" },
+      { "id": "d1-follow", "text": "点开字母详情跟读 2+2：字母音 2 遍 + 音标音 2 遍", "link": "chant" },
+      { "id": "d1-auto", "text": "试试口诀连读模式，感受一下从 A 顺读的节奏", "link": "chant" },
+      { "id": "d1-checkin", "text": "今天早晚各读一遍，读完记得打卡", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 2,
+    "title": "口诀下半场 n–z",
+    "goal": "读完 n–z，重点搞定 l / m / n / r 的前后两种读法",
+    "tasks": [
+      { "id": "d2-read", "text": "去口诀页，把 n–z 的字母卡看一遍", "link": "chant" },
+      { "id": "d2-lmnr", "text": "重点练 l / m / n / r：切换「前 / 后」读法，各听一遍、跟一遍", "link": "chant" },
+      { "id": "d2-follow", "text": "n–z 每个字母跟读 2+2，读不准的多来两遍", "link": "chant" },
+      { "id": "d2-checkin", "text": "读完打卡，连续天数 +1", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 3,
+    "title": "规则 1 + 2",
+    "goal": "学会「词尾 e」和「元音 + r」两条规则",
+    "tasks": [
+      { "id": "d3-rule1", "text": "去规则页学「词尾 e 不发音」，读读 name、time 这些例子", "link": "rules" },
+      { "id": "d3-quiz1", "text": "做一次规则 1 的小测验", "link": "rules" },
+      { "id": "d3-rule2", "text": "学「元音 + r」：分清 work 的长音和 worker 的短音", "link": "rules" },
+      { "id": "d3-quiz2", "text": "做一次规则 2 的小测验", "link": "rules" },
+      { "id": "d3-checkin", "text": "今天也打卡了吗？", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 4,
+    "title": "规则 3 + 4 + 5",
+    "goal": "拿下 oo 长短音、au/ow 的 /aʊ/，再读熟辅音组合表",
+    "tasks": [
+      { "id": "d4-rule3", "text": "学「oo 相连」：多数读短音 /ʊ/（book），少数读长音 /u/（food）", "link": "rules" },
+      { "id": "d4-rule45", "text": "学「au/ou/aw/ow 发 /aʊ/」和辅音组合（th / ch / sh / ph / ng / nk）", "link": "rules" },
+      { "id": "d4-combo", "text": "把规则 5 的辅音组合表从头到尾读一遍", "link": "rules" },
+      { "id": "d4-checkin", "text": "读完打卡，规则就都过完啦", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 5,
+    "title": "练习：听音选词",
+    "goal": "用耳朵挑单词，今天连做 2 轮",
+    "tasks": [
+      { "id": "d5-round1", "text": "完成第 1 轮「听音选词」（练完自动打勾）", "link": "quiz", "autoCheck": "quizRound", "need": 1 },
+      { "id": "d5-round2", "text": "完成第 2 轮「听音选词」（再练一轮自动打勾）", "link": "quiz", "autoCheck": "quizRound", "need": 2 },
+      { "id": "d5-checkin", "text": "练完打卡，耳朵越来越灵啦", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 6,
+    "title": "练习：看词选音标 + 判断规则",
+    "goal": "眼睛和规则一起上，各来一轮",
+    "tasks": [
+      { "id": "d6-see", "text": "完成 1 轮「看词选音标」，练完自己在前面打个勾", "link": "quiz" },
+      { "id": "d6-judge", "text": "完成 1 轮「判断规则」，想想每条规则怎么用", "link": "quiz" },
+      { "id": "d6-wrong", "text": "把今天练错的词大声读 3 遍", "link": "quiz" },
+      { "id": "d6-checkin", "text": "读完打卡，离胜利只差一天", "autoCheck": "checkin" }
+    ]
+  },
+  {
+    "day": 7,
+    "title": "总复习冲线",
+    "goal": "每日一测 + 错题本 + 早晚打卡，七天计划圆满收官",
+    "tasks": [
+      { "id": "d7-daily", "text": "完成今天的「每日一测」（练完自动打勾）", "link": "quiz", "autoCheck": "quizRound", "need": 1 },
+      { "id": "d7-chant", "text": "把完整口诀连读 1 遍（从 A 顺到 Z）", "link": "chant" },
+      { "id": "d7-wrong", "text": "去复习页把错题本过一遍，没掌握的词再读几遍", "link": "review" },
+      { "id": "d7-checkin", "text": "早晚口诀各读 3 遍，打卡收尾", "autoCheck": "checkin" }
+    ]
+  }
+]
