@@ -1,0 +1,92 @@
+/* 跟读打分页样式（lane6 所有）：只被 Echo.tsx 引用 */
+
+/* —— 选词 —— */
+.echo-levels { display: flex; margin: 10px 0 2px; }
+.echo-levels button { flex: 1; }
+.echo-start { margin-top: 12px; }
+
+/* —— 跟读进度 —— */
+.echo-progress { display: flex; align-items: center; gap: 10px; margin: 2px 0 12px; }
+.echo-progress span { font-size: 13px; color: var(--sub); white-space: nowrap; }
+.echo-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--brand-soft); overflow: hidden; }
+.echo-bar i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.25s ease; }
+
+/* —— 目标词卡片 —— */
+.echo-word-card { text-align: center; padding: 22px 16px 18px; }
+.echo-word { font-size: var(--fs-huge); font-weight: 800; margin: 4px 0 8px; letter-spacing: 1px; }
+.echo-kk {
+  font-size: 24px; color: var(--brand-ink); background: var(--brand-soft);
+  display: inline-block; padding: 2px 14px; border-radius: 999px; margin: 0 0 16px;
+}
+
+/* —— 麦克风 —— */
+.echo-mic-card { text-align: center; }
+.echo-mic {
+  width: 108px; height: 108px; border-radius: 50%;
+  border: 0; cursor: pointer;
+  background: var(--accent); color: #fff;
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  font-size: 14px; font-weight: 700;
+  box-shadow: var(--shadow-lift);
+  transition: transform 0.08s ease;
+}
+.echo-mic:active { transform: scale(0.94); }
+.echo-mic-icon { font-size: 34px; line-height: 1; }
+.echo-mic.on { background: var(--bad); animation: echo-pulse 1.2s ease-out infinite; }
+@keyframes echo-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(226, 85, 85, 0.45); }
+  70% { box-shadow: 0 0 0 22px rgba(226, 85, 85, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(226, 85, 85, 0); }
+}
+.echo-mic-hint { color: var(--sub); font-size: 13px; margin: 12px 0 0; }
+.echo-heard {
+  margin: 10px 0 0; font-size: 15px; color: var(--accent-deep);
+  background: var(--accent-soft); border-radius: 10px; padding: 8px 10px;
+}
+.echo-error {
+  margin: 10px 0 0; font-size: 13.5px; color: var(--bad);
+  background: var(--bad-soft); border-radius: 10px; padding: 8px 10px;
+}
+
+/* —— 打分反馈 —— */
+.echo-feedback { margin-top: 14px; border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; }
+.echo-feedback.f3 { background: var(--ok-soft); }
+.echo-feedback.f2 { background: var(--brand-soft); }
+.echo-feedback.f1 { background: var(--bad-soft); }
+.echo-fb-stars { font-size: 26px; margin: 0; letter-spacing: 2px; }
+.echo-fb-msg { font-weight: 700; margin: 4px 0 10px; font-size: 15px; }
+.echo-feedback.f3 .echo-fb-msg { color: var(--ok); }
+.echo-feedback.f2 .echo-fb-msg { color: var(--brand-ink); }
+.echo-feedback.f1 .echo-fb-msg { color: var(--bad); }
+.echo-fb-line { font-size: 13.5px; color: var(--sub); margin: 2px 0; }
+.echo-fb-line b { color: var(--ink); font-size: 15px; }
+.echo-actions { display: flex; gap: 10px; margin-top: 12px; }
+.echo-actions .btn { flex: 1; }
+
+/* —— 结算 —— */
+.echo-total { font-size: 17px; margin: 4px 0 2px; }
+.echo-total b { font-size: 40px; color: var(--brand-ink); }
+.echo-total span { color: var(--sub); font-size: 14px; }
+.echo-avg { color: var(--sub); font-size: 13.5px; margin: 0 0 12px; }
+.echo-praise { color: var(--ok); font-weight: 700; margin: 6px 0 12px; }
+.echo-retry-round { margin-bottom: 14px; }
+.echo-list-title { color: var(--sub); font-size: 12.5px; margin: 4px 0 4px; }
+.echo-r-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+}
+.echo-r-item:last-child { border-bottom: 0; }
+.echo-r-item b { flex: 1; font-size: 15px; }
+.echo-r-kk { color: var(--brand-ink); font-size: 13px; }
+.echo-r-stars { font-size: 13px; white-space: nowrap; }
+.echo-say-sm {
+  border: 0; background: var(--brand-soft); color: var(--brand-ink);
+  border-radius: 50%; width: 30px; height: 30px; font-size: 14px;
+  cursor: pointer; flex-shrink: 0;
+}
+.echo-say-sm:active { transform: scale(0.92); }
+
+/* —— 降级提示 —— */
+.echo-fallback { text-align: center; padding: 26px 16px; }
+.echo-fb-emoji { font-size: 40px; margin: 0 0 6px; }
+.echo-fallback .card-hint { margin-top: 8px; }
