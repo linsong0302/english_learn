@@ -47,6 +47,63 @@ function starsText(n: number): string {
   return '⭐'.repeat(n) + '☆'.repeat(3 - n)
 }
 
+// —— 跟读统计与收藏（独立 localStorage key，不使用 store.ts）——
+
+const STATS_KEY = 'kk-echo-stats' // { 'YYYY-MM-DD': { count, starSum } }
+const FAVS_KEY = 'kk-echo-favs' // string[]：收藏的单词
+
+interface EchoDayStat {
+  count: number
+  starSum: number
+}
+
+function echoTodayKey(): string {
+  const d = new Date()
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
+}
+
+function loadEchoStats(): Record<string, EchoDayStat> {
+  try {
+    const raw = localStorage.getItem(STATS_KEY)
+    return raw ? (JSON.parse(raw) as Record<string, EchoDayStat>) : {}
+  } catch {
+    return {}
+  }
+}
+
+/** 记一次跟读结果（星级 1-3） */
+function addEchoStars(stars: number) {
+  try {
+    const all = loadEchoStats()
+    const k = echoTodayKey()
+    const day = all[k] ?? { count: 0, starSum: 0 }
+    day.count += 1
+    day.starSum += stars
+    all[k] = day
+    localStorage.setItem(STATS_KEY, JSON.stringify(all))
+  } catch {
+    // 存储不可用（如隐私模式）时静默跳过，不影响练习
+  }
+}
+
+function loadEchoFavs(): string[] {
+  try {
+    const raw = localStorage.getItem(FAVS_KEY)
+    return raw ? (JSON.parse(raw) as string[]) : []
+  } catch {
+    return []
+  }
+}
+
+function saveEchoFavs(favs: string[]) {
+  try {
+    localStorage.setItem(FAVS_KEY, JSON.stringify(favs))
+  } catch {
+    // 忽略
+  }
+}
+
 type Phase = 'pick' | 'play' | 'result'
 
 export default function Echo({ onClose }: { onClose: () => void }) {
@@ -61,12 +118,31 @@ export default function Echo({ onClose }: { onClose: () => void }) {
   const [cur, setCur] = useState<{ score: number; text: string } | null>(null)
   const scoredRef = useRef(-1) // 当前词是否已打过分（防重复计分）
 
+  // 跟读统计与收藏
+  const [todayStat, setTodayStat] = useState<EchoDayStat>(
+    () => loadEchoStats()[echoTodayKey()] ?? { count: 0, starSum: 0 },
+  )
+  const [favs, setFavs] = useState<string[]>(() => loadEchoFavs())
+  const [preferFavs, setPreferFavs] = useState(false)
+
   const word = roundWords[index]
   const done = index + 1 >= roundWords.length
 
   // —— 组卷：按难度筛选后随机抽 10 词（words 参数用于「错词重练」）——
+  // 开启「优先练收藏」时：收藏词排前面，不足 10 个再用当前难度的词补齐
   function startRound(words?: Word[]) {
-    const pool = words ?? ALL_WORDS.filter((w) => level === 0 || w.level === level)
+    let pool: Word[]
+    if (words) {
+      pool = words
+    } else if (preferFavs && favs.length) {
+      const favPool = ALL_WORDS.filter((w) => favs.includes(w.word))
+      const rest = ALL_WORDS.filter(
+        (w) => (level === 0 || w.level === level) && !favs.includes(w.word),
+      )
+      pool = [...shuffle(favPool), ...shuffle(rest)]
+    } else {
+      pool = ALL_WORDS.filter((w) => level === 0 || w.level === level)
+    }
     const picked = shuffle(pool).slice(0, ROUND_COUNT)
     if (!picked.length) return
     setRoundWords(picked)
@@ -100,12 +176,16 @@ export default function Echo({ onClose }: { onClose: () => void }) {
     scoredRef.current = index
     const m = bestMatch(result.alternatives, target.word)
     const score = m.score
+    const stars = starOf(score)
     setCur({ score, text: m.text })
     setResults((rs) => {
       const next = [...rs]
       next[index] = score
       return next
     })
+    // 记入今日统计（独立 localStorage key）
+    addEchoStars(stars)
+    setTodayStat((t) => ({ count: t.count + 1, starSum: t.starSum + stars }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result, phase, index])
 
@@ -125,6 +205,14 @@ export default function Echo({ onClose }: { onClose: () => void }) {
     scoredRef.current = -1
     stopSpeaking()
     start()
+  }
+
+  function toggleFav(w: string) {
+    setFavs((f) => {
+      const next = f.includes(w) ? f.filter((x) => x !== w) : [...f, w]
+      saveEchoFavs(next)
+      return next
+    })
   }
 
   function next() {
@@ -162,10 +250,26 @@ export default function Echo({ onClose }: { onClose: () => void }) {
 
   // —— 选词 ——
   if (phase === 'pick') {
+    const avgStars = todayStat.count ? todayStat.starSum / todayStat.count : 0
     return (
       <div className="page">
         <h1>跟读打分</h1>
         <p className="page-sub">听示范 → 跟着读 → 看看你读得像不像！</p>
+
+        <div className="card echo-stats">
+          {todayStat.count > 0 ? (
+            <>
+              <p className="echo-stats-line">
+                今天已经跟读 <b>{todayStat.count}</b> 个词
+              </p>
+              <p className="echo-stats-line">
+                平均 <b>{avgStars.toFixed(1)}</b> 星 {starsText(Math.min(3, Math.max(1, Math.round(avgStars))))}
+              </p>
+            </>
+          ) : (
+            <p className="echo-stats-line">今天还没跟读过，先来一轮热热身吧！💪</p>
+          )}
+        </div>
 
         <div className="card">
           <p className="card-title">选择练习的词</p>
@@ -179,6 +283,14 @@ export default function Echo({ onClose }: { onClose: () => void }) {
           <p className="card-hint">
             一级最简单，三级稍难一点。每轮随机 {ROUND_COUNT} 个词，读完出结算。
           </p>
+          <button
+            className={'echo-pref' + (preferFavs ? ' on' : '')}
+            disabled={!favs.length}
+            onClick={() => setPreferFavs((v) => !v)}
+          >
+            {preferFavs ? '✅ 优先练收藏的词：已开启' : '⭐ 优先练收藏的词'}
+            （已收藏 {favs.length} 个）
+          </button>
           <button
             className="btn btn-warm btn-block echo-start"
             onClick={() => {
@@ -291,6 +403,9 @@ export default function Echo({ onClose }: { onClose: () => void }) {
             <p className="echo-fb-line">
               我听到：<b>{cur.text || '（没听清）'}</b>
             </p>
+            <button className="echo-fav-btn" onClick={() => toggleFav(word.word)}>
+              {favs.includes(word.word) ? '⭐ 已收藏这个词' : '☆ 收藏这个词，下次优先练'}
+            </button>
             <div className="echo-actions">
               <button className="btn btn-ghost" onClick={retry}>
                 🔄 再试一次

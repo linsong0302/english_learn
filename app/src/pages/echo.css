@@ -5,6 +5,29 @@
 .echo-levels button { flex: 1; }
 .echo-start { margin-top: 12px; }
 
+/* —— 今日统计小卡（独立 localStorage，不进 store.ts）—— */
+.echo-stats { padding: 13px 16px; }
+.echo-stats-line { font-size: 14px; margin: 3px 0; color: var(--ink); }
+.echo-stats-line b { color: var(--brand-ink); font-size: 17px; }
+
+/* —— 优先练收藏 开关 —— */
+.echo-pref {
+  display: block; width: 100%; margin-top: 10px;
+  border: 1.5px dashed var(--line); border-radius: var(--radius-sm);
+  background: none; color: var(--sub); padding: 10px 12px;
+  font-size: 13.5px; cursor: pointer; text-align: center;
+}
+.echo-pref.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+.echo-pref:disabled { opacity: 0.55; cursor: default; }
+
+/* —— 收藏按钮（打分反馈里）—— */
+.echo-fav-btn {
+  display: inline-block; margin-top: 8px;
+  border: 0; background: none; color: var(--accent);
+  font-size: 13.5px; cursor: pointer; padding: 4px 8px;
+}
+.echo-fav-btn:active { opacity: 0.7; }
+
 /* —— 跟读进度 —— */
 .echo-progress { display: flex; align-items: center; gap: 10px; margin: 2px 0 12px; }
 .echo-progress span { font-size: 13px; color: var(--sub); white-space: nowrap; }
