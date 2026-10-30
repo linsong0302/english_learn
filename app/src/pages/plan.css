@@ -1,0 +1,109 @@
+/* 七天计划页样式（lane7），复用全局 token（styles.css） */
+
+/* ---------- 未开始：介绍卡 ---------- */
+.plan-intro { text-align: center; background: linear-gradient(160deg, #fff, var(--brand-soft)); }
+.plan-intro-emoji { font-size: 40px; margin-bottom: 2px; }
+.plan-intro-text { font-size: 13.5px; line-height: 1.8; margin: 6px 0 0; text-align: left; }
+.plan-intro-list {
+  text-align: left; font-size: 12.5px; color: var(--sub); line-height: 1.9;
+  margin: 10px 0 14px; padding: 0; list-style: none;
+}
+.plan-intro-list li::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+.plan-start { font-size: 16px; }
+
+/* 七天大纲预览 */
+.plan-outline { list-style: none; margin: 0; padding: 0; }
+.plan-outline li {
+  display: flex; align-items: center; gap: 10px; padding: 7px 0;
+  border-bottom: 1px dashed var(--line); font-size: 13.5px;
+}
+.plan-outline li:last-child { border-bottom: 0; }
+.plan-outline-day {
+  flex: none; font-size: 12px; font-weight: 700; color: var(--brand-ink);
+  background: var(--brand-soft); border-radius: 999px; padding: 2px 8px;
+}
+
+/* ---------- 七天切换 chips ---------- */
+.plan-days { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.plan-day-chip {
+  border: 1.5px solid var(--line); background: var(--card); color: var(--sub);
+  border-radius: 999px; padding: 6px 11px; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; transition: transform 0.06s ease;
+}
+.plan-day-chip:active { transform: scale(0.94); }
+.plan-day-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.plan-day-chip.full { border-color: var(--ok); color: var(--ok); }
+.plan-day-chip.full.on { background: var(--ok); border-color: var(--ok); color: #fff; }
+
+/* ---------- 当日任务卡 ---------- */
+.plan-day-title { font-size: 17px; font-weight: 800; margin: 0; }
+.plan-day-today {
+  display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 700;
+  color: #fff; background: var(--ok); border-radius: 999px; padding: 2px 8px;
+  vertical-align: 2px;
+}
+.plan-day-goal { color: var(--sub); font-size: 13px; margin: 6px 0 0; line-height: 1.6; }
+.plan-day-readonly {
+  font-size: 12px; color: var(--brand-ink); background: var(--brand-soft);
+  border-radius: 8px; padding: 6px 10px; margin: 10px 0 0;
+}
+
+/* 任务清单 */
+.plan-tasks { list-style: none; margin: 12px 0 0; padding: 0; }
+.plan-task {
+  display: flex; align-items: center; gap: 10px; padding: 10px 0;
+  border-top: 1px dashed var(--line);
+}
+.plan-task:first-child { border-top: 0; }
+.plan-task-check {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--line); background: #fff; color: #fff;
+  font-size: 15px; line-height: 1; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.06s ease;
+}
+.plan-task-check:active:not(:disabled) { transform: scale(0.88); }
+.plan-task-check:disabled { cursor: default; }
+.plan-task.done .plan-task-check { background: var(--ok); border-color: var(--ok); }
+.plan-task-text { flex: 1; font-size: 13.5px; line-height: 1.55; }
+.plan-task.done .plan-task-text { color: var(--sub); }
+.plan-task-auto {
+  flex: none; font-size: 10.5px; font-weight: 600; color: var(--accent-deep);
+  background: var(--accent-soft); border-radius: 999px; padding: 2px 7px;
+}
+.plan-task-go {
+  flex: none; border: 0; background: var(--brand); color: #fff;
+  border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; transition: transform 0.06s ease;
+}
+.plan-task-go:active { background: var(--brand-deep); transform: scale(0.94); }
+
+/* ---------- 七天总进度 ---------- */
+.plan-bar { height: 12px; background: var(--bg); border-radius: 999px; overflow: hidden; }
+.plan-bar span {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--brand), var(--brand-deep));
+  border-radius: 999px; transition: width 0.3s ease;
+}
+.plan-progress-text { font-size: 12.5px; color: var(--sub); margin: 8px 0 0; }
+
+/* ---------- 完成卡 ---------- */
+.plan-done-card { text-align: center; background: linear-gradient(160deg, #fff, var(--ok-soft)); }
+.plan-done-emoji { font-size: 44px; }
+.plan-done-title { font-size: 18px; font-weight: 800; margin: 6px 0 4px; color: var(--ok); }
+.plan-done-text { font-size: 13px; line-height: 1.7; margin: 0; }
+
+/* ---------- 首页「七天计划」入口卡（lane7 加在四大板块之后） ---------- */
+.home-plan-entry {
+  width: 100%; display: flex; align-items: center; gap: 12px; text-align: left;
+  border: 0; background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px 12px; margin-top: 10px;
+  cursor: pointer; transition: transform 0.06s ease;
+}
+.home-plan-entry:active { transform: scale(0.98); }
+.home-plan-entry .home-entry-ic { margin-bottom: 0; flex: none; }
+.home-plan-info { flex: 1; min-width: 0; }
+.home-plan-info b { display: block; font-size: 15px; color: var(--ink); }
+.home-plan-info p { margin: 2px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; }
+.home-plan-info .where { display: inline-block; font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 600; }
+.home-plan-arrow { flex: none; color: var(--brand-ink); font-size: 18px; font-weight: 700; }
