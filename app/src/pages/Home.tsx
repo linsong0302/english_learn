@@ -2,10 +2,14 @@ import { useState } from 'react'
 import letters from '../data/letters.json'
 import rules from '../data/rules.json'
 import words from '../data/words.json'
-import { loadProgress, streakDays, todayCheckin, toggleCheckin } from '../store'
+import planData from '../data/plan.json'
+import type { PlanDay } from '../types-plan'
+import { getPlanState, loadProgress, streakDays, todayCheckin, toggleCheckin } from '../store'
 import './home.css'
+import './plan.css'
 
 // lane2 首页：今日任务卡、学习进度总览、四大板块入口、课程理念卡。
+// lane7 增量：四大板块之后加「七天计划」入口卡（样式在 plan.css）。
 
 function greeting(): string {
   const h = new Date().getHours()
@@ -14,6 +18,16 @@ function greeting(): string {
   if (h < 14) return '中午好，读两句热热身'
   if (h < 19) return '下午好，继续加油'
   return '晚上好，睡前读一读'
+}
+
+/** 七天计划：按开始日期推算今天进行到第几天（1-7） */
+function planCurrentDay(startedAt: number): number {
+  const start = new Date(startedAt)
+  start.setHours(0, 0, 0, 0)
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  const diff = Math.floor((now.getTime() - start.getTime()) / 86400000)
+  return Math.min(Math.max(diff + 1, 1), 7)
 }
 
 /** 练习正确率：所有轮次累计得分 / 累计题数 */
@@ -48,10 +62,17 @@ const ENTRIES = [
   },
 ]
 
+// lane7：七天计划入口状态
+const PLAN_DAYS = planData as unknown as PlanDay[]
+
 export default function Home() {
   const [checkin, setCheckin] = useState(() => todayCheckin())
   const seen = loadProgress().seenLetters.length
   const streak = streakDays()
+
+  const planState = getPlanState()
+  const planStarted = planState.startedAt != null
+  const planDay = planStarted ? planCurrentDay(planState.startedAt as number) : 0
 
   const onToggle = (slot: 'am' | 'pm') => {
     setCheckin((c) => ({ ...c, [slot]: toggleCheckin(slot) }))
@@ -126,6 +147,23 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        {/* lane7：七天计划入口卡 */}
+        <button
+          type="button"
+          className="home-plan-entry"
+          onClick={() => window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'plan' }))}
+        >
+          <div className="home-entry-ic" style={{ background: '#8b5cf6' }}>计</div>
+          <div className="home-plan-info">
+            <b>七天计划</b>
+            <p>一天 15 分钟，7 天拿下口诀 + 规则</p>
+            <span className="where">
+              {planStarted ? `进行到第 ${planDay} 天 · 点这里继续` : '点这里开始'}
+            </span>
+          </div>
+          <span className="home-plan-arrow">→</span>
+        </button>
       </section>
 
       {/* 课程理念卡 */}
