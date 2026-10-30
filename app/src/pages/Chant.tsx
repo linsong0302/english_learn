@@ -20,7 +20,22 @@ export default function Chant() {
 
   return (
     <div className="page">
-      <h1>字母口诀</h1>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 10,
+        }}
+      >
+        <h1 style={{ margin: 0 }}>字母口诀</h1>
+        <button
+          className="btn btn-ghost btn-sm"
+          onClick={() => window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'sounds' }))}
+        >
+          音标总表
+        </button>
+      </div>
       <p className="page-sub">
         点卡片看详情：字母音 + KK 音标 + 联想汉字；点例词直接点读。
       </p>
