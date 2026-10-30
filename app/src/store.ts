@@ -24,6 +24,13 @@ export interface Progress {
   quizRounds: QuizRound[]
   wrong: Record<string, WrongWord>
   checkins: Record<string, Checkin> // key = YYYY-MM-DD
+  planState?: PlanState // 七天学习计划状态（可选字段，旧数据读取时给默认值）
+}
+
+/** 七天学习计划状态（lane7 增量扩展，不破坏既有导出） */
+export interface PlanState {
+  startedAt?: number // 开始日期（毫秒时间戳）
+  doneByDay: Record<string, string[]> // key = 天数数字字符串，value = 已完成任务 id 列表
 }
 
 const KEY = 'kk-phonics-progress-v1'
@@ -34,11 +41,24 @@ function todayKey(d = new Date()): string {
 }
 
 export function loadProgress(): Progress {
-  const empty: Progress = { seenLetters: [], quizRounds: [], wrong: {}, checkins: {} }
+  const empty: Progress = {
+    seenLetters: [],
+    quizRounds: [],
+    wrong: {},
+    checkins: {},
+    planState: { doneByDay: {} },
+  }
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return empty
-    return { ...empty, ...(JSON.parse(raw) as Partial<Progress>) }
+    const merged = { ...empty, ...(JSON.parse(raw) as Partial<Progress>) }
+    // planState 向后兼容：旧数据 / 半损坏数据统一补默认值
+    if (!merged.planState || typeof merged.planState !== 'object') {
+      merged.planState = { doneByDay: {} }
+    } else if (!merged.planState.doneByDay || typeof merged.planState.doneByDay !== 'object') {
+      merged.planState = { ...merged.planState, doneByDay: {} }
+    }
+    return merged
   } catch {
     return empty
   }
@@ -126,4 +146,33 @@ export function streakDays(): number {
     } else break
   }
   return n
+}
+
+// ---------- 七天学习计划（lane7 增量扩展，沿用同一存储对象） ----------
+
+/** 开始七天计划：记录开始日期；已开始则保留原日期 */
+export function startPlan() {
+  const p = loadProgress()
+  if (!p.planState) p.planState = { doneByDay: {} }
+  if (p.planState.startedAt == null) {
+    p.planState.startedAt = Date.now()
+    save(p)
+  }
+}
+
+/** 读取计划状态（已归一化，doneByDay 一定存在） */
+export function getPlanState(): PlanState {
+  return loadProgress().planState ?? { doneByDay: {} }
+}
+
+/** 切换某天某任务的完成状态 */
+export function togglePlanTask(day: number, taskId: string) {
+  const p = loadProgress()
+  if (!p.planState) p.planState = { doneByDay: {} }
+  const key = String(day)
+  const list = p.planState.doneByDay[key] ?? []
+  p.planState.doneByDay[key] = list.includes(taskId)
+    ? list.filter((id) => id !== taskId)
+    : [...list, taskId]
+  save(p)
 }
