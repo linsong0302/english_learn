@@ -1,0 +1,132 @@
+/* 音标总表专属样式（lane5 所有；全局 token 见 styles.css） */
+
+.snd-intro {
+  color: var(--sub);
+  font-size: 13px;
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+/* 分类切换行 */
+.snd-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.snd-count {
+  font-size: 12px;
+  color: var(--sub);
+}
+
+/* 卡片墙：375px 下 3 列刚好 */
+.snd-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.snd-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--card);
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px 4px 10px;
+  cursor: pointer;
+  transition: transform 0.06s ease;
+}
+
+.snd-card:active {
+  transform: scale(0.94);
+}
+
+.snd-kk {
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.snd-word {
+  font-size: 12px;
+  color: var(--sub);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.snd-card .snd-say {
+  margin-top: 5px;
+}
+
+/* ---------- 详情浮层 ---------- */
+.snd-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 14px;
+}
+
+.snd-hero-kk {
+  font-size: var(--fs-huge);
+  line-height: 1.1;
+}
+
+.snd-sec {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.snd-sec-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.snd-tip-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.snd-example-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.snd-example-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.snd-example-list li:last-child {
+  border-bottom: 0;
+}
+
+.snd-ex-word {
+  font-size: 15px;
+}
+
+.snd-ex-kk {
+  color: var(--sub);
+  font-size: 12.5px;
+  margin-left: auto;
+}
+
+.snd-actions {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0 8px;
+}
