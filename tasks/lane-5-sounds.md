@@ -13,4 +13,4 @@
 - [x] 卡片墙：Sounds 页分类分段切换（元音 / 辅音 / 组合，用 .seg），网格卡片（大字号音标 + 首个例词 + 点读小按钮 speakWord）；点卡片开详情浮层（用 .overlay/.sheet）：大音标、口型 tip、例词列表每词带点读、「听示范」按钮（读第一个例词）
 - [x] 卡组自测：详情浮层或页内「测一测」入口，10 题混合两种题型——(a) 听例词选音标（TTS 播例词，4 个音标选项）(b) 看口型提示猜音标；即时反馈 + 结算；用独立 localStorage key 记录正确率
 - [x] 入口接线：Chant 页顶部工具行加「音标总表」按钮，onClick 里 `window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'sounds' }))`
-- [ ] 冲刺：详情浮层加「最近学过的音标」区（localStorage 独立 key 记录最近浏览的 8 个音标 id）
+- [x] 冲刺：详情浮层加「最近学过的音标」区（localStorage 独立 key 记录最近浏览的 8 个音标 id）

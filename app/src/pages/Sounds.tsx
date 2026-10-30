@@ -20,14 +20,45 @@ const TYPE_LABEL: Record<Phoneme['type'], string> = {
   combo: '组合',
 }
 
+const RECENT_KEY = 'kk-sounds-recent-v1' // 本页独立 key：最近浏览的音标 id
+const RECENT_MAX = 8
+
+function loadRecent(): string[] {
+  try {
+    const raw = localStorage.getItem(RECENT_KEY)
+    const list = raw ? (JSON.parse(raw) as string[]) : []
+    return Array.isArray(list) ? list.filter((id) => PHONEMES.some((p) => p.id === id)) : []
+  } catch {
+    return []
+  }
+}
+
+/** 记录一次浏览：去重后放到最前，最多保留 8 个 */
+function pushRecent(id: string): string[] {
+  const next = [id, ...loadRecent().filter((x) => x !== id)].slice(0, RECENT_MAX)
+  try {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(next))
+  } catch {
+    // 存储不可用时静默忽略
+  }
+  return next
+}
+
 // lane5 音标总表：KK 音标分类卡片墙 + 单音标详情浮层（点读例词）。
 export default function Sounds({ onClose }: { onClose: () => void }) {
   const [tab, setTab] = useState<TabKey>('vowel')
   const [openId, setOpenId] = useState<string | null>(null)
   const [quizOpen, setQuizOpen] = useState(false)
+  const [recent, setRecent] = useState<string[]>(() => loadRecent())
 
   const list = useMemo(() => PHONEMES.filter((p) => p.type === tab), [tab])
   const open = openId ? PHONEMES.find((p) => p.id === openId) ?? null : null
+
+  /** 打开详情同时记入「最近学过」 */
+  const openPhoneme = (id: string) => {
+    setOpenId(id)
+    setRecent(pushRecent(id))
+  }
 
   // 离开页面时停掉一切发音
   useEffect(() => stopSpeaking, [])
@@ -70,7 +101,7 @@ export default function Sounds({ onClose }: { onClose: () => void }) {
               key={p.id}
               type="button"
               className="snd-card"
-              onClick={() => setOpenId(p.id)}
+              onClick={() => openPhoneme(p.id)}
             >
               <b className="snd-kk">{p.kk}</b>
               <span className="snd-word">{first?.word}</span>
@@ -91,15 +122,37 @@ export default function Sounds({ onClose }: { onClose: () => void }) {
         })}
       </div>
 
-      {open && <PhonemeDetail phoneme={open} onClose={() => setOpenId(null)} />}
+      {open && (
+        <PhonemeDetail
+          phoneme={open}
+          recent={recent}
+          onOpen={openPhoneme}
+          onClose={() => setOpenId(null)}
+        />
+      )}
       {quizOpen && <SoundQuiz onClose={() => setQuizOpen(false)} />}
     </div>
   )
 }
 
-/** 单音标详情浮层：大音标 + 口型提示 + 例词点读 + 听示范 */
-function PhonemeDetail({ phoneme, onClose }: { phoneme: Phoneme; onClose: () => void }) {
+/** 单音标详情浮层：大音标 + 口型提示 + 例词点读 + 听示范 + 最近学过 */
+function PhonemeDetail({
+  phoneme,
+  recent,
+  onOpen,
+  onClose,
+}: {
+  phoneme: Phoneme
+  recent: string[]
+  onOpen: (id: string) => void
+  onClose: () => void
+}) {
   const first = phoneme.examples[0]
+  const recentPhonemes = recent
+    .filter((id) => id !== phoneme.id)
+    .map((id) => PHONEMES.find((p) => p.id === id))
+    .filter((p): p is Phoneme => !!p)
+    .slice(0, RECENT_MAX)
 
   // 关闭浮层时停掉一切发音
   useEffect(() => stopSpeaking, [])
@@ -160,6 +213,26 @@ function PhonemeDetail({ phoneme, onClose }: { phoneme: Phoneme; onClose: () => 
           音标符号无法直接朗读，「听示范」读的是例词{first ? `「${first.word}」` : ''}，
           多听几遍，抓住它开头（或中间）的这个音。
         </p>
+
+        {recentPhonemes.length > 0 && (
+          <div className="snd-recent">
+            <p className="snd-sec-title">最近学过的音标</p>
+            <div className="snd-recent-list">
+              {recentPhonemes.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className="snd-recent-chip"
+                  onClick={() => onOpen(p.id)}
+                  title={p.examples[0]?.word}
+                >
+                  {p.kk}
+                  <span className="snd-recent-word">{p.examples[0]?.word}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
