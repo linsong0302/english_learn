@@ -130,3 +130,133 @@
   gap: 10px;
   margin: 4px 0 8px;
 }
+
+/* ---------- 卡组自测 ---------- */
+.snd-quiz-trigger {
+  margin-bottom: 16px;
+}
+
+.snd-q-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.snd-q-count {
+  font-size: 12.5px;
+  color: var(--sub);
+}
+
+.snd-q-stem {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 14px;
+  margin: 12px 0;
+  text-align: center;
+}
+
+.snd-q-lead {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.snd-q-replay {
+  font-size: 15px;
+  padding: 10px 22px;
+  min-height: 44px;
+}
+
+.snd-q-tip {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.snd-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.snd-opt {
+  border: 2px solid transparent;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.06s ease;
+}
+
+.snd-opt:active {
+  transform: scale(0.95);
+}
+
+.snd-opt.correct {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.snd-opt.wrong {
+  background: var(--bad-soft);
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.snd-opt.dim {
+  opacity: 0.5;
+}
+
+.snd-feedback {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 12px 0 0;
+}
+
+.snd-feedback.is-ok {
+  color: var(--ok);
+}
+
+.snd-feedback.is-bad {
+  color: var(--bad);
+}
+
+/* 结算 */
+.snd-result {
+  text-align: center;
+  padding: 6px 0 2px;
+}
+
+.snd-result-score {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--brand-ink);
+  margin: 8px 0 4px;
+}
+
+.snd-result-note {
+  font-size: 14px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  line-height: 1.7;
+}
+
+.snd-result-history {
+  font-size: 12.5px;
+  color: var(--sub);
+  margin: 0 0 14px;
+}
+
+.snd-result-actions {
+  justify-content: center;
+  margin-bottom: 0;
+}
