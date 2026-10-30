@@ -119,6 +119,15 @@ export default function Quiz() {
       <div className="page">
         <h1>练习</h1>
 
+        {/* lane6：跟读打分入口（打开全屏二级页，不离开练习 Tab） */}
+        <button
+          className="btn btn-ghost btn-block"
+          style={{ marginBottom: 14, justifyContent: 'center' }}
+          onClick={() => window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'echo' }))}
+        >
+          🎤 跟读打分：听示范、跟着读、机器帮你打星
+        </button>
+
         {!dailyDone ? (
           <div className="card daily-card">
             <div className="daily-head">今日一测</div>
