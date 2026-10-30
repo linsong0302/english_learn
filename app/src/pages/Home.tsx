@@ -73,6 +73,10 @@ export default function Home() {
   const planState = getPlanState()
   const planStarted = planState.startedAt != null
   const planDay = planStarted ? planCurrentDay(planState.startedAt as number) : 0
+  // 计划完成状态：已完成全部任务的天数 x/7（lane7 冲刺）
+  const planDaysDone = PLAN_DAYS.filter((d) =>
+    d.tasks.every((t) => (planState.doneByDay[String(d.day)] ?? []).includes(t.id))
+  ).length
 
   const onToggle = (slot: 'am' | 'pm') => {
     setCheckin((c) => ({ ...c, [slot]: toggleCheckin(slot) }))
@@ -123,6 +127,10 @@ export default function Home() {
           <div className="home-stat">
             <b>{streak}</b>
             <span>连续打卡（天）</span>
+          </div>
+          <div className="home-stat">
+            <b>{planDaysDone}/7</b>
+            <span>计划完成（天）</span>
           </div>
         </div>
         {seen < 26 && (

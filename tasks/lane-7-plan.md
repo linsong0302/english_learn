@@ -14,4 +14,4 @@
 - [x] store 扩展：planState { startedAt?: number; doneByDay: Record<string, string[]> }（key=天数数字字符串，value=已完成任务 id 列表），新增 API：startPlan()（记录开始日期）/ getPlanState() / togglePlanTask(day, taskId)；key 沿用 'kk-phonics-progress-v1' 同一存储对象（在 Progress 接口加可选字段 planState），保持向后兼容
 - [x] Plan 页：未开始 → 介绍卡（计划说明：一天 15 分钟，7 天拿下口诀+规则）+「开始七天计划」大按钮；进行中 → 第 N 天标题 + 当日任务清单（每项一行：勾选框 + 任务文字 + 有 link 的加「去做」按钮跳对应 Tab；autoCheck 类型任务当日条件满足时自动打勾——quizRound=当日 recordQuizRound 轮数≥要求、checkin=当日 am/pm 任一已打卡）+ 七天总进度条 + 可切换查看任意一天的清单（过去/未来天数只读）；Day7 全部完成显示 🎉 完成卡
 - [x] 入口接线：Home 页在四大板块入口卡之后加「七天计划」入口卡（图标/标题/一句话描述），onClick 里 `window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'plan' }))`；已开始时入口卡上显示「进行到第 N 天」
-- [ ] 冲刺：计划完成状态写进首页进度总览（已完成天数 x/7）
+- [x] 冲刺：计划完成状态写进首页进度总览（已完成天数 x/7）
