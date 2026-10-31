@@ -57,3 +57,55 @@ body {
 /* 底部弹层（.sheet）自身已带底部安全区内边距（见 src/styles.css），
    无需重复处理；遮罩层 .overlay 是纯色半透明背景，被状态栏压住
    属正常表现，不做处理。 */
+
+/* ---------- 2) 触控体验 ---------- */
+
+/* 点击高亮：去掉 Android WebView 点击可点元素时的半透明蓝色闪烁块，
+   视觉反馈交给各按钮自己的 :active 缩放/变色动画。 */
+* {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+/* 双击缩放延迟：对页面和一切可交互元素启用 manipulation，
+   双击不再触发页面缩放（也就没有 300ms 等待判定），
+   捏合缩放不受影响，老人小孩看小字仍可放大。 */
+html,
+body,
+button,
+a,
+input,
+select,
+textarea,
+label,
+summary,
+[role='button'] {
+  touch-action: manipulation;
+}
+
+/* 按钮类元素禁止长按误选中文字（点着按钮半天弹出的蓝色选区很难看）；
+   注意只作用于可点元素，正文段落保持默认可选中、可复制。 */
+button,
+a,
+summary,
+[role='button'],
+.btn,
+.btn-speak,
+.seg button,
+.voice-seg button,
+.tab-bar button,
+.sheet-close,
+.extra-back,
+.dot,
+.chip {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 图片禁止拖拽：WebView 里长按拖动图片会把图片拖出页面，App 中无意义。 */
+img,
+picture,
+svg {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
