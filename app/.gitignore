@@ -1,0 +1,10 @@
+
+# Capacitor Android 生成物（克隆后运行 npm run cap:sync 重新生成）
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/src/main/assets/public/
+android/capacitor-cordova-android-plugins/
+android/.idea/
+android/*.iml
