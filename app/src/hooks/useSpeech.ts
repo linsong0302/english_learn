@@ -101,8 +101,8 @@ export interface LetterPhonemeOptions {
 }
 
 /** 字母+音标跟读（口诀里的 2+2），按朗读设置用所选音色的录音播放：
- *  连读 = 整句一条录音，像老师带读一样连贯；
- *  分段 = 单字母×2 → 音标，两处间隔用滑动条调。录音缺失时退回系统 TTS。 */
+ *  两个间隔都拖到 0 秒 = 整句一条录音，像老师带读一样连贯；
+ *  否则 = 单字母×2 → 音标，两处间隔用滑动条调（拖大一点就有逗号一样的停顿）。录音缺失时退回系统 TTS。 */
 export function speakLetterAndPhoneme(
   letter: string,
   hanzi: string,
@@ -129,15 +129,15 @@ export function speakLetterAndPhoneme(
   }
 
   void (async () => {
-    if (s.mode === 'connected') {
-      // 整句一条录音，像老师带读一样连贯
+    // 两个间隔都为 0：整句一条录音，像老师带读一样连读
+    if (s.letterGapMs === 0 && s.phonemeGapMs === 0) {
       const ok = await playChantAudio(chantUrl(s.voice, key))
       if (!alive()) return
       if (!ok) return ttsFallback()
       onDone?.()
       return
     }
-    // 分段：单字母 → 间隔 → 单字母 → 间隔 → 音标
+    // 拼播：单字母 → 间隔 → 单字母 → 间隔 → 音标
     const ok1 = await playChantAudio(chantUrl(s.voice, `${low}-zh`))
     if (!alive()) return
     if (!ok1) return ttsFallback()
@@ -278,15 +278,12 @@ export function voiceFull(id: string): string {
 
 // ---------------- 朗读设置（口诀页可选，存 localStorage） ----------------
 
-export type ChantMode = 'connected' | 'segment' // 连读整句 / 分段可调间隔
-
 export interface ChantSettings {
   /** 音色 id（VOICE_OPTIONS 之一），全应用共用 */
   voice: string
-  mode: ChantMode
-  /** 分段模式：两个字母之间的间隔（毫秒） */
+  /** 两个字母之间的间隔（毫秒）：0 表示不停顿；和音标间隔同时为 0 时改播整句录音连读 */
   letterGapMs: number
-  /** 分段模式：字母和音标之间的间隔（毫秒） */
+  /** 字母和音标之间的间隔（毫秒） */
   phonemeGapMs: number
 }
 
@@ -295,7 +292,6 @@ const GAP_MIN = 0
 const GAP_MAX = 2000
 export const DEFAULT_CHANT_SETTINGS: ChantSettings = {
   voice: 'sweet',
-  mode: 'connected',
   letterGapMs: 250,
   phonemeGapMs: 350,
 }
@@ -313,7 +309,6 @@ export function getChantSettings(): ChantSettings {
     const p = JSON.parse(raw) as Partial<ChantSettings>
     return {
       voice: VOICE_IDS.includes(p.voice as string) ? (p.voice as string) : DEFAULT_CHANT_SETTINGS.voice,
-      mode: p.mode === 'segment' ? 'segment' : 'connected',
       letterGapMs: clampGap(p.letterGapMs, DEFAULT_CHANT_SETTINGS.letterGapMs),
       phonemeGapMs: clampGap(p.phonemeGapMs, DEFAULT_CHANT_SETTINGS.phonemeGapMs),
     }
