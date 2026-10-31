@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { LetterSound } from '../types'
-import { speakWord } from '../hooks/useSpeech'
+import { speakLetterAndPhoneme, speakWord } from '../hooks/useSpeech'
 
 interface Props {
   letter: LetterSound
@@ -15,6 +15,8 @@ export default function LetterCard({ letter, seen, onOpen }: Props) {
   const variant = hasVariants ? letter.variants![variantIdx] : null
   const kk = variant?.kk ?? letter.kk
   const hint = variant?.hint ?? letter.hint
+  // 联想汉字去掉「前：/后：」前缀和括号注释后，就是要跟读的音标近似音
+  const phonemeHanzi = hint.replace(/^前：|^后：/, '').replace(/（[^）]*）/g, '')
 
   return (
     <div
@@ -41,6 +43,19 @@ export default function LetterCard({ letter, seen, onOpen }: Props) {
           </button>
         </span>
       )}
+      <button
+        className="btn-speak btn-speak-sm cc-phoneme"
+        aria-label={`${letter.upper} 加音标跟读`}
+        onClick={(e) => {
+          e.stopPropagation()
+          // l/m/n/r 的「后」读法播 -final 整句/音标录音
+          const opts =
+            hasVariants && variantIdx === 1 ? { key: `${letter.letter}-final` } : undefined
+          speakLetterAndPhoneme(letter.upper, phonemeHanzi, opts)
+        }}
+      >
+        🔊 {phonemeHanzi}
+      </button>
       <button
         className="btn-speak btn-speak-sm cc-sample"
         onClick={(e) => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { LetterSound } from '../types'
 import { addSeenLetter } from '../store'
-import { speakSequence, stopSpeaking } from '../hooks/useSpeech'
+import { speakLetterAndPhoneme, stopSpeaking } from '../hooks/useSpeech'
 
 interface Props {
   letters: LetterSound[]
@@ -15,26 +15,20 @@ export default function ChantAuto({ letters, onClose }: Props) {
   const [mode, setMode] = useState<Mode>('playing')
   const [idx, setIdx] = useState(0)
 
-  // 播放当前字母：2+2（字母音×2 → 例词音×2），播完自动前进
+  // 播放当前字母：口诀 2+2（字母音×2 → 联想汉字音标×2），播完自动前进。
+  // l/m/n/r 有前后两种读法，连读时统一读词首（前）读法。
   useEffect(() => {
     if (mode !== 'playing') return
     const l = letters[idx]
     if (!l) return
     addSeenLetter(l.letter)
-    speakSequence(
-      [
-        { text: l.upper, pauseAfter: 250 },
-        { text: l.upper, pauseAfter: 700 },
-        { text: l.sample, pauseAfter: 250 },
-        { text: l.sample },
-      ],
-      {
-        onDone: () => {
-          if (idx < letters.length - 1) setIdx(idx + 1)
-          else setMode('done')
-        },
+    const hanzi = (l.variants?.[0]?.hint ?? l.hint).replace(/^前：|^后：/, '')
+    speakLetterAndPhoneme(l.upper, hanzi, {
+      onDone: () => {
+        if (idx < letters.length - 1) setIdx(idx + 1)
+        else setMode('done')
       },
-    )
+    })
     return () => stopSpeaking()
   }, [mode, idx, letters])
 

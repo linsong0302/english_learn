@@ -3,6 +3,7 @@ import lettersData from '../data/letters.json'
 import LetterCard from '../components/LetterCard'
 import LetterDetail from '../components/LetterDetail'
 import ChantAuto from '../components/ChantAuto'
+import ChantSettings from '../components/ChantSettings'
 import { loadProgress } from '../store'
 import type { LetterSound } from '../types'
 import './chant.css'
@@ -42,6 +43,7 @@ export default function Chant() {
       <button className="btn btn-warm btn-block auto-trigger" onClick={() => setAutoOpen(true)}>
         连读模式：从 A 顺读一遍（每个字母 2+2）
       </button>
+      <ChantSettings />
       <div className={`chant-wall ${autoOpen ? 'locked' : ''}`}>
         {LETTERS.map((l, i) => (
           <LetterCard

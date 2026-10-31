@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { LetterSound } from '../types'
 import { addSeenLetter } from '../store'
-import { speakLetter, speakSequence, speakWord, stopSpeaking } from '../hooks/useSpeech'
+import { speakLetter, speakLetterAndPhoneme, speakSequence, speakWord, stopSpeaking } from '../hooks/useSpeech'
 import EchoCompare from './EchoCompare'
 
 interface Props {
@@ -17,6 +17,8 @@ export default function LetterDetail({ letter, onClose }: Props) {
   const variant = hasVariants ? letter.variants![variantIdx] : null
   const kk = variant?.kk ?? letter.kk
   const hint = variant?.hint ?? letter.hint
+  // 联想汉字去掉「前：/后：」前缀和括号注释后，就是要跟读的音标近似音
+  const phonemeHanzi = hint.replace(/^前：|^后：/, '').replace(/（[^）]*）/g, '')
 
   // 打开详情即记入「已学口诀」进度
   useEffect(() => {
@@ -106,6 +108,18 @@ export default function LetterDetail({ letter, onClose }: Props) {
           <button className="btn-speak" onClick={() => speakLetter(letter.upper)}>
             听字母音
           </button>
+          <button
+            className="btn-speak"
+            aria-label="字母加音标连读"
+            onClick={() => {
+              // l/m/n/r 的「词尾读法」播 -final 整句/音标录音
+              const opts =
+                hasVariants && variantIdx === 1 ? { key: `${letter.letter}-final` } : undefined
+              speakLetterAndPhoneme(letter.upper, phonemeHanzi, opts)
+            }}
+          >
+            字母＋音标
+          </button>
           <button className={`btn ${playing ? 'btn-ghost' : 'btn-primary'}`} onClick={startEcho}>
             {playing ? '停止跟读' : '2+2 跟读'}
           </button>
@@ -114,7 +128,8 @@ export default function LetterDetail({ letter, onClose }: Props) {
           </button>
         </div>
         <p className="cd-echo-note">
-          2+2 跟读：字母音读 2 遍 → 例词读 2 遍，跟着一起大声说。
+          2+2 跟读：字母音读 2 遍 → 例词读 2 遍，跟着一起大声说。「字母＋音标」先读 2
+          遍字母，再用联想汉字读出音标音（「啵啵」就是音标读了 2 遍）。
         </p>
 
         <EchoCompare upper={letter.upper} sample={letter.sample} />
