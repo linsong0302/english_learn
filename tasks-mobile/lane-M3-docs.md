@@ -14,4 +14,4 @@
   - iOS 提示：需要一台 Mac（Xcode + `npx cap add ios`），Windows 上无法出 iOS 包，给出官方文档链接
   - PWA 方式：`npm run build` 把 `dist/` 部署到任意静态托管（或 GitHub Pages），手机浏览器打开即可「添加到主屏幕」当 App 用；项目已有 manifest.webmanifest / 离线 sw.js / 图标
   - 常见问题：gradle 首次下载慢（提示可配国内镜像，给阿里云 maven 镜像示例片段）、`local.properties` 不入库由 Android Studio 自动生成、签名文件切勿提交到 git
-- [ ] 自查：逐条核对文档中的脚本名（cap:sync/cap:open/cap:run）、路径（app/android/…）、配置值（appId=com.yinbiao.study、appName=KK音标学习、webDir=dist）与仓库一致；核对 `app/android/variables.gradle`、`app/android/app/build.gradle` 里的 SDK/Gradle/Java 版本并让文档与之匹配；发现出入以仓库为准修正文档
+- [x] 自查：逐条核对文档中的脚本名（cap:sync/cap:open/cap:run）、路径（app/android/…）、配置值（appId=com.yinbiao.study、appName=KK音标学习、webDir=dist）与仓库一致；核对 `app/android/variables.gradle`、`app/android/app/build.gradle` 里的 SDK/Gradle/Java 版本并让文档与之匹配；发现出入以仓库为准修正文档
