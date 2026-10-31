@@ -205,6 +205,22 @@ export function speakCombo(pattern: string, opts: ComboSpeakOptions = {}) {
   })()
 }
 
+/** 音标点读：播放预合成的音标本音录音（public/audio/phoneme/{audio}.mp3，
+ *  用 scripts/gen-phoneme-audio.mjs 生成；音标符号无法直接 TTS）。
+ *  录音缺失或加载失败时退回读 fallbackWord（例词），和音标总表原来的行为一致。 */
+export function speakPhoneme(audio: string | undefined, fallbackWord?: string) {
+  if (!audio) {
+    if (fallbackWord) speakWord(fallbackWord)
+    return
+  }
+  stopSpeaking()
+  playChantAudio(`${import.meta.env.BASE_URL}audio/phoneme/${encodeURIComponent(audio)}.mp3`).then(
+    (ok) => {
+      if (!ok && fallbackWord) speakWord(fallbackWord)
+    },
+  )
+}
+
 // ---------------- 连续播放（2+2 跟读、连读模式都用它） ----------------
 
 export interface SpeakItem extends SpeakOptions {

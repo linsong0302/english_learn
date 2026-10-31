@@ -14,3 +14,4 @@
 - [x] 卡组自测：详情浮层或页内「测一测」入口，10 题混合两种题型——(a) 听例词选音标（TTS 播例词，4 个音标选项）(b) 看口型提示猜音标；即时反馈 + 结算；用独立 localStorage key 记录正确率
 - [x] 入口接线：Chant 页顶部工具行加「音标总表」按钮，onClick 里 `window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'sounds' }))`
 - [x] 冲刺：详情浮层加「最近学过的音标」区（localStorage 独立 key 记录最近浏览的 8 个音标 id）
+- [ ] 音标本音点读：phonemes.json 每条加 ASCII `audio` 文件名字段（41 个 slug 全局唯一，如 θ→th、tʃ→tch、ɝ→er）；types-phonemes.ts 加 `audio?: string`；Sounds 页卡片 🔊 改为听音标本音（speakPhoneme，无录音自动退回读例词），详情浮层加独立「听音标」按钮，intro 与浮层提示文案同步更新（依赖 lane2 的 speakPhoneme 先合入）

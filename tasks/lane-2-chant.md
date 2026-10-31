@@ -12,3 +12,4 @@
 - [x] 冲刺：单字母详情浮层加「跟读对比」：MediaRecorder 录自己朗读并回放，与 TTS 播放并排两个按钮（无麦克风权限时优雅降级隐藏）
 - [x] 停顿控制升级（字母间停不停顿自己定）：去掉「连读/分段」二选一，2+2 跟读统一为「字母 → 间隔 → 字母 → 间隔 → 音标」拼播；ChantSettings 两个间隔滑动条常显，默认 250/350ms（有逗号停顿感），两个间隔都拖到 0 秒时改播整句录音（像老师带读一样连读）。useSpeech.ts 移除 mode/ChantMode（voice 与间隔设置保留兼容），涉及 useSpeech.ts + ChantSettings.tsx
 - [x] useSpeech.ts 新增 speakCombo(pattern, opts)：从组合名提取英文字母（去掉（…）中文注释，如 th（清）→ th），用所选音色单字母录音按 letterGapMs 依次朗读，录音缺失退回系统 TTS 逐字母读；供规则页组合表点读使用（音标符号 /θ/ 等 TTS 读不出来，改读组成字母的字母名）
+- [x] 音标点读基础：useSpeech.ts 新增 speakPhoneme(audio, fallbackWord?)——播 public/audio/phoneme/{audio}.mp3，录音缺失（未生成/加载失败）自动退回读例词；新增 app/scripts/gen-phoneme-audio.mjs（零依赖 Node 脚本：读 phonemes.json 的 audio 字段，用 Azure SSML `<phoneme alphabet="ipa">` 批量合成 41 个音标本音 mp3，支持 --list/--force/--voice）和 app/scripts/README.md（Azure 免费 key 申请与运行说明）。浏览器 TTS 只接受纯文本不支持 SSML，音标符号必须离线预合成（方案 A）

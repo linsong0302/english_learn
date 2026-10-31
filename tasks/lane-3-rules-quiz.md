@@ -10,3 +10,4 @@
 - [x] 测验结果持久化：每轮结束调用 store 的 recordQuizRound 与 addWrongWord（答错的词写入错题本），答对的 seen 词不需要记录；结算页展示历史最近 5 轮成绩
 - [x] 冲刺：每日一测——每天首次进入 Quiz 提示「今日一测」，混合 10 题，完成后记录日期；历史成绩列表按日期展示正确率
 - [x] 规则 5 组合表点读：每行组合的字母旁加 🔊 按钮——先读组合字母（lane2 的 speakCombo），读完自动接读第一个例词，让「th → T、H → think」连起来听；rules.css 补按钮小样式（依赖 lane2 的 speakCombo 已合入）
+- [ ] 规则 5 组合点读升级：🔊 链路改为「组合字母 → 音标本音 → 第一个例词」（kk 在 phonemes.json 里匹配 audio 字段；无对应音标条目的如 /ŋg/ /ŋk/ 自动跳过音标环节，依赖 lane2 speakPhoneme 与 lane5 audio 字段先合入）
