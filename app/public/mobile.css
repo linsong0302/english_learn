@@ -1,2 +1,59 @@
-/* 移动端适配层（laneM1 所有）：经 index.html body 末尾引入，加载晚于应用样式。
-   目标：刘海屏安全区、禁橡皮筋滚动、优化触控体验；只做增量覆盖，不改变现有配色与主题。 */
+/* ============================================================
+   移动端适配层（laneM1 所有）—— 原生 App 壳（Capacitor WebView）专用
+   ------------------------------------------------------------
+   本文件做了什么 / 为什么：
+   · 经 index.html 的 <body> 末尾以 <link href="/mobile.css"> 引入，
+     加载晚于应用打包样式，因此用普通选择器即可增量覆盖，
+     不改动应用的配色、字号与主题（主题色 #ffb020 保持不变）。
+   · 应用本身是 max-width 480px 居中的卡片式布局，本文件只负责
+     把它在原生 App 的 WebView 里调教得更像「真 App」：
+     1) 安全区：index.html 已设置 viewport-fit=cover，页面会延伸到
+        刘海/状态栏和底部手势条下面，这里用 env(safe-area-inset-*)
+        加内边距，保证内容不被系统 UI 遮挡；
+     2) 滚动行为：禁掉整页橡皮筋（overscroll）与下拉刷新；
+     3) 触控体验：去掉点击高亮闪烁、消除双击缩放延迟、
+        按钮等可点元素禁止误选中文字（正文文本仍可选中复制），
+        图片禁止拖拽。
+   · 桌面浏览器里 env(safe-area-inset-*) 取值为 0，所有规则不生效，
+     因此对网页版零影响。
+   ============================================================ */
+
+/* ---------- 1) 安全区与滚动行为 ---------- */
+
+/* 整页滚动行为：禁掉橡皮筋回弹与下拉刷新。
+   需要同时写在 html 和 body 上（iOS/安卓 WebView 的判定层级不同）。 */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+/* 顶部安全区：给 body 加内边距，让内容起点避开刘海屏/状态栏/挖孔。
+   index.html 的 viewport-fit=cover 让 env() 生效；桌面端取 0 无影响。 */
+body {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* 底部安全区：应用有 position: fixed 的底部 Tab 栏（.tab-bar），
+   它自带 padding-bottom: env(safe-area-inset-bottom)（见 src/styles.css），
+   这里在 mobile.css 里再声明一次兜底，保证手势条区域永远被 Tab 栏
+   占住而不是压住按钮；同时主内容区底部留白要随之加高，
+   否则刘海机上 Tab 栏变高后会盖住最后几行内容。 */
+.tab-bar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.app-main {
+  padding-bottom: calc(92px + env(safe-area-inset-bottom));
+}
+
+/* 二级全屏页（音标总表 / 跟读打分 / 七天计划，.extra-page 是
+   position: fixed 铺满整屏的层，不受 body 内边距影响），
+   顶部和底部都要单独补安全区，避免返回按钮顶进刘海、
+   内容最后一行被手势条遮住。 */
+.extra-page {
+  padding-top: calc(14px + env(safe-area-inset-top));
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+}
+
+/* 底部弹层（.sheet）自身已带底部安全区内边距（见 src/styles.css），
+   无需重复处理；遮罩层 .overlay 是纯色半透明背景，被状态栏压住
+   属正常表现，不做处理。 */
