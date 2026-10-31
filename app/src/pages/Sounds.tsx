@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import phonemesData from '../data/phonemes.json'
 import type { Phoneme } from '../types-phonemes'
-import { speakWord, stopSpeaking } from '../hooks/useSpeech'
+import { speakPhoneme, speakWord, stopSpeaking } from '../hooks/useSpeech'
 import './sounds.css'
 
 // JSON 用契约类型断言（type 字面量在 JSON 导入时会被拓宽）
@@ -44,7 +44,7 @@ function pushRecent(id: string): string[] {
   return next
 }
 
-// lane5 音标总表：KK 音标分类卡片墙 + 单音标详情浮层（点读例词）。
+// lane5 音标总表：KK 音标分类卡片墙 + 单音标详情浮层（本音点读 + 例词点读）。
 export default function Sounds({ onClose }: { onClose: () => void }) {
   const [tab, setTab] = useState<TabKey>('vowel')
   const [openId, setOpenId] = useState<string | null>(null)
@@ -71,7 +71,7 @@ export default function Sounds({ onClose }: { onClose: () => void }) {
       </header>
 
       <p className="snd-intro">
-        点音标卡片看口型提示和例词；音标符号不能直接朗读，点读的都是例词。
+        点卡片上的 🔊 直接听音标本音（还没生成录音时会读例词代替）；点卡片看口型提示和例词。
       </p>
 
       <div className="snd-toolbar">
@@ -111,9 +111,9 @@ export default function Sounds({ onClose }: { onClose: () => void }) {
                 tabIndex={-1}
                 onClick={(e) => {
                   e.stopPropagation()
-                  if (first) speakWord(first.word)
+                  speakPhoneme(p.audio, first?.word)
                 }}
-                aria-label={`读 ${first?.word ?? ''}`}
+                aria-label={`听音标 ${p.kk}`}
               >
                 🔊
               </span>
@@ -203,6 +203,13 @@ function PhonemeDetail({
           <button
             type="button"
             className="btn-speak"
+            onClick={() => speakPhoneme(phoneme.audio, first?.word)}
+          >
+            听音标本音
+          </button>
+          <button
+            type="button"
+            className="btn-speak"
             onClick={() => first && speakWord(first.word)}
             disabled={!first}
           >
@@ -210,8 +217,8 @@ function PhonemeDetail({
           </button>
         </div>
         <p className="card-hint">
-          音标符号无法直接朗读，「听示范」读的是例词{first ? `「${first.word}」` : ''}，
-          多听几遍，抓住它开头（或中间）的这个音。
+          「听音标」放的是这个音的本音录音（生成方法见 scripts/README.md，没录音时读例词代替）；
+          「听示范」读例词{first ? `「${first.word}」` : ''}，多听几遍，抓住词里这个音。
         </p>
 
         {recentPhonemes.length > 0 && (
