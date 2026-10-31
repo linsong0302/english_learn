@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
+import phonemesData from '../data/phonemes.json'
 import rulesData from '../data/rules.json'
 import wordsData from '../data/words.json'
-import { speakCombo, speakWord } from '../hooks/useSpeech'
+import { speakCombo, speakPhoneme, speakWord } from '../hooks/useSpeech'
 import VoicePicker from '../components/VoicePicker'
 import type { PronRule, Word } from '../types'
 import './rules.css'
@@ -225,10 +226,15 @@ export default function Rules() {
                       <button
                         className="btn-speak btn-speak-sm"
                         onClick={() => {
+                          // 链路：组合字母（T、H）→ 音标本音（有预合成录音才播）→ 第一个例词
                           const first = (c.examples ?? [])[0]?.word
-                          speakCombo(c.pattern, first ? { onDone: () => speakWord(first) } : undefined)
+                          const phAudio = phonemesData.find((p) => p.kk === c.kk)?.audio
+                          speakCombo(c.pattern, {
+                            onDone: () =>
+                              phAudio ? speakPhoneme(phAudio, first) : first && speakWord(first),
+                          })
                         }}
-                        aria-label={`读 ${c.pattern}`}
+                        aria-label={`听 ${c.pattern} 的发音`}
                       >
                         🔊
                       </button>
