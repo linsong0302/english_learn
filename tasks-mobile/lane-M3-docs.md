@@ -4,7 +4,7 @@
 > 🔒 禁改：其他一切文件（含 app/README.md、tasks/、.ralph/ 等）。
 > 若 `.ralph/STOP` 存在：什么都不做直接退出。
 
-- [~] 撰写仓库根目录 `PACKAGING.md`（全中文、面向零基础新手，步骤可复制执行）。必须覆盖以下事实（先去仓库核实，以仓库实际为准）：
+- [x] 撰写仓库根目录 `PACKAGING.md`（全中文、面向零基础新手，步骤可复制执行）。必须覆盖以下事实（先去仓库核实，以仓库实际为准）：
   - 方案总览：本仓库用 **Capacitor 8** 把现有 Vite+React18+TS Web 应用打成手机 App；一套代码同时支持 Android 原生 App 与 PWA 直装
   - 一次性准备：Node 20+、JDK 17、Android Studio（含 SDK，版本对应 `app/android/variables.gradle` 里的 compileSdk/targetSdk，写文档前去读这个文件确认）；首次拉取仓库后的命令：`cd app && npm install && npm run cap:sync`（android 下的 web 资源拷贝已 gitignore，必须 sync 一次）
   - 打 debug 包两条路：① Android Studio 打开 `app/android` → Build → Build App Bundle(s)/APK(s)；② 纯命令行 `cd app/android && ./gradlew.bat assembleDebug`（Windows；产物路径 `android/app/build/outputs/apk/debug/app-debug.apk`）
