@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import rulesData from '../data/rules.json'
 import wordsData from '../data/words.json'
 import { speakWord } from '../hooks/useSpeech'
+import VoicePicker from '../components/VoicePicker'
 import type { PronRule, Word } from '../types'
 import './rules.css'
 
@@ -206,6 +207,7 @@ export default function Rules() {
     <div className="page">
       <h1>五大规则</h1>
       <p className="rules-intro">100 个生词这样拆：90 个靠口诀，5 个靠规则，5 个靠排除。</p>
+      <VoicePicker />
       {RULES.map((r) => (
         <div className="card rule-card" key={r.id}>
           <div className="rule-title">{r.title}</div>

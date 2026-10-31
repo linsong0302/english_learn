@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { DEFAULT_CHANT_SETTINGS, getChantSettings, setChantSettings } from '../hooks/useSpeech'
+import {
+  DEFAULT_CHANT_SETTINGS,
+  getChantSettings,
+  setChantSettings,
+  voiceFull,
+  VOICE_OPTIONS,
+} from '../hooks/useSpeech'
 
 const MIN = 0
 const MAX = 1500
@@ -9,7 +15,7 @@ function fmt(ms: number) {
   return `${(ms / 1000).toFixed(2)} 秒`
 }
 
-/** 口诀朗读设置：字母语音（晓晓/Ana 童声）+ 朗读方式（连读/分段）。
+/** 口诀朗读设置：朗读语音（甜妹/御姐等 6 种）+ 朗读方式（连读/分段）。
  *  连读 = 整句一条录音最自然；分段 = 用滑动条控制两处间隔，适合自己跟读练习。 */
 export default function ChantSettings() {
   const [s, setS] = useState(getChantSettings)
@@ -34,17 +40,18 @@ export default function ChantSettings() {
         </button>
       </div>
       <div className="pace-row">
-        <span className="pace-label">字母语音</span>
-        <div className="seg">
-          <button
-            className={s.voice === 'xiaoxiao' ? 'on' : ''}
-            onClick={() => update({ voice: 'xiaoxiao' })}
-          >
-            晓晓
-          </button>
-          <button className={s.voice === 'ana' ? 'on' : ''} onClick={() => update({ voice: 'ana' })}>
-            Ana 童声
-          </button>
+        <span className="pace-label">朗读语音</span>
+        <div className="seg voice-seg">
+          {VOICE_OPTIONS.map((v) => (
+            <button
+              key={v.id}
+              className={s.voice === v.id ? 'on' : ''}
+              title={v.full}
+              onClick={() => update({ voice: v.id })}
+            >
+              {v.label}
+            </button>
+          ))}
         </div>
       </div>
       <div className="pace-row">
@@ -96,10 +103,8 @@ export default function ChantSettings() {
       )}
       <p className="pace-note">
         {s.mode === 'connected'
-          ? s.voice === 'xiaoxiao'
-            ? '连读：晓晓像老师带读一样一口气读完「B，B，啵啵」，点卡片试听。'
-            : '连读：字母由 Ana 童声一口气读两遍，音标仍由晓晓读。'
-          : '分段：拖动滑动条控制字母之间、字母和音标之间的停顿，拖完点卡片试听。'}
+          ? `连读：${voiceFull(s.voice)}像老师带读一样一口气读完「B，B，啵啵」，点卡片试听；全站点读也用这个声音。`
+          : `分段：拖动滑动条控制字母之间、字母和音标之间的停顿，拖完点卡片试听。`}
       </p>
     </div>
   )

@@ -52,6 +52,16 @@ function pickZhVoice(): SpeechSynthesisVoice | null {
   )
 }
 
+/** 所选音色的口诀录音地址（public/audio/chant/{voiceId}/） */
+function chantUrl(voice: string, name: string): string {
+  return `${import.meta.env.BASE_URL}audio/chant/${voice}/${name}.mp3`
+}
+
+/** 所选音色的英文单词录音地址（public/audio/word/{enDir}/） */
+function wordUrl(enDir: string, word: string): string {
+  return `${import.meta.env.BASE_URL}audio/word/${enDir}/${word}.mp3`
+}
+
 /** 播放前先 cancel，防止多段语音叠在一起 */
 export function speak(text: string, opts: SpeakOptions = {}) {
   if (!supported || !text) return
@@ -63,23 +73,35 @@ export function speak(text: string, opts: SpeakOptions = {}) {
 }
 
 export function speakWord(word: string) {
-  speak(word, { rate: DEFAULT_RATE })
+  // 数据里的词可能带中文注释（如「book（中的 oo）」），发音前去掉
+  const w = word.replace(/（[^）]*）/g, '').trim().toLowerCase()
+  if (!w) return
+  stopSpeaking()
+  const s = getChantSettings()
+  const enDir = EN_VOICE_DIR[s.voice] ?? 'ana'
+  playChantAudio(wordUrl(enDir, w)).then((ok) => {
+    if (!ok) speak(w, { rate: DEFAULT_RATE }) // 没有录音时退回系统 TTS
+  })
 }
 
 export function speakLetter(letter: string) {
-  speak(letter, { rate: DEFAULT_RATE })
+  stopSpeaking()
+  const voice = getChantSettings().voice
+  playChantAudio(chantUrl(voice, `${letter.toLowerCase()}-zh`)).then((ok) => {
+    if (!ok) speak(letter, { rate: DEFAULT_RATE })
+  })
 }
 
 export interface LetterPhonemeOptions {
   /** 录音基础名（不含扩展名）：默认小写字母；l/m/n/r 词尾读法传 `${letter}-final`。
-   *  对应晓晓整句 `${key}.mp3` 和音标 `${key}-hanzi.mp3`。 */
+   *  对应整句 `${key}.mp3` 和音标 `${key}-hanzi.mp3`（都在所选音色的目录下）。 */
   key?: string
   /** 全部播完后的回调（连读模式用它自动跳下一个字母） */
   onDone?: () => void
 }
 
-/** 字母+音标跟读（口诀里的 2+2），按口诀页的朗读设置播放：
- *  连读 = 晓晓整句一条录音，或 Ana 童声字母对 + 晓晓音标；
+/** 字母+音标跟读（口诀里的 2+2），按朗读设置用所选音色的录音播放：
+ *  连读 = 整句一条录音，像老师带读一样连贯；
  *  分段 = 单字母×2 → 音标，两处间隔用滑动条调。录音缺失时退回系统 TTS。 */
 export function speakLetterAndPhoneme(
   letter: string,
@@ -90,7 +112,6 @@ export function speakLetterAndPhoneme(
   stopSpeaking()
   const token = seqToken // 之后每次 stopSpeaking 都会让本序列作废
   const s = getChantSettings()
-  const base = `${import.meta.env.BASE_URL}audio/chant`
   const low = letter.toLowerCase()
 
   const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
@@ -109,39 +130,25 @@ export function speakLetterAndPhoneme(
 
   void (async () => {
     if (s.mode === 'connected') {
-      if (s.voice === 'xiaoxiao') {
-        // 晓晓整句一条录音，像老师带读一样连贯
-        const ok = await playChantAudio(`${base}/${key}.mp3`)
-        if (!alive()) return
-        if (!ok) return ttsFallback()
-        onDone?.()
-        return
-      }
-      // Ana 一口气读字母对「B, B」，音标仍由晓晓读
-      const ok1 = await playChantAudio(`${base}/${low}-en2.mp3`)
+      // 整句一条录音，像老师带读一样连贯
+      const ok = await playChantAudio(chantUrl(s.voice, key))
       if (!alive()) return
-      if (!ok1) return ttsFallback()
-      await sleep(s.phonemeGapMs)
-      if (!alive()) return
-      const ok2 = await playChantAudio(`${base}/${key}-hanzi.mp3`)
-      if (!alive()) return
-      if (!ok2) return ttsFallback()
+      if (!ok) return ttsFallback()
       onDone?.()
       return
     }
     // 分段：单字母 → 间隔 → 单字母 → 间隔 → 音标
-    const letterUrl = `${base}/${low}-${s.voice === 'ana' ? 'en' : 'zh'}.mp3`
-    const ok1 = await playChantAudio(letterUrl)
+    const ok1 = await playChantAudio(chantUrl(s.voice, `${low}-zh`))
     if (!alive()) return
     if (!ok1) return ttsFallback()
     await sleep(s.letterGapMs)
     if (!alive()) return
-    const ok2 = await playChantAudio(letterUrl)
+    const ok2 = await playChantAudio(chantUrl(s.voice, `${low}-zh`))
     if (!alive()) return
     if (!ok2) return ttsFallback()
     await sleep(s.phonemeGapMs)
     if (!alive()) return
-    const ok3 = await playChantAudio(`${base}/${key}-hanzi.mp3`)
+    const ok3 = await playChantAudio(chantUrl(s.voice, `${key}-hanzi`))
     if (!alive()) return
     if (!ok3) return ttsFallback()
     onDone?.()
@@ -233,13 +240,49 @@ function playChantAudio(url: string): Promise<boolean> {
   })
 }
 
+// ---------------- 音色（全应用统一，口诀页/规则页可选择，存 localStorage） ----------------
+
+export interface VoiceOption {
+  id: string
+  /** 按钮上的短名：甜妹 / 御姐… */
+  label: string
+  /** 全名：甜妹晓晓… */
+  full: string
+}
+
+/** 预合成音频的音色（public/audio/chant/{id}/、public/audio/word/{en}/） */
+export const VOICE_OPTIONS: VoiceOption[] = [
+  { id: 'sweet', label: '甜妹', full: '甜妹晓晓' },
+  { id: 'lively', label: '活泼', full: '活泼小艺' },
+  { id: 'cute', label: '萌娃', full: '萌娃云夏' },
+  { id: 'sunny', label: '阳光', full: '阳光云希' },
+  { id: 'calm', label: '沉稳', full: '沉稳云扬' },
+  { id: 'hot', label: '热血', full: '热血云健' },
+]
+
+/** 各音色读英文单词用的录音目录（萌娃与甜妹共用英文童声 Ana） */
+const EN_VOICE_DIR: Record<string, string> = {
+  sweet: 'ana',
+  lively: 'emma',
+  cute: 'ana',
+  sunny: 'brian',
+  calm: 'christopher',
+  hot: 'guy',
+}
+
+const VOICE_IDS = VOICE_OPTIONS.map((v) => v.id)
+
+export function voiceFull(id: string): string {
+  return VOICE_OPTIONS.find((v) => v.id === id)?.full ?? VOICE_OPTIONS[0].full
+}
+
 // ---------------- 朗读设置（口诀页可选，存 localStorage） ----------------
 
-export type ChantVoice = 'xiaoxiao' | 'ana' // 字母读音色：晓晓 / Ana 童声
 export type ChantMode = 'connected' | 'segment' // 连读整句 / 分段可调间隔
 
 export interface ChantSettings {
-  voice: ChantVoice
+  /** 音色 id（VOICE_OPTIONS 之一），全应用共用 */
+  voice: string
   mode: ChantMode
   /** 分段模式：两个字母之间的间隔（毫秒） */
   letterGapMs: number
@@ -247,11 +290,11 @@ export interface ChantSettings {
   phonemeGapMs: number
 }
 
-const SETTINGS_KEY = 'kk-chant-settings-v2'
+const SETTINGS_KEY = 'kk-chant-settings-v3'
 const GAP_MIN = 0
 const GAP_MAX = 2000
 export const DEFAULT_CHANT_SETTINGS: ChantSettings = {
-  voice: 'xiaoxiao',
+  voice: 'sweet',
   mode: 'connected',
   letterGapMs: 250,
   phonemeGapMs: 350,
@@ -269,7 +312,7 @@ export function getChantSettings(): ChantSettings {
     if (!raw) return { ...DEFAULT_CHANT_SETTINGS }
     const p = JSON.parse(raw) as Partial<ChantSettings>
     return {
-      voice: p.voice === 'ana' ? 'ana' : 'xiaoxiao',
+      voice: VOICE_IDS.includes(p.voice as string) ? (p.voice as string) : DEFAULT_CHANT_SETTINGS.voice,
       mode: p.mode === 'segment' ? 'segment' : 'connected',
       letterGapMs: clampGap(p.letterGapMs, DEFAULT_CHANT_SETTINGS.letterGapMs),
       phonemeGapMs: clampGap(p.phonemeGapMs, DEFAULT_CHANT_SETTINGS.phonemeGapMs),
