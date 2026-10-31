@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import rulesData from '../data/rules.json'
 import wordsData from '../data/words.json'
-import { speakWord } from '../hooks/useSpeech'
+import { speakCombo, speakWord } from '../hooks/useSpeech'
 import VoicePicker from '../components/VoicePicker'
 import type { PronRule, Word } from '../types'
 import './rules.css'
@@ -220,7 +220,19 @@ export default function Rules() {
               {r.combos.map((c) => (
                 <div className="combo-row" key={c.pattern}>
                   <div className="combo-left">
-                    <b>{c.pattern}</b>
+                    <div className="combo-pat">
+                      <b>{c.pattern}</b>
+                      <button
+                        className="btn-speak btn-speak-sm"
+                        onClick={() => {
+                          const first = (c.examples ?? [])[0]?.word
+                          speakCombo(c.pattern, first ? { onDone: () => speakWord(first) } : undefined)
+                        }}
+                        aria-label={`读 ${c.pattern}`}
+                      >
+                        🔊
+                      </button>
+                    </div>
                     <span className="combo-kk">{c.kk}</span>
                   </div>
                   <div className="combo-right">

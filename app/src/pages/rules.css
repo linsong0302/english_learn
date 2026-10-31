@@ -108,6 +108,13 @@
   font-size: 14px;
 }
 
+/* 组合字母行：字母 + 点读按钮 */
+.combo-pat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .combo-kk {
   color: var(--accent);
   font-size: 14px;
