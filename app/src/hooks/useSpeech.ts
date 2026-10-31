@@ -160,6 +160,51 @@ export function speakTwice(text: string, opts: SpeakOptions = {}) {
   speakSequence([{ text, ...opts }, { text, ...opts }])
 }
 
+export interface ComboSpeakOptions {
+  /** 全部字母读完后的回调（规则页用它接着读第一个例词） */
+  onDone?: () => void
+}
+
+/** 组合字母点读：如 "th（清）" → 依次读 T、H。
+ *  音标符号（/θ/ 等）TTS 读不出来，改读组合由哪些字母组成；
+ *  用所选音色的单字母录音按字母间隔串播，缺失时退回系统 TTS 逐字母读。 */
+export function speakCombo(pattern: string, opts: ComboSpeakOptions = {}) {
+  const letters = pattern
+    .replace(/（[^）]*）/g, '') // 去掉中文注释，如 th（清）→ th
+    .trim()
+    .toLowerCase()
+    .split('')
+    .filter((ch) => ch >= 'a' && ch <= 'z')
+  if (!letters.length) return
+  stopSpeaking()
+  const token = seqToken
+  const s = getChantSettings()
+  const alive = () => token === seqToken
+  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
+
+  const ttsFallback = () =>
+    speakSequence(
+      letters.map((ch, i) => ({
+        text: ch,
+        pauseAfter: i < letters.length - 1 ? s.letterGapMs : 0,
+      })),
+      { onDone: opts.onDone },
+    )
+
+  void (async () => {
+    for (let i = 0; i < letters.length; i++) {
+      const ok = await playChantAudio(chantUrl(s.voice, `${letters[i]}-zh`))
+      if (!alive()) return
+      if (!ok) return ttsFallback()
+      if (i < letters.length - 1) {
+        await sleep(s.letterGapMs)
+        if (!alive()) return
+      }
+    }
+    opts.onDone?.()
+  })()
+}
+
 // ---------------- 连续播放（2+2 跟读、连读模式都用它） ----------------
 
 export interface SpeakItem extends SpeakOptions {
