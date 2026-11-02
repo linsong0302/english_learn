@@ -11,6 +11,34 @@ import './rules.css'
 const RULES = rulesData as unknown as PronRule[]
 const WORDS = wordsData as unknown as Word[]
 
+// 音标符号 → 音标数据（本音录音 audio + 例词兜底），把正文里的 /…/ 变成可点读
+const PHONEME_BY_KK = new Map(phonemesData.map((p) => [p.kk, p]))
+// KK 惯用写法与音标总表条目的写法差异（同一个音）：/e/ 就是 /eɪ/，/o/、/ou/ 就是 /oʊ/
+const KK_ALIAS: Record<string, string> = { '/e/': '/eɪ/', '/o/': '/oʊ/', '/ou/': '/oʊ/' }
+
+/** 正文里的 /音标/ 渲染成可点击小按钮：点击听本音（还没生成录音时读该音标的例词）。
+ *  没有对应数据的符号（如 /ɑr/、整词转写 /neɪm/）保持纯文本。 */
+function KkText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\/[^/\s]+\/)/g).map((part, i) => {
+        const p = PHONEME_BY_KK.get(KK_ALIAS[part] ?? part)
+        if (!p) return <span key={i}>{part}</span>
+        return (
+          <button
+            key={i}
+            className="kk-say"
+            onClick={() => speakPhoneme(p.audio, p.examples[0]?.word)}
+            title="点击听发音"
+          >
+            {part}
+          </button>
+        )
+      })}
+    </>
+  )
+}
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -212,8 +240,12 @@ export default function Rules() {
       {RULES.map((r) => (
         <div className="card rule-card" key={r.id}>
           <div className="rule-title">{r.title}</div>
-          <p className="rule-summary">{r.summary}</p>
-          <p className="rule-detail">{r.detail}</p>
+          <p className="rule-summary">
+            <KkText text={r.summary} />
+          </p>
+          <p className="rule-detail">
+            <KkText text={r.detail} />
+          </p>
           {r.mnemonic && <p className="rule-mnemonic">口诀：{r.mnemonic}</p>}
 
           {r.id === 'rule5' && r.combos?.length ? (
@@ -279,10 +311,14 @@ export default function Rules() {
           )}
 
           {!!r.mouthTips?.length && (
-            <p className="rule-detail">口型要点：{r.mouthTips.join('；')}</p>
+            <p className="rule-detail">
+              口型要点：<KkText text={r.mouthTips.join('；')} />
+            </p>
           )}
           {!!r.commonMistakes?.length && (
-            <p className="rule-detail">常见错误：{r.commonMistakes.join('；')}</p>
+            <p className="rule-detail">
+              常见错误：<KkText text={r.commonMistakes.join('；')} />
+            </p>
           )}
 
           <button

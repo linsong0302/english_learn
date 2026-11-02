@@ -115,6 +115,24 @@
   gap: 6px;
 }
 
+/* 正文里的音标符号：可点击听本音 */
+.kk-say {
+  border: 0;
+  background: none;
+  padding: 0 2px;
+  margin: 0;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  border-bottom: 2px dashed currentColor;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kk-say:active {
+  opacity: 0.7;
+}
+
 .combo-kk {
   color: var(--accent);
   font-size: 14px;
