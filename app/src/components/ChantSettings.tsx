@@ -3,7 +3,6 @@ import {
   DEFAULT_CHANT_SETTINGS,
   getChantSettings,
   setChantSettings,
-  voiceFull,
   VOICE_OPTIONS,
 } from '../hooks/useSpeech'
 
@@ -15,9 +14,9 @@ function fmt(ms: number) {
   return `${(ms / 1000).toFixed(2)} 秒`
 }
 
-/** 口诀朗读设置：朗读语音（甜妹/御姐等 6 种）+ 两处停顿间隔（滑动条常显、精确到毫秒）。
- *  字母间隔管「B 和 B 之间」、音标间隔管「BB 和啵啵之间」停多久：
- *  都拖大是「B，B，啵啵」；字母间隔拖到 0 是「BB，啵啵」；都拖到 0 是「BB啵啵」。 */
+/** 口诀朗读设置：朗读语音（甜妹/御姐等 6 种）+ 三处停顿间隔（滑动条常显、精确到毫秒）。
+ *  字母间隔管「B 和 B 之间」、音标间隔管「BB 和啵啵之间」、叠字间隔管「啵 和 啵 之间」停多久：
+ *  都拖大是「B，B，啵，啵」；都拖到 0 是全连「BB啵啵」。 */
 export default function ChantSettings() {
   const [s, setS] = useState(getChantSettings)
 
@@ -33,7 +32,7 @@ export default function ChantSettings() {
   }
 
   const letterGap0 = s.letterGapMs === 0
-  const both0 = letterGap0 && s.phonemeGapMs === 0
+  const both0 = letterGap0 && s.phonemeGapMs === 0 && s.hanziGapMs === 0
 
   return (
     <div className="pace-card">
@@ -84,12 +83,23 @@ export default function ChantSettings() {
         />
         <b className="pace-val">{fmt(s.phonemeGapMs)}</b>
       </label>
+      <label className="pace-row">
+        <span className="pace-label">叠字间隔</span>
+        <input
+          type="range"
+          min={MIN}
+          max={MAX}
+          step={STEP}
+          value={s.hanziGapMs}
+          onChange={(e) => update({ hanziGapMs: Number(e.target.value) })}
+          aria-label="联想字两个字之间的间隔，如啵和啵之间"
+        />
+        <b className="pace-val">{fmt(s.hanziGapMs)}</b>
+      </label>
       <p className="pace-note">
         {both0
-          ? `全连「BB啵啵」：${voiceFull(s.voice)}把两个字母和联想字紧挨着读，中间不停；想加停顿就往右拖间隔。`
-          : letterGap0
-            ? `连字母「BB，啵啵」：两个字母挨着读，联想字前停 ${fmt(s.phonemeGapMs)}；想再分开字母就把字母间隔往右拖。`
-            : `分停「B，B，啵啵」：字母之间停 ${fmt(s.letterGapMs)}、联想字前停 ${fmt(s.phonemeGapMs)}；字母间隔拖到 0 秒就变「BB，啵啵」。`}
+          ? '全连「BB啵啵」：字母、联想字全部紧挨着读，中间不停；想加停顿就往右拖对应间隔。'
+          : `B与B之间停 ${fmt(s.letterGapMs)}、BB与啵啵之间停 ${fmt(s.phonemeGapMs)}、啵与啵之间停 ${fmt(s.hanziGapMs)}；三个都拖到 0 秒就是全连「BB啵啵」。`}
         {' '}拖完点卡片试听。
       </p>
     </div>

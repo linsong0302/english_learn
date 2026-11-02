@@ -132,7 +132,7 @@ export function speakLetterAndPhoneme(
       [
         { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.letterGapMs },
         { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.phonemeGapMs },
-        { url: chantUrl(s.voice, `${key}-hanzi`), gapAfterMs: 0 },
+        { url: chantUrl(s.voice, `${key}-hanzi`), gapAfterMs: 0, splitGapMs: s.hanziGapMs },
       ],
       alive,
       onDone,
@@ -355,10 +355,41 @@ async function trimmedBuffer(url: string): Promise<AudioBuffer | null> {
   }
 }
 
+/** 把「啵啵」这类叠字录音从中点附近最安静的 20ms 窗切成两半（两端各留裁剪时的 30ms 缓冲）。
+ *  中间没有明显停顿（峰值 > 0.08，连续发声）时返回 null，调用方整段照播，避免把字切破。 */
+function splitDoubledClip(buf: AudioBuffer, ctx: AudioContext): [AudioBuffer, AudioBuffer] | null {
+  const ch = buf.getChannelData(0)
+  const sr = buf.sampleRate
+  const win = Math.max(1, Math.floor(sr * 0.02))
+  const from = Math.floor(ch.length * 0.3)
+  const to = Math.min(ch.length, Math.floor(ch.length * 0.7) + win)
+  let bestPos = -1
+  let bestPeak = Infinity
+  for (let p = from; p + win <= to; p += Math.floor(win / 2) || 1) {
+    let peak = 0
+    for (let i = p; i < p + win; i++) peak = Math.max(peak, Math.abs(ch[i]))
+    if (peak < bestPeak) {
+      bestPeak = peak
+      bestPos = p + Math.floor(win / 2)
+    }
+  }
+  if (bestPos <= 0 || bestPos >= ch.length || bestPeak > 0.08) return null
+  const slice = (a: number, b: number) => {
+    const out = ctx.createBuffer(buf.numberOfChannels, b - a, sr)
+    for (let c = 0; c < buf.numberOfChannels; c++) {
+      out.copyToChannel(buf.getChannelData(c).subarray(a, b), c)
+    }
+    return out
+  }
+  return [slice(0, bestPos), slice(bestPos, ch.length)]
+}
+
 /** 精确连播多段录音：段间隔 = gapAfterMs（0 = 两段紧挨着）。
+ *  item 带 splitGapMs 时，会把该剪辑当中点附近有真停顿的叠字（如「啵啵」）切成两半，
+ *  两半之间按 splitGapMs 排程；切不开就整段照播（splitGapMs 不生效）。
  *  返回 true = 已排程（或已被打断）；false = 任一剪辑解码失败，调用方退回 TTS。 */
 async function playClipsPrecise(
-  items: { url: string; gapAfterMs: number }[],
+  items: { url: string; gapAfterMs: number; splitGapMs?: number }[],
   alive: () => boolean,
   onDone?: () => void,
 ): Promise<boolean> {
@@ -367,17 +398,32 @@ async function playClipsPrecise(
   const bufs = await Promise.all(items.map((it) => trimmedBuffer(it.url)))
   if (!alive()) return true // 已被新的播放/停止打断，不用也不该退回 TTS
   if (bufs.some((b) => !b)) return false
+
+  const segs: { buf: AudioBuffer; gapAfterMs: number }[] = []
+  items.forEach((it, i) => {
+    const b = bufs[i]!
+    if (it.splitGapMs !== undefined) {
+      const halves = splitDoubledClip(b, ctx)
+      if (halves) {
+        segs.push({ buf: halves[0], gapAfterMs: it.splitGapMs })
+        segs.push({ buf: halves[1], gapAfterMs: it.gapAfterMs })
+        return
+      }
+    }
+    segs.push({ buf: b, gapAfterMs: it.gapAfterMs })
+  })
+
   let t = ctx.currentTime + 0.06 // 留一点调度余量
-  bufs.forEach((buf, i) => {
+  segs.forEach((seg) => {
     const src = ctx.createBufferSource()
-    src.buffer = buf!
+    src.buffer = seg.buf
     src.connect(ctx.destination)
     src.onended = () => {
       activeSources = activeSources.filter((s) => s !== src)
     }
     src.start(t)
     activeSources.push(src)
-    t += buf!.duration + items[i].gapAfterMs / 1000
+    t += seg.buf.duration + seg.gapAfterMs / 1000
   })
   seqTimer = setTimeout(
     () => {
@@ -429,10 +475,12 @@ export function voiceFull(id: string): string {
 export interface ChantSettings {
   /** 音色 id（VOICE_OPTIONS 之一），全应用共用 */
   voice: string
-  /** 两个字母之间的间隔（毫秒）：0 表示不停顿；和音标间隔同时为 0 时改播整句录音连读 */
+  /** 两个字母之间的间隔（毫秒）：0 表示紧挨着不停顿 */
   letterGapMs: number
   /** 字母和音标之间的间隔（毫秒） */
   phonemeGapMs: number
+  /** 联想叠字（如「啵啵」）两个字之间的间隔（毫秒）：0 = 自然连读 */
+  hanziGapMs: number
 }
 
 const SETTINGS_KEY = 'kk-chant-settings-v3'
@@ -442,6 +490,7 @@ export const DEFAULT_CHANT_SETTINGS: ChantSettings = {
   voice: 'sweet',
   letterGapMs: 250,
   phonemeGapMs: 350,
+  hanziGapMs: 0,
 }
 
 function clampGap(n: unknown, fallback: number): number {
@@ -459,6 +508,7 @@ export function getChantSettings(): ChantSettings {
       voice: VOICE_IDS.includes(p.voice as string) ? (p.voice as string) : DEFAULT_CHANT_SETTINGS.voice,
       letterGapMs: clampGap(p.letterGapMs, DEFAULT_CHANT_SETTINGS.letterGapMs),
       phonemeGapMs: clampGap(p.phonemeGapMs, DEFAULT_CHANT_SETTINGS.phonemeGapMs),
+      hanziGapMs: clampGap(p.hanziGapMs, DEFAULT_CHANT_SETTINGS.hanziGapMs),
     }
   } catch {
     return { ...DEFAULT_CHANT_SETTINGS }
