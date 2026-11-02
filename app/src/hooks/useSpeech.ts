@@ -101,8 +101,8 @@ export interface LetterPhonemeOptions {
 }
 
 /** 字母+音标跟读（口诀里的 2+2），按朗读设置用所选音色的录音播放：
- *  两个间隔都拖到 0 秒 = 整句一条录音，像老师带读一样连贯；
- *  否则 = 单字母×2 → 音标，两处间隔用滑动条调（拖大一点就有逗号一样的停顿）。录音缺失时退回系统 TTS。 */
+ *  字母 → 字母间隔 → 字母 → 音标间隔 → 联想字，间隔精确到毫秒（0 = 紧挨着，
+ *  如「BB啵啵」）；两根滑条组合可得到「B，B，啵啵」「BB，啵啵」等格式。录音缺失时退回系统 TTS。 */
 export function speakLetterAndPhoneme(
   letter: string,
   hanzi: string,
@@ -114,7 +114,6 @@ export function speakLetterAndPhoneme(
   const s = getChantSettings()
   const low = letter.toLowerCase()
 
-  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
   const alive = () => token === seqToken
 
   function ttsFallback() {
@@ -129,29 +128,17 @@ export function speakLetterAndPhoneme(
   }
 
   void (async () => {
-    // 两个间隔都为 0：整句一条录音，像老师带读一样连读
-    if (s.letterGapMs === 0 && s.phonemeGapMs === 0) {
-      const ok = await playChantAudio(chantUrl(s.voice, key))
-      if (!alive()) return
-      if (!ok) return ttsFallback()
-      onDone?.()
-      return
-    }
-    // 拼播：单字母 → 间隔 → 单字母 → 间隔 → 音标
-    const ok1 = await playChantAudio(chantUrl(s.voice, `${low}-zh`))
+    const ok = await playClipsPrecise(
+      [
+        { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.letterGapMs },
+        { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.phonemeGapMs },
+        { url: chantUrl(s.voice, `${key}-hanzi`), gapAfterMs: 0 },
+      ],
+      alive,
+      onDone,
+    )
     if (!alive()) return
-    if (!ok1) return ttsFallback()
-    await sleep(s.letterGapMs)
-    if (!alive()) return
-    const ok2 = await playChantAudio(chantUrl(s.voice, `${low}-zh`))
-    if (!alive()) return
-    if (!ok2) return ttsFallback()
-    await sleep(s.phonemeGapMs)
-    if (!alive()) return
-    const ok3 = await playChantAudio(chantUrl(s.voice, `${key}-hanzi`))
-    if (!alive()) return
-    if (!ok3) return ttsFallback()
-    onDone?.()
+    if (!ok) return ttsFallback()
   })()
 }
 
@@ -180,7 +167,6 @@ export function speakCombo(pattern: string, opts: ComboSpeakOptions = {}) {
   const token = seqToken
   const s = getChantSettings()
   const alive = () => token === seqToken
-  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
 
   const ttsFallback = () =>
     speakSequence(
@@ -192,16 +178,16 @@ export function speakCombo(pattern: string, opts: ComboSpeakOptions = {}) {
     )
 
   void (async () => {
-    for (let i = 0; i < letters.length; i++) {
-      const ok = await playChantAudio(chantUrl(s.voice, `${letters[i]}-zh`))
-      if (!alive()) return
-      if (!ok) return ttsFallback()
-      if (i < letters.length - 1) {
-        await sleep(s.letterGapMs)
-        if (!alive()) return
-      }
-    }
-    opts.onDone?.()
+    const ok = await playClipsPrecise(
+      letters.map((ch, i) => ({
+        url: chantUrl(s.voice, `${ch}-zh`),
+        gapAfterMs: i < letters.length - 1 ? s.letterGapMs : 0,
+      })),
+      alive,
+      opts.onDone,
+    )
+    if (!alive()) return
+    if (!ok) return ttsFallback()
   })()
 }
 
@@ -247,10 +233,18 @@ function clearSeqTimer() {
   }
 }
 
-/** 停止一切发音（打断当前 speak / speakSequence / 口诀录音） */
+/** 停止一切发音（打断当前 speak / speakSequence / 口诀录音 / Web Audio 精确连播） */
 export function stopSpeaking() {
   seqToken += 1
   clearSeqTimer()
+  activeSources.forEach((s) => {
+    try {
+      s.stop()
+    } catch {
+      // 忽略
+    }
+  })
+  activeSources = []
   if (chantAudio) {
     try {
       chantAudio.pause()
@@ -299,6 +293,99 @@ function playChantAudio(url: string): Promise<boolean> {
     chantAudio = audio
     audio.play().catch(() => finish(false))
   })
+}
+
+// ---------------- Web Audio 精确连播（多段录音拼读用） ----------------
+// 录音 mp3 的首尾带有 TTS 合成时留下的静音垫（单字母剪辑约 1.2 秒，实际读音约 0.4 秒），
+// 直接连播即使间隔为 0 也分不开。这里把每段解码后裁掉首尾静音，再用 AudioContext
+// 按毫秒精确排程：滑条设 0 秒就是真正紧挨着的「BB」，设多少停多少。
+
+let audioCtx: AudioContext | null = null
+const trimmedCache = new Map<string, AudioBuffer | null>() // null = 该地址解码失败，别再试
+let activeSources: AudioBufferSourceNode[] = [] // 已排程的节点，stopSpeaking 时一并停掉
+
+function getAudioCtx(): AudioContext | null {
+  if (typeof window === 'undefined') return null
+  const AC =
+    window.AudioContext ??
+    (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+  if (!AC) return null
+  if (!audioCtx) audioCtx = new AC()
+  if (audioCtx.state === 'suspended') void audioCtx.resume().catch(() => {})
+  return audioCtx
+}
+
+/** 裁掉首尾静音（阈值 0.012，两端各留 30ms 缓冲）；内容全静音等异常时原样返回 */
+function trimSilence(buf: AudioBuffer, ctx: AudioContext): AudioBuffer {
+  const ch = buf.getChannelData(0)
+  const TH = 0.012
+  const EDGE = Math.floor(buf.sampleRate * 0.03)
+  let start = 0
+  let end = ch.length - 1
+  while (start < ch.length && Math.abs(ch[start]) < TH) start++
+  while (end > start && Math.abs(ch[end]) < TH) end--
+  if (start >= end) return buf
+  start = Math.max(0, start - EDGE)
+  end = Math.min(ch.length - 1, end + EDGE)
+  const out = ctx.createBuffer(buf.numberOfChannels, end - start + 1, buf.sampleRate)
+  for (let c = 0; c < buf.numberOfChannels; c++) {
+    out.copyToChannel(buf.getChannelData(c).subarray(start, end + 1), c)
+  }
+  return out
+}
+
+/** 取裁好静音的剪辑（带缓存）；解码失败返回 null */
+async function trimmedBuffer(url: string): Promise<AudioBuffer | null> {
+  if (trimmedCache.has(url)) return trimmedCache.get(url)!
+  const ctx = getAudioCtx()
+  if (!ctx) {
+    trimmedCache.set(url, null)
+    return null
+  }
+  try {
+    const res = await fetch(url)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const buf = trimSilence(await ctx.decodeAudioData(await res.arrayBuffer()), ctx)
+    if (trimmedCache.size > 200) trimmedCache.clear()
+    trimmedCache.set(url, buf)
+    return buf
+  } catch {
+    trimmedCache.set(url, null)
+    return null
+  }
+}
+
+/** 精确连播多段录音：段间隔 = gapAfterMs（0 = 两段紧挨着）。
+ *  返回 true = 已排程（或已被打断）；false = 任一剪辑解码失败，调用方退回 TTS。 */
+async function playClipsPrecise(
+  items: { url: string; gapAfterMs: number }[],
+  alive: () => boolean,
+  onDone?: () => void,
+): Promise<boolean> {
+  const ctx = getAudioCtx()
+  if (!ctx) return false
+  const bufs = await Promise.all(items.map((it) => trimmedBuffer(it.url)))
+  if (!alive()) return true // 已被新的播放/停止打断，不用也不该退回 TTS
+  if (bufs.some((b) => !b)) return false
+  let t = ctx.currentTime + 0.06 // 留一点调度余量
+  bufs.forEach((buf, i) => {
+    const src = ctx.createBufferSource()
+    src.buffer = buf!
+    src.connect(ctx.destination)
+    src.onended = () => {
+      activeSources = activeSources.filter((s) => s !== src)
+    }
+    src.start(t)
+    activeSources.push(src)
+    t += buf!.duration + items[i].gapAfterMs / 1000
+  })
+  seqTimer = setTimeout(
+    () => {
+      if (alive()) onDone?.()
+    },
+    (t - ctx.currentTime) * 1000,
+  )
+  return true
 }
 
 // ---------------- 音色（全应用统一，口诀页/规则页可选择，存 localStorage） ----------------
