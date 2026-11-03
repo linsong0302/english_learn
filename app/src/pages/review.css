@@ -360,19 +360,19 @@
    ============================================================ */
 @media (prefers-color-scheme: dark) {
   .rev-page {
-    /* 全局 token 重定义（仅作用于本页） */
-    --bg: #151a24;
-    --card: #222939;
-    --ink: #e9e6de;
-    --sub: #97a1b3;
+    /* 全局 token 重定义（仅作用于本页，配色与全局深色一致） */
+    --bg: #171a22;
+    --card: #222734;
+    --ink: #ece7dc;
+    --sub: #9aa3b5;
     --brand: #f5a623;
     --brand-ink: #ffce7b;
-    --brand-soft: #3d3421;
+    --brand-soft: #3a331f;
     --accent: #6f9bff;
     --accent-soft: #26324e;
     --ok: #4cc482;
     --ok-soft: #1e3a2b;
-    --line: #39425a;
+    --line: #343a48;
     --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 
     /* 本页局部 token 重定义 */
