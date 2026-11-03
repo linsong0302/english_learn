@@ -1,0 +1,123 @@
+[
+  {
+    "id": "self-intro",
+    "title": "自我介绍",
+    "scene": "认识新朋友 / 开学第一课",
+    "level": 1,
+    "icon": "🙋",
+    "intro": "介绍自己的名字、年龄、爱好和一个小愿望，让大家认识你。",
+    "blocks": [
+      { "label": "开头", "hint": "打招呼，报上名字和年龄", "starters": ["Hello! My name is ___.", "Hi, I am ___ and I am ___ years old.", "Nice to meet you!"] },
+      { "label": "中间", "hint": "说说你的爱好和你擅长的事", "starters": ["I like ___ very much.", "My favourite ___ is ___.", "I am good at ___.", "After school, I often ___."] },
+      { "label": "结尾", "hint": "一个小愿望或一句感谢", "starters": ["I hope we can be friends.", "Thank you for listening!"] }
+    ],
+    "sample": { "en": "Hello! My name is Lin Tao, and I am nine years old. Nice to meet you! I like reading very much. My favourite book is about animals. I am good at swimming, and after school I often swim with my dad. I hope we can be friends. Thank you for listening!", "cn": "你好！我叫林涛，今年九岁。很高兴认识大家！我非常喜欢阅读。我最喜欢的书是关于动物的。我擅长游泳，放学后经常和爸爸一起去游泳。希望我们能成为朋友。谢谢大家听我介绍！" },
+    "checklist": ["每句话的第一个字母大写了吗？", "每句话结尾有句号（.）吗？", "am / is / are 用对了吗？"]
+  },
+  {
+    "id": "my-hobby",
+    "title": "我的爱好",
+    "scene": "作文课 / 兴趣分享",
+    "level": 1,
+    "icon": "🎨",
+    "intro": "介绍你的一个爱好：它是什么、你什么时候做、它带给你什么。",
+    "blocks": [
+      { "label": "开头", "hint": "点出你的爱好", "starters": ["Everyone has a hobby.", "My hobby is ___.", "I love ___ very much."] },
+      { "label": "中间", "hint": "什么时候开始、平时怎么做、感觉如何", "starters": ["I started ___ when I was ___.", "After school, I often ___.", "It makes me feel ___.", "Sometimes I ___ with my friends."] },
+      { "label": "结尾", "hint": "说说爱好带给你的收获", "starters": ["My hobby brings me a lot of fun.", "I will keep doing it."] }
+    ],
+    "sample": { "en": "Everyone has a hobby, and mine is drawing. I love drawing very much. I started drawing when I was five. After school, I often draw animals and flowers with my colour pens. Sometimes I draw with my best friend. It makes me feel quiet and happy. My hobby brings me a lot of fun, and I will keep doing it.", "cn": "每个人都有爱好，我的爱好是画画。我非常喜欢画画。我五岁开始画画。放学后，我经常用彩色画笔画动物和花。有时我和最好的朋友一起画。它让我感到安静和快乐。我的爱好带给我很多快乐，我会一直画下去。" },
+    "checklist": ["like / loves 后面的动词加 ing 了吗？", "每句话结尾有标点吗？", "拼写有把握吗？没把握的词换一个会写的"]
+  },
+  {
+    "id": "my-family",
+    "title": "我的家人",
+    "scene": "家庭主题作文 / 口语展示",
+    "level": 1,
+    "icon": "👨‍👩‍👧",
+    "intro": "介绍家里有几个人，每个人是什么样的人，你们一起做什么。",
+    "blocks": [
+      { "label": "开头", "hint": "家里有几口人", "starters": ["There are ___ people in my family.", "I have a happy family."] },
+      { "label": "中间", "hint": "一位一位介绍：是谁、什么特点、常做什么", "starters": ["My father is ___ and he likes ___.", "My mother ___ every day.", "My grandpa often tells me ___.", "We often ___ together on weekends."] },
+      { "label": "结尾", "hint": "一句表达爱的话", "starters": ["I love my family very much.", "My family is the best!"] }
+    ],
+    "sample": { "en": "I have a happy family. There are four people in my family. My father is tall, and he likes sports. He plays ping-pong with me every weekend. My mother cooks delicious food and reads stories to me at night. My little sister is cute, but she is a little noisy! We often take a walk together after dinner. I love my family very much.", "cn": "我有一个幸福的家。我家有四口人。爸爸个子高高的，他喜欢运动，每个周末都陪我打乒乓球。妈妈做的菜很好吃，晚上还给我读故事。妹妹很可爱，就是有点吵！我们经常晚饭后一起散步。我非常爱我的家。" },
+    "checklist": ["第三人称（he / she）后面的动词加 s 了吗？", "is / am / are 选对了吗？", "每句话说完有标点吗？"]
+  },
+  {
+    "id": "picture-story",
+    "title": "看图写话",
+    "scene": "看图作文万能骨架",
+    "level": 1,
+    "icon": "🖼️",
+    "intro": "记住四要素：谁（who）、在哪里（where）、做什么（what）、什么感受（feeling），看什么图都不怕。",
+    "blocks": [
+      { "label": "开头", "hint": "一句话点明时间地点或场景", "starters": ["Look at the picture.", "It is a ___ morning.", "Today, ___ and ___ are in the park."] },
+      { "label": "中间", "hint": "谁在做什么 + 周围有什么", "starters": ["There is / are ___ in the picture.", "___ is doing ___.", "The weather is ___.", "They look very ___. "] },
+      { "label": "结尾", "hint": "一句感受或总结", "starters": ["What a ___ day!", "How happy they are!", "I like this picture."] }
+    ],
+    "sample": { "en": "Look at the picture. It is a sunny morning. Tom and his sister are in the park. There are many beautiful flowers and green trees. Tom is flying a kite, and his sister is drawing a picture under a tree. The weather is warm, and they look very happy. What a nice day!", "cn": "看这张图。这是一个晴朗的早晨。汤姆和他妹妹在公园里。公园里有许多美丽的花和绿树。汤姆在放风筝，他妹妹在树下画画。天气很温暖，他们看起来开心极了。多么美好的一天啊！" },
+    "checklist": ["is / are 选对了吗（一个用 is，多个用 are）？", "现在进行时的 ing 加了吗？", "把四要素都写到了吗：谁、哪里、做什么、感受？"]
+  },
+  {
+    "id": "my-weekend",
+    "title": "我的周末",
+    "scene": "练过去式：写上周末发生的事",
+    "level": 2,
+    "icon": "🌳",
+    "intro": "写上周末做过的事，重点练习动词的过去式（went / saw / played…）。",
+    "blocks": [
+      { "label": "开头", "hint": "总说周末过得怎么样", "starters": ["Last weekend was wonderful.", "I had a great weekend.", "Last Sunday, I went to ___ with my family."] },
+      { "label": "中间", "hint": "按时间顺序写做了什么（动词用过去式！）", "starters": ["On Saturday morning, I ___.", "In the afternoon, we ___ and ___.", "The food there was ___.", "We took many photos there."] },
+      { "label": "结尾", "hint": "总结感受", "starters": ["I was tired but happy.", "What a nice weekend!", "I will never forget it."] }
+    ],
+    "sample": { "en": "Last weekend was wonderful. On Saturday morning, I did my homework first. In the afternoon, my family and I went to the People's Park. We rowed a boat on the lake and took many photos. The flowers there were beautiful. On Sunday, we visited my grandparents. Grandma cooked my favourite fish for me. I was tired but happy. What a nice weekend!", "cn": "上个周末棒极了。星期六上午我先写了作业。下午，我和家人去了人民公园。我们在湖上划船，拍了很多照片。那里的花很美。星期天，我们去看望了爷爷奶奶。奶奶给我做了我最爱吃的鱼。我有点累，但很快乐。多么美好的周末啊！" },
+    "checklist": ["动词都变成过去式了吗（go→went, see→saw, play→played）？", "时间顺序清楚吗（morning / afternoon / evening）？", "有没有把最开心的一件事写具体？"]
+  },
+  {
+    "id": "school-life",
+    "title": "我的学校生活",
+    "scene": "校园主题作文",
+    "level": 2,
+    "icon": "🏫",
+    "intro": "写学校的课程、最喜欢的科目和课间活动，表达对学校的感情。",
+    "blocks": [
+      { "label": "开头", "hint": "总体说说学校生活", "starters": ["My school life is busy and fun.", "I love my school very much.", "Every weekday, I go to school at ___."] },
+      { "label": "中间", "hint": "课程 + 最喜欢的科目及原因 + 课间活动", "starters": ["We have ___ classes in the morning.", "My favourite subject is ___ because ___.", "The teacher is very ___.", "After class, I ___ with my friends."] },
+      { "label": "结尾", "hint": "表达对学校的喜爱", "starters": ["I love my school.", "School is like a big family."] }
+    ],
+    "sample": { "en": "My school life is busy and fun. Every weekday, I go to school at seven thirty. We have four classes in the morning and two in the afternoon. My favourite subject is science, because we do interesting experiments in class. The teacher is very kind and patient. After class, I play basketball with my friends. School is like a big family, and I love my school.", "cn": "我的学校生活忙碌又有趣。每个工作日我七点半到校。上午有四节课，下午两节。我最喜欢科学课，因为课上我们会做有趣的实验。老师非常和蔼耐心。课后我和朋友们打篮球。学校就像一个大家庭，我爱我的学校。" },
+    "checklist": ["favourite 这种长单词拼写对了吗？", "because 前后说完整了吗？", "写「原因」的时候句子通顺吗？读一遍听听"]
+  },
+  {
+    "id": "diary",
+    "title": "英语日记",
+    "scene": "日记格式：日期天气 + 一天的事 + 一点感想",
+    "level": 2,
+    "icon": "📓",
+    "intro": "学会英语日记的格式：第一行写日期和天气，正文写今天最有意思的事。",
+    "blocks": [
+      { "label": "第一行", "hint": "日期 + 星期 + 天气，如 June 1st, Saturday — Sunny", "starters": ["Saturday, June 1st — Sunny", "Friday, May 24th — Cloudy"] },
+      { "label": "开头", "hint": "一句话总起今天", "starters": ["Today was a special day.", "What a busy day!", "I want to write about today."] },
+      { "label": "中间", "hint": "上午/下午/晚上各做了什么（过去式）", "starters": ["In the morning, I ___.", "Then my family and I ___.", "The most interesting thing was ___."] },
+      { "label": "结尾", "hint": "一点感想或收获", "starters": ["I learned that ___.", "I felt really ___ today.", "What a day!"] }
+    ],
+    "sample": { "en": "Saturday, June 1st — Sunny\nToday was a special day. In the morning, I helped my mother clean the house. Then my family and I visited the science museum. We watched a robot show there. The most interesting thing was a small robot that could dance! I learned that machines can be our good helpers. What a day!", "cn": "六月一日，星期六——晴\n今天是特别的一天。上午我帮妈妈打扫了房间。然后我们全家参观了科学博物馆，在那里看了一场机器人表演。最有趣的是一个会跳舞的小机器人！我明白了机器可以成为我们的好帮手。多么棒的一天！" },
+    "checklist": ["第一行的日期和天气写了吗？", "正文动词用过去式了吗？", "写「最有意思的一件事」了吗？"]
+  },
+  {
+    "id": "invitation",
+    "title": "邀请信",
+    "scene": "应用文：生日会 / 活动邀请",
+    "level": 2,
+    "icon": "✉️",
+    "intro": "学会邀请信的格式：称呼、活动信息（时间地点）、结尾署名。",
+    "blocks": [
+      { "label": "称呼", "hint": "Dear + 名字，后面加逗号", "starters": ["Dear Amy,", "Dear Tom,"] },
+      { "label": "正文", "hint": "什么事 + 时间地点 + 一起做什么", "starters": ["My birthday is coming.", "I want to invite you to my party.", "It will be at ___ on ___.", "We will ___ and ___.", "You can bring ___ if you like."] },
+      { "label": "结尾", "hint": "盼望对方来 + 署名 Yours, + 名字", "starters": ["I hope you can come!", "Please call me at ___.", "Yours,"] }
+    ],
+    "sample": { "en": "Dear Amy,\nMy birthday is coming. I want to invite you to my party. It will be at my home on Saturday, June 8th, at three in the afternoon. We will eat cake, sing songs and play fun games. You can bring your little brother if you like. I hope you can come!\nYours,\nLily", "cn": "亲爱的艾米：\n我的生日快到了。我想邀请你来参加我的派对。时间在六月八日星期六下午三点，就在我家。我们会吃蛋糕、唱歌、玩有趣的游戏。如果愿意，你可以带上你的小弟弟。希望你能来！\n你的朋友，\n莉莉" },
+    "checklist": ["称呼和署名的格式对了吗（Dear ___, / Yours,）？", "时间和地点写清楚了吗？", "每句话结尾有标点吗？"]
+  }
+]
