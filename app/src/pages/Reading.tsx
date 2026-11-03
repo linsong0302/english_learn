@@ -4,7 +4,6 @@ import type { Article, CustomArticle } from '../lib/articleTypes'
 import { speak, speakSentences, stopSpeaking } from '../hooks/useSpeech'
 import { translateToChinese } from '../lib/translate'
 import './reading.css'
-
 const ARTICLES = articlesData as unknown as Article[]
 const CUSTOM_KEY = 'kk-custom-articles-v1'
 const RATE_KEY = 'kk-reading-rate-v1'
@@ -120,6 +119,7 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
   const [text, setText] = useState('')
   const [book, setBook] = useState<WordBookItem[]>(loadWordBook)
   const [bookOpen, setBookOpen] = useState(false)
+  const [quizOn, setQuizOn] = useState(false)
 
   const removeWord = (w: string) => {
     const next = book.filter((it) => it.word !== w)
@@ -190,19 +190,28 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
               </div>
             ))}
             {book.length > 0 && (
-              <button
-                className="rd-mini rd-book-clear"
-                onClick={() => {
-                  setBook([])
-                  saveWordBook([])
-                }}
-              >
-                清空生词本
-              </button>
+              <div className="rd-book-foot">
+                {book.length >= 4 && (
+                  <button className="rd-mini rd-book-quiz" onClick={() => setQuizOn(true)}>
+                    🎯 听写挑战
+                  </button>
+                )}
+                <button
+                  className="rd-mini rd-book-clear"
+                  onClick={() => {
+                    setBook([])
+                    saveWordBook([])
+                  }}
+                >
+                  清空生词本
+                </button>
+              </div>
             )}
           </div>
         )}
       </div>
+
+      {quizOn && <WordQuiz book={book} onClose={() => setQuizOn(false)} />}
 
       <h2 className="rd-sec">精选短文（含参考译文）</h2>
       {ARTICLES.map((a, i) => (
@@ -478,6 +487,126 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+// ==================== 生词本听写挑战 ====================
+
+function shuffle<T>(arr: T[]): T[] {
+  const out = [...arr]
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[out[i], out[j]] = [out[j], out[i]]
+  }
+  return out
+}
+
+interface QuizQ {
+  word: string
+  meaning: string
+  options: string[]
+  answerIdx: number
+}
+
+/** 一次最多 10 题；干扰项取自生词本里其他词的意思（意思去重） */
+function buildQuizQuestions(book: WordBookItem[]): QuizQ[] {
+  return shuffle(book)
+    .slice(0, 10)
+    .map((it) => {
+      const others = shuffle(
+        [...new Set(book.filter((b) => b.word !== it.word).map((b) => b.meaning))].filter(
+          (m) => m !== it.meaning,
+        ),
+      ).slice(0, 3)
+      const options = shuffle([it.meaning, ...others])
+      return { word: it.word, meaning: it.meaning, options, answerIdx: options.indexOf(it.meaning) }
+    })
+}
+
+/** 听写挑战：播单词 → 四选一选意思 */
+function WordQuiz({ book, onClose }: { book: WordBookItem[]; onClose: () => void }) {
+  const [qs, setQs] = useState<QuizQ[]>(() => buildQuizQuestions(book))
+  const [idx, setIdx] = useState(0)
+  const [chosen, setChosen] = useState<number | null>(null)
+  const [score, setScore] = useState(0)
+  const [done, setDone] = useState(false)
+  const q = qs[idx]
+
+  // 每道题自动播一遍单词（idx 变化触发，选完不重复播）
+  useEffect(() => {
+    if (q && !done) speak(q.word, { rate: 0.75 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, done])
+
+  useEffect(() => stopSpeaking, [])
+
+  const choose = (i: number) => {
+    if (chosen !== null) return
+    setChosen(i)
+    if (i === q.answerIdx) setScore((s) => s + 1)
+    setTimeout(() => {
+      stopSpeaking()
+      if (idx + 1 >= qs.length) setDone(true)
+      else {
+        setIdx(idx + 1)
+        setChosen(null)
+      }
+    }, 900)
+  }
+
+  const restart = () => {
+    setQs(buildQuizQuestions(book))
+    setIdx(0)
+    setChosen(null)
+    setScore(0)
+    setDone(false)
+  }
+
+  return (
+    <div className="rd-overlay" onClick={onClose}>
+      <div className="rd-sheet" onClick={(e) => e.stopPropagation()}>
+        {!done && q ? (
+          <>
+            <div className="rd-q-head">
+              <b>听写挑战 · 第 {idx + 1}/{qs.length} 题</b>
+              <span>得分 {score}</span>
+            </div>
+            <div className="rd-q-say">
+              <button className="btn-speak" onClick={() => speak(q.word, { rate: 0.7 })}>
+                🔊 再听一遍
+              </button>
+            </div>
+            <p className="rd-q-lead">刚才的单词是什么意思？</p>
+            <div className="rd-q-opts">
+              {q.options.map((op, i) => {
+                const cls = chosen === null ? '' : i === q.answerIdx ? 'ok' : chosen === i ? 'bad' : 'dim'
+                return (
+                  <button key={i} className={`rd-q-opt ${cls}`} onClick={() => choose(i)}>
+                    {op}
+                  </button>
+                )
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <b className="rd-sheet-word">挑战结束！</b>
+            <p className="rd-sheet-meaning">
+              得分 {score} / {qs.length}
+              {score === qs.length ? '，全对，太棒了！' : '。错过的词去生词本再读几遍吧。'}
+            </p>
+            <div className="wr-editor-btns">
+              <button className="btn btn-warm" onClick={restart}>
+                再来一轮
+              </button>
+              <button className="btn btn-ghost" onClick={onClose}>
+                关闭
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }
