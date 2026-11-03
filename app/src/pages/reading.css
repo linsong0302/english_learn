@@ -620,3 +620,13 @@
   color: var(--accent);
   border-color: var(--accent);
 }
+
+/* 错题词卡（嵌在生词本卡内的子卡） */
+.rd-wrong {
+  margin: -2px -2px 10px;
+  border-left: 4px solid var(--bad);
+}
+
+.rd-wrong .rd-book-head b {
+  color: var(--bad);
+}

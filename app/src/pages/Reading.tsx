@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import articlesData from '../data/articles.json'
 import type { Article, CustomArticle } from '../lib/articleTypes'
 import { speak, speakSentences, stopSpeaking } from '../hooks/useSpeech'
+import { loadProgress, markWrongMastered } from '../store'
 import { translateToChinese } from '../lib/translate'
 import './reading.css'
 const ARTICLES = articlesData as unknown as Article[]
@@ -122,6 +123,27 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
   const [quizOn, setQuizOn] = useState(false)
   const [manual, setManual] = useState('')
   const [adding, setAdding] = useState(false)
+  const [wrong, setWrong] = useState(() =>
+    Object.values(loadProgress().wrong).filter((w) => !w.mastered),
+  )
+  const [wrongOpen, setWrongOpen] = useState(false)
+  const [wrongBusy, setWrongBusy] = useState<string | null>(null)
+
+  /** 错题词 → 在线查释义 → 收进生词本 → 标记已掌握 */
+  const collectWrong = async (w: string, kk: string) => {
+    if (wrongBusy) return
+    setWrongBusy(w)
+    let meaning = ''
+    try {
+      meaning = await translateToChinese(w)
+    } catch {
+      meaning = ''
+    }
+    addWordBookItem(w, meaning || `本词音标 ${kk}（释义待查）`)
+    markWrongMastered(w)
+    setWrong((s) => s.filter((x) => x.word !== w))
+    setWrongBusy(null)
+  }
 
   const addManual = async () => {
     const w = manual.replace(/[^A-Za-z']/g, '').toLowerCase()
@@ -183,6 +205,32 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
       </div>
 
       <div className="rd-book">
+        {wrong.length > 0 && (
+          <div className="rd-book rd-wrong">
+            <button className="rd-book-head" onClick={() => setWrongOpen(!wrongOpen)}>
+              <b>❗ 练习错题词（{wrong.length}）</b>
+              <span>{wrongOpen ? '收起 ▲' : '收进生词本巩固 ▼'}</span>
+            </button>
+            {wrongOpen && (
+              <div className="rd-book-list">
+                <p className="rd-empty">这些词在练习里答错过，点「收进生词本」加入听写巩固。</p>
+                {wrong.map((it) => (
+                  <div key={it.word} className="rd-book-item">
+                    <span className="rd-book-word">{it.word}</span>
+                    <span className="rd-book-meaning">{it.kk}</span>
+                    <button
+                      className="rd-mini"
+                      onClick={() => collectWrong(it.word, it.kk)}
+                      disabled={wrongBusy === it.word}
+                    >
+                      {wrongBusy === it.word ? '加入中…' : '➕ 收进生词本'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         <button className="rd-book-head" onClick={() => setBookOpen(!bookOpen)}>
           <b>📌 我的生词本（{book.length}）</b>
           <span>{bookOpen ? '收起 ▲' : '展开 ▼'}</span>
