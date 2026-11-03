@@ -120,6 +120,28 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
   const [book, setBook] = useState<WordBookItem[]>(loadWordBook)
   const [bookOpen, setBookOpen] = useState(false)
   const [quizOn, setQuizOn] = useState(false)
+  const [manual, setManual] = useState('')
+  const [adding, setAdding] = useState(false)
+
+  const addManual = async () => {
+    const w = manual.replace(/[^A-Za-z']/g, '').toLowerCase()
+    if (!w || adding || book.some((it) => it.word === w)) {
+      setManual('')
+      return
+    }
+    setAdding(true)
+    let meaning = ''
+    try {
+      meaning = await translateToChinese(w)
+    } catch {
+      meaning = ''
+    }
+    const next = [{ word: w, meaning: meaning || '（暂无释义，稍后可删）', added: Date.now() }, ...book]
+    setBook(next)
+    saveWordBook(next)
+    setManual('')
+    setAdding(false)
+  }
 
   const removeWord = (w: string) => {
     const next = book.filter((it) => it.word !== w)
@@ -167,6 +189,20 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
         </button>
         {bookOpen && (
           <div className="rd-book-list">
+            <div className="rd-book-addrow">
+              <input
+                className="rd-input"
+                placeholder="手动加一个单词（回车确认）"
+                value={manual}
+                onChange={(e) => setManual(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') addManual()
+                }}
+              />
+              <button className="btn-speak btn-speak-sm" onClick={addManual} disabled={adding}>
+                {adding ? '查询中…' : '添加'}
+              </button>
+            </div>
             {book.length === 0 && (
               <p className="rd-empty">读文章时点单词查意思，查过的词会自动收进生词本。</p>
             )}

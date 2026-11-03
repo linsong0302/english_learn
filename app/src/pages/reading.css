@@ -586,3 +586,16 @@
 .rd-q-opt.dim {
   opacity: 0.45;
 }
+
+.rd-book-addrow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.rd-book-addrow .rd-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font-size: 13px;
+}
