@@ -1,13 +1,48 @@
 import { useEffect, useMemo, useState } from 'react'
 import articlesData from '../data/articles.json'
 import type { Article, CustomArticle } from '../lib/articleTypes'
-import { speakSentences, stopSpeaking } from '../hooks/useSpeech'
+import { speak, speakSentences, stopSpeaking } from '../hooks/useSpeech'
 import { translateToChinese } from '../lib/translate'
 import './reading.css'
 
 const ARTICLES = articlesData as unknown as Article[]
 const CUSTOM_KEY = 'kk-custom-articles-v1'
 const RATE_KEY = 'kk-reading-rate-v1'
+const WORDBOOK_KEY = 'kk-wordbook-v1'
+
+/** 生词本条目：阅读时查过且查到意思的词 */
+export interface WordBookItem {
+  word: string
+  meaning: string
+  added: number
+}
+
+function loadWordBook(): WordBookItem[] {
+  try {
+    const raw = localStorage.getItem(WORDBOOK_KEY)
+    const list = raw ? (JSON.parse(raw) as WordBookItem[]) : []
+    return Array.isArray(list) ? list : []
+  } catch {
+    return []
+  }
+}
+
+function saveWordBook(list: WordBookItem[]) {
+  try {
+    localStorage.setItem(WORDBOOK_KEY, JSON.stringify(list.slice(0, 300)))
+  } catch {
+    // 忽略
+  }
+}
+
+/** 查到的词进生词本（去重，最新的在前） */
+function addWordBookItem(word: string, meaning: string) {
+  const clean = word.trim().toLowerCase()
+  if (!clean || !meaning) return
+  const list = loadWordBook().filter((it) => it.word !== clean)
+  const next = [{ word: clean, meaning, added: Date.now() }, ...list]
+  saveWordBook(next)
+}
 
 /** 正在阅读的文章（内置 / 自定义统一成一种形状） */
 interface Active {
@@ -83,6 +118,14 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
   const [formOpen, setFormOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [book, setBook] = useState<WordBookItem[]>(loadWordBook)
+  const [bookOpen, setBookOpen] = useState(false)
+
+  const removeWord = (w: string) => {
+    const next = book.filter((it) => it.word !== w)
+    setBook(next)
+    saveWordBook(next)
+  }
 
   const saveForm = () => {
     if (!text.trim()) return
@@ -115,6 +158,50 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
       <div className="rd-hero">
         <b>每天读一点，语感自然来</b>
         <p>先听再跟读：点任意句子就会从那句开始朗读，再点一次停止。</p>
+      </div>
+
+      <div className="rd-book">
+        <button className="rd-book-head" onClick={() => setBookOpen(!bookOpen)}>
+          <b>📌 我的生词本（{book.length}）</b>
+          <span>{bookOpen ? '收起 ▲' : '展开 ▼'}</span>
+        </button>
+        {bookOpen && (
+          <div className="rd-book-list">
+            {book.length === 0 && (
+              <p className="rd-empty">读文章时点单词查意思，查过的词会自动收进生词本。</p>
+            )}
+            {book.map((it) => (
+              <div key={it.word} className="rd-book-item">
+                <button
+                  className="btn-speak btn-speak-sm"
+                  onClick={() => {
+                    stopSpeaking()
+                    speak(it.word, { rate: 0.8 })
+                  }}
+                  aria-label={`读 ${it.word}`}
+                >
+                  🔊
+                </button>
+                <span className="rd-book-word">{it.word}</span>
+                <span className="rd-book-meaning">{it.meaning}</span>
+                <button className="rd-del" aria-label="删除" onClick={() => removeWord(it.word)}>
+                  ×
+                </button>
+              </div>
+            ))}
+            {book.length > 0 && (
+              <button
+                className="rd-mini rd-book-clear"
+                onClick={() => {
+                  setBook([])
+                  saveWordBook([])
+                }}
+              >
+                清空生词本
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       <h2 className="rd-sec">精选短文（含参考译文）</h2>
@@ -246,12 +333,14 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
     const gloss = active.glossary[word]
     if (gloss) {
       setCard({ word, meaning: gloss, from: '本文词表', loading: false })
+      addWordBookItem(word, gloss)
       return
     }
     setCard({ word, meaning: '', from: '在线翻译', loading: true })
     try {
       const m = await translateToChinese(word)
       setCard({ word, meaning: m || '没有查到这个词', from: '在线翻译', loading: false })
+      if (m) addWordBookItem(word, m)
     } catch {
       setCard({ word, meaning: '没有查到这个词（在线翻译连不上，请检查网络）', from: '查询失败', loading: false })
     }

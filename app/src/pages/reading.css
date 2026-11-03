@@ -444,3 +444,71 @@
 .rd-sheet-close {
   width: 100%;
 }
+
+/* ====== 生词本（列表页） ====== */
+.rd-book {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.rd-book-head {
+  width: 100%;
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.rd-book-head span {
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 400;
+}
+
+.rd-book-list {
+  padding: 0 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rd-book-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 7px 10px;
+}
+
+.rd-book-word {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  flex: none;
+}
+
+.rd-book-meaning {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--sub);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rd-book-clear {
+  align-self: center;
+  margin-top: 4px;
+}
