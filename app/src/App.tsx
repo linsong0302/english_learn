@@ -4,6 +4,7 @@ import Chant from './pages/Chant'
 import Rules from './pages/Rules'
 import Quiz from './pages/Quiz'
 import Review from './pages/Review'
+import Reading from './pages/Reading'
 import Sounds from './pages/Sounds'
 import Echo from './pages/Echo'
 import Plan from './pages/Plan'
@@ -12,6 +13,7 @@ const TABS = [
   { key: 'home', label: '首页' },
   { key: 'chant', label: '口诀' },
   { key: 'rules', label: '规则' },
+  { key: 'reading', label: '阅读' },
   { key: 'quiz', label: '练习' },
   { key: 'review', label: '复习' },
 ] as const
@@ -41,6 +43,7 @@ export default function App() {
         {tab === 'home' && <Home />}
         {tab === 'chant' && <Chant />}
         {tab === 'rules' && <Rules />}
+        {tab === 'reading' && <Reading />}
         {tab === 'quiz' && <Quiz />}
         {tab === 'review' && <Review />}
       </main>
