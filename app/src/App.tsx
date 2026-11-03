@@ -10,12 +10,12 @@ import Echo from './pages/Echo'
 import Plan from './pages/Plan'
 
 const TABS = [
-  { key: 'home', label: '首页' },
-  { key: 'chant', label: '口诀' },
-  { key: 'rules', label: '规则' },
-  { key: 'reading', label: '阅读' },
-  { key: 'quiz', label: '练习' },
-  { key: 'review', label: '复习' },
+  { key: 'home', label: '首页', icon: '🏠' },
+  { key: 'chant', label: '口诀', icon: '📣' },
+  { key: 'rules', label: '规则', icon: '📖' },
+  { key: 'reading', label: '阅读', icon: '📚' },
+  { key: 'quiz', label: '练习', icon: '✏️' },
+  { key: 'review', label: '复习', icon: '📅' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
@@ -54,7 +54,10 @@ export default function App() {
             className={tab === t.key ? 'active' : ''}
             onClick={() => setTab(t.key)}
           >
-            {t.label}
+            <span className="tab-ico" aria-hidden>
+              {t.icon}
+            </span>
+            <span>{t.label}</span>
           </button>
         ))}
       </nav>
