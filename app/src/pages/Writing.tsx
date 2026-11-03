@@ -112,6 +112,18 @@ function List({
   onOpenWork: (w: WritingWork) => void
   onRemoveWork: (id: string) => void
 }) {
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+
+  const copyWork = async (w: WritingWork) => {
+    try {
+      await navigator.clipboard.writeText(w.blocks.map((b) => b.trim()).filter(Boolean).join('\n'))
+      setCopiedId(w.id)
+      setTimeout(() => setCopiedId(null), 1500)
+    } catch {
+      // 剪贴板不可用时静默（如非安全上下文）
+    }
+  }
+
   return (
     <div className="page wr-page">
       <h1>写作教练</h1>
@@ -160,6 +172,9 @@ function List({
             }}
           >
             🔊 朗读
+          </button>
+          <button className="rd-mini" onClick={() => copyWork(w)}>
+            {copiedId === w.id ? '✓ 已复制' : '📋 复制'}
           </button>
           <button className="wr-del" aria-label="删除作品" onClick={() => onRemoveWork(w.id)}>
             ×
@@ -258,6 +273,7 @@ function Editor({
 }) {
   const [blocks, setBlocks] = useState<string[]>(initial)
   const [checks, setChecks] = useState<Set<number>>(new Set())
+  const [copiedPreview, setCopiedPreview] = useState(false)
 
   const words = useMemo(
     () => blocks.join(' ').replace(/\s+/g, ' ').trim().split(/\s+/).filter(Boolean).length,
@@ -321,7 +337,23 @@ function Editor({
 
       {preview && (
         <div className="card wr-preview">
-          <b>我的作文（{words} 词）</b>
+          <div className="wr-sample-head">
+            <b>我的作文（{words} 词）</b>
+            <button
+              className="rd-mini"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(preview)
+                  setCopiedPreview(true)
+                  setTimeout(() => setCopiedPreview(false), 1500)
+                } catch {
+                  // 剪贴板不可用时静默
+                }
+              }}
+            >
+              {copiedPreview ? '✓ 已复制' : '📋 复制'}
+            </button>
+          </div>
           <p>{preview}</p>
         </div>
       )}
