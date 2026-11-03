@@ -52,14 +52,24 @@ function pickZhVoice(): SpeechSynthesisVoice | null {
   )
 }
 
-/** 所选音色的口诀录音地址（public/audio/chant/{voiceId}/） */
-function chantUrl(voice: string, name: string): string {
-  return `${import.meta.env.BASE_URL}audio/chant/${voice}/${name}.mp3`
+/** 录音地址列表：mp3 优先，同目录同名 wav 兜底（如 d-hanzi 用中文语音修正过读音） */
+function chantUrls(voice: string, name: string): string[] {
+  const base = `${import.meta.env.BASE_URL}audio/chant/${voice}/${name}`
+  return [`${base}.mp3`, `${base}.wav`]
 }
 
-/** 所选音色的英文单词录音地址（public/audio/word/{enDir}/） */
-function wordUrl(enDir: string, word: string): string {
-  return `${import.meta.env.BASE_URL}audio/word/${enDir}/${word}.mp3`
+/** 所选音色的英文单词录音地址列表（public/audio/word/{enDir}/） */
+function wordUrls(enDir: string, word: string): string[] {
+  const base = `${import.meta.env.BASE_URL}audio/word/${enDir}/${word}`
+  return [`${base}.mp3`, `${base}.wav`]
+}
+
+/** 依次尝试播放多个地址，任一成功即返回 true */
+async function playChantAudioAny(urls: string[]): Promise<boolean> {
+  for (const url of urls) {
+    if (await playChantAudio(url)) return true
+  }
+  return false
 }
 
 /** 播放前先 cancel，防止多段语音叠在一起 */
@@ -79,7 +89,7 @@ export function speakWord(word: string) {
   stopSpeaking()
   const s = getChantSettings()
   const enDir = EN_VOICE_DIR[s.voice] ?? 'ana'
-  playChantAudio(wordUrl(enDir, w)).then((ok) => {
+  playChantAudioAny(wordUrls(enDir, w)).then((ok) => {
     if (!ok) speak(w, { rate: DEFAULT_RATE }) // 没有录音时退回系统 TTS
   })
 }
@@ -87,7 +97,7 @@ export function speakWord(word: string) {
 export function speakLetter(letter: string) {
   stopSpeaking()
   const voice = getChantSettings().voice
-  playChantAudio(chantUrl(voice, `${letter.toLowerCase()}-zh`)).then((ok) => {
+  playChantAudioAny(chantUrls(voice, `${letter.toLowerCase()}-zh`)).then((ok) => {
     if (!ok) speak(letter, { rate: DEFAULT_RATE })
   })
 }
@@ -130,9 +140,9 @@ export function speakLetterAndPhoneme(
   void (async () => {
     const ok = await playClipsPrecise(
       [
-        { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.letterGapMs },
-        { url: chantUrl(s.voice, `${low}-zh`), gapAfterMs: s.phonemeGapMs },
-        { url: chantUrl(s.voice, `${key}-hanzi`), gapAfterMs: 0, splitGapMs: s.hanziGapMs },
+        { urls: chantUrls(s.voice, `${low}-zh`), gapAfterMs: s.letterGapMs },
+        { urls: chantUrls(s.voice, `${low}-zh`), gapAfterMs: s.phonemeGapMs },
+        { urls: chantUrls(s.voice, `${key}-hanzi`), gapAfterMs: 0, splitGapMs: s.hanziGapMs },
       ],
       alive,
       onDone,
@@ -180,7 +190,7 @@ export function speakCombo(pattern: string, opts: ComboSpeakOptions = {}) {
   void (async () => {
     const ok = await playClipsPrecise(
       letters.map((ch, i) => ({
-        url: chantUrl(s.voice, `${ch}-zh`),
+        urls: chantUrls(s.voice, `${ch}-zh`),
         gapAfterMs: i < letters.length - 1 ? s.letterGapMs : 0,
       })),
       alive,
@@ -335,25 +345,29 @@ function trimSilence(buf: AudioBuffer, ctx: AudioContext): AudioBuffer {
   return out
 }
 
-/** 取裁好静音的剪辑（带缓存）；解码失败返回 null */
-async function trimmedBuffer(url: string): Promise<AudioBuffer | null> {
-  if (trimmedCache.has(url)) return trimmedCache.get(url)!
+/** 取裁好静音的剪辑（带缓存）；urls 依次尝试（mp3 优先、wav 兜底），全部失败返回 null */
+async function trimmedBuffer(urls: string[]): Promise<AudioBuffer | null> {
+  const key = urls.join('|')
+  if (trimmedCache.has(key)) return trimmedCache.get(key)!
   const ctx = getAudioCtx()
   if (!ctx) {
-    trimmedCache.set(url, null)
+    trimmedCache.set(key, null)
     return null
   }
-  try {
-    const res = await fetch(url)
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const buf = trimSilence(await ctx.decodeAudioData(await res.arrayBuffer()), ctx)
-    if (trimmedCache.size > 200) trimmedCache.clear()
-    trimmedCache.set(url, buf)
-    return buf
-  } catch {
-    trimmedCache.set(url, null)
-    return null
+  for (const url of urls) {
+    try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const buf = trimSilence(await ctx.decodeAudioData(await res.arrayBuffer()), ctx)
+      if (trimmedCache.size > 200) trimmedCache.clear()
+      trimmedCache.set(key, buf)
+      return buf
+    } catch {
+      continue // 换下一个地址
+    }
   }
+  trimmedCache.set(key, null)
+  return null
 }
 
 /** 把「啵啵」这类叠字录音从中点附近最安静的 20ms 窗切成两半（两端各留裁剪时的 30ms 缓冲）。
@@ -390,13 +404,13 @@ function splitDoubledClip(buf: AudioBuffer, ctx: AudioContext): [AudioBuffer, Au
  *  两半之间按 splitGapMs 排程；切不开就整段照播（splitGapMs 不生效）。
  *  返回 true = 已排程（或已被打断）；false = 任一剪辑解码失败，调用方退回 TTS。 */
 async function playClipsPrecise(
-  items: { url: string; gapAfterMs: number; splitGapMs?: number }[],
+  items: { urls: string[]; gapAfterMs: number; splitGapMs?: number }[],
   alive: () => boolean,
   onDone?: () => void,
 ): Promise<boolean> {
   const ctx = getAudioCtx()
   if (!ctx) return false
-  const bufs = await Promise.all(items.map((it) => trimmedBuffer(it.url)))
+  const bufs = await Promise.all(items.map((it) => trimmedBuffer(it.urls)))
   if (!alive()) return true // 已被新的播放/停止打断，不用也不该退回 TTS
   if (bufs.some((b) => !b)) return false
 
