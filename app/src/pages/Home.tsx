@@ -42,34 +42,34 @@ function quizAccuracy(): string {
 
 const ENTRIES = [
   {
-    name: '字母口诀', tab: '口诀', color: '#ffb020', char: '诀',
+    name: '字母口诀', tab: '口诀', go: 'chant', color: '#ffb020', char: '诀',
     desc: '26 个字母 + KK 音标 + 联想汉字，一个口诀记牢',
-    where: '点底部「口诀」开始',
+    where: '点卡片直接开始',
   },
   {
-    name: '五个规则', tab: '规则', color: '#2f6df6', char: '规',
+    name: '五个规则', tab: '规则', go: 'rules', color: '#2f6df6', char: '规',
     desc: '词尾 e、元音 + r、oo、au/ow、辅音组合',
-    where: '点底部「规则」学习',
+    where: '点卡片直接学习',
   },
   {
-    name: '英文阅读', tab: '阅读', color: '#58c1a8', char: '读',
+    name: '英文阅读', tab: '阅读', go: 'reading', color: '#58c1a8', char: '读',
     desc: '分级短文 + 粘贴文章：点句朗读、点词查义、自动翻译',
-    where: '点底部「阅读」开读',
+    where: '点卡片直接开读',
   },
   {
-    name: '写作教练', tab: '写作', color: '#9a6df0', char: '写',
+    name: '写作教练', tab: '写作', go: 'writing', color: '#9a6df0', char: '写',
     desc: '写作模板 + 常用句式，跟着结构一步一步仿写',
-    where: '点底部「写作」动笔',
+    where: '点卡片直接动笔',
   },
   {
-    name: '每日一测', tab: '练习', color: '#2eaf6a', char: '测',
+    name: '每日一测', tab: '练习', go: 'quiz', color: '#2eaf6a', char: '测',
     desc: '看词选音标、听音选词、判断规则，错题自动进错题本',
-    where: '点底部「练习」开测',
+    where: '点卡片直接开测',
   },
   {
-    name: '打卡复习', tab: '复习', color: '#e25555', char: '复',
+    name: '打卡复习', tab: '复习', go: 'review', color: '#e25555', char: '复',
     desc: '早晚打卡、14 天日历、错题本、KK/IPA 对照',
-    where: '点底部「复习」查看',
+    where: '点卡片直接查看',
   },
 ]
 
@@ -192,7 +192,7 @@ export default function Home() {
         <h2>六大板块</h2>
         <div className="home-grid">
           {ENTRIES.map((e) => (
-            <div className="home-entry" key={e.name}>
+            <div className="home-entry" key={e.name} onClick={() => window.dispatchEvent(new CustomEvent('kk:go-tab', { detail: e.go }))}>
               <div className="home-entry-ic" style={{ background: e.color }}>
                 {e.char}
               </div>
