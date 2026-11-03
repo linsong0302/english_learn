@@ -1,0 +1,118 @@
+[
+  {
+    "id": "a1",
+    "title": "My Morning Routine",
+    "source": "原创分级短文 · Level 1",
+    "level": 1,
+    "paragraphs": [
+      [
+        "I get up at six thirty every morning.",
+        "First, I drink a glass of warm water.",
+        "Then I read English words for ten minutes."
+      ],
+      [
+        "After that, I make a simple breakfast: eggs, bread and milk.",
+        "While I eat, I listen to a short English podcast.",
+        "It trains my ears every day."
+      ],
+      [
+        "At seven thirty, I leave home for school.",
+        "A good morning makes a good day."
+      ]
+    ],
+    "translation": [
+      "我每天早上六点半起床。首先，我喝一杯温水。然后我读十分钟英语单词。",
+      "之后，我做一份简单的早餐：鸡蛋、面包和牛奶。吃饭的时候，我听一小段英语播客。它每天锻炼我的耳朵。",
+      "七点半，我离家去上学。美好的早晨带来美好的一天。"
+    ],
+    "glossary": {
+      "routine": "日常安排；固定流程",
+      "get up": "起床",
+      "a glass of": "一杯",
+      "warm": "温热的",
+      "simple": "简单的",
+      "podcast": "播客",
+      "train": "训练；锻炼",
+      "leave": "离开"
+    }
+  },
+  {
+    "id": "a2",
+    "title": "A Little Robot in the Hospital",
+    "source": "原创分级短文 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "In a hospital in Shanghai, a small robot works every day.",
+        "It carries medicine from the pharmacy to the nurses.",
+        "It never feels tired, and it never forgets the way."
+      ],
+      [
+        "The robot uses cameras to find its road.",
+        "When a person walks in front of it, it stops and waits politely.",
+        "Patients love to say hello to it."
+      ],
+      [
+        "Engineers say robots will help doctors more in the future.",
+        "But robots still need people to guide them.",
+        "Machines are fast, yet human care is warm."
+      ]
+    ],
+    "translation": [
+      "在上海的一家医院里，一个小机器人每天工作。它把药品从药房送到护士站。它从不觉得累，也从不忘记路。",
+      "这个机器人用摄像头认路。当有人走在它前面时，它会停下来礼貌地等待。病人们都喜欢跟它打招呼。",
+      "工程师说，未来机器人会给医生更多帮助。但机器人仍然需要人来引导。机器很快，而人的关怀是温暖的。"
+    ],
+    "glossary": {
+      "hospital": "医院",
+      "robot": "机器人",
+      "medicine": "药品",
+      "pharmacy": "药房",
+      "camera": "摄像头",
+      "politely": "礼貌地",
+      "patient": "病人",
+      "engineer": "工程师",
+      "future": "未来",
+      "guide": "引导",
+      "machine": "机器"
+    }
+  },
+  {
+    "id": "a3",
+    "title": "Why Leaves Change Color in Autumn",
+    "source": "原创分级短文 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "In autumn, the leaves turn yellow, orange and red.",
+        "This happens because the nights become longer and cooler.",
+        "Green chlorophyll slowly goes away from the leaves."
+      ],
+      [
+        "When the green fades, other colors come out.",
+        "Yellow and orange were always inside the leaf.",
+        "Red color is new: the leaf makes it on sunny days."
+      ],
+      [
+        "A leaf with bright colors is getting ready to fall.",
+        "It gives its energy back to the tree.",
+        "Next spring, new green leaves will grow again."
+      ]
+    ],
+    "translation": [
+      "秋天，叶子变成黄色、橙色和红色。这是因为夜晚变得更长、更凉。绿色的叶绿素慢慢从叶子里消失。",
+      "当绿色褪去，其他颜色就显现出来。黄色和橙色本来就藏在叶子里。红色是新产生的：叶子在晴天制造出它。",
+      "颜色鲜艳的叶子正准备飘落。它把自己的能量还给大树。明年春天，新的绿叶会再次生长。"
+    ],
+    "glossary": {
+      "autumn": "秋天",
+      "leaf": "叶子",
+      "leaves": "叶子（leaf 的复数）",
+      "chlorophyll": "叶绿素",
+      "fade": "褪去；变淡",
+      "bright": "鲜艳的；明亮的",
+      "energy": "能量",
+      "spring": "春天"
+    }
+  }
+]
