@@ -114,5 +114,114 @@
       "energy": "能量",
       "spring": "春天"
     }
+  },
+  {
+    "id": "a4",
+    "title": "My Favourite Animal",
+    "source": "原创分级短文 · Level 1",
+    "level": 1,
+    "paragraphs": [
+      [
+        "My favourite animal is the panda.",
+        "Pandas live in the mountains of China.",
+        "They eat bamboo almost all day."
+      ],
+      [
+        "A baby panda is very small, like a little cat.",
+        "It grows fast and becomes black and white.",
+        "Pandas look slow, but they can climb trees!"
+      ],
+      [
+        "Pandas are a symbol of China.",
+        "We should protect them and their forests.",
+        "If you see a panda, you will love it."
+      ]
+    ],
+    "translation": [
+      "我最喜欢的动物是熊猫。熊猫生活在中国的大山里。它们几乎一整天都在吃竹子。",
+      "熊猫宝宝非常小，像一只小猫。它长得很快，变成黑白两色。熊猫看起来慢吞吞的，但它们会爬树哦！",
+      "熊猫是中国的象征。我们应该保护它们和它们的森林。只要你见到熊猫，就一定会爱上它。"
+    ],
+    "glossary": {
+      "panda": "熊猫",
+      "bamboo": "竹子",
+      "mountain": "大山",
+      "climb": "攀爬",
+      "symbol": "象征",
+      "protect": "保护",
+      "forest": "森林"
+    }
+  },
+  {
+    "id": "a5",
+    "title": "A Trip to the Supermarket",
+    "source": "原创分级短文 · Level 1",
+    "level": 1,
+    "paragraphs": [
+      [
+        "On Sunday, Mom and I go to the supermarket.",
+        "We make a shopping list before we leave.",
+        "List in hand, we take the bus there."
+      ],
+      [
+        "First, we get some fruit: apples and bananas.",
+        "Then we buy milk, eggs and bread.",
+        "Mom also lets me choose my favourite cookies."
+      ],
+      [
+        "At the check-out, we wait in a short line.",
+        "The bags are heavy, but I help carry them.",
+        "Shopping together is a kind of happiness."
+      ]
+    ],
+    "translation": [
+      "星期天，妈妈和我去超市。出发前我们先列一张购物清单。拿着清单，我们坐公交车去那里。",
+      "首先，我们买一些水果：苹果和香蕉。然后我们买牛奶、鸡蛋和面包。妈妈还让我挑了我最喜欢的饼干。",
+      "在收银台，我们排了一小会儿队。袋子很重，但我帮忙提。一起购物，就是一种幸福。"
+    ],
+    "glossary": {
+      "supermarket": "超市",
+      "shopping list": "购物清单",
+      "fruit": "水果",
+      "choose": "挑选",
+      "check-out": "收银台",
+      "carry": "提；搬"
+    }
+  },
+  {
+    "id": "a6",
+    "title": "The Moon and the Stars",
+    "source": "原创分级短文 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "At night, the sky becomes a big dark screen.",
+        "The moon and the stars turn on their lights.",
+        "Some nights the moon is round; some nights it is thin."
+      ],
+      [
+        "The moon does not make its own light.",
+        "It is like a mirror for the sun.",
+        "The stars are big suns, very far away."
+      ],
+      [
+        "Long ago, people used stars to find the way at sea.",
+        "Sailors called them friends in the sky.",
+        "Tonight, look up and say hello to them."
+      ]
+    ],
+    "translation": [
+      "夜晚，天空变成一块深色的大幕布。月亮和星星打开了自己的灯。有些夜晚月亮是圆的，有些夜晚是弯弯的。",
+      "月亮自己并不发光。它像一面太阳的镜子。星星其实是很远很远的大太阳。",
+      "很久以前，人们在海上用星星辨认方向。水手们把星星叫做天上的朋友。今晚，抬头向它们问声好吧。"
+    ],
+    "glossary": {
+      "moon": "月亮",
+      "star": "星星",
+      "mirror": "镜子",
+      "sailor": "水手",
+      "sea": "大海",
+      "tonight": "今晚"
+    }
   }
 ]
