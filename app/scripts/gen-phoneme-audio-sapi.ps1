@@ -55,10 +55,13 @@ $outDir = Join-Path $appRoot 'public/audio/phoneme'
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 
 # audio slug (ASCII filename from phonemes.json) -> SAPI phone symbol (en-US phone set)
+# 塞音 b/d/g/k/p/t 单独合成只有约 100ms 的爆破声，几乎听不见也不像可跟读的音，
+# 统一带一个轻元音 ax（schwa），读成 buh/duh/tuh... —— 这也是自然拼读教学的标准示范方式
 $SYMS = @{
     ee = 'iy'; ih = 'ih'; eh = 'eh'; a = 'ae'; ah = 'aa'; aw = 'ao'; uh = 'ah'; uu = 'uh'; oo = 'uw'
     ay = 'ey'; ai = 'ay'; oh = 'ow'; oy = 'oy'; ow = 'aw'; er = 'er'; ur = 'er'
-    p = 'p'; b = 'b'; t = 't'; d = 'd'; k = 'k'; g = 'g'; f = 'f'; v = 'v'; s = 's'; z = 'z'
+    p = 'p ax'; b = 'b ax'; t = 't ax'; d = 'd ax'; k = 'k ax'; g = 'g ax'
+    f = 'f'; v = 'v'; s = 's'; z = 'z'
     th = 'th'; dh = 'dh'; sh = 'sh'; tch = 'ch'; dj = 'jh'; ng = 'ng'
     m = 'm'; n = 'n'; l = 'l'; r = 'r'; w = 'w'; j = 'y'; h = 'h'
     kw = 'k w'; ks = 'k s'
