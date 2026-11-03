@@ -5,6 +5,7 @@ import words from '../data/words.json'
 import planData from '../data/plan.json'
 import type { PlanDay } from '../types-plan'
 import { getPlanState, loadProgress, streakDays, todayCheckin, toggleCheckin } from '../store'
+import { speakSequence } from '../hooks/useSpeech'
 import './home.css'
 import './plan.css'
 
@@ -51,6 +52,16 @@ const ENTRIES = [
     where: '点底部「规则」学习',
   },
   {
+    name: '英文阅读', tab: '阅读', color: '#58c1a8', char: '读',
+    desc: '分级短文 + 粘贴文章：点句朗读、点词查义、自动翻译',
+    where: '点底部「阅读」开读',
+  },
+  {
+    name: '写作教练', tab: '写作', color: '#9a6df0', char: '写',
+    desc: '写作模板 + 常用句式，跟着结构一步一步仿写',
+    where: '点底部「写作」动笔',
+  },
+  {
     name: '每日一测', tab: '练习', color: '#2eaf6a', char: '测',
     desc: '看词选音标、听音选词、判断规则，错题自动进错题本',
     where: '点底部「练习」开测',
@@ -64,6 +75,26 @@ const ENTRIES = [
 
 // lane7：七天计划入口状态
 const PLAN_DAYS = planData as unknown as PlanDay[]
+
+// lane2 美化批次：每日一句（按一年中的第几天轮换，全部为常用谚语/鼓励句）
+const DAILY_SENTENCES = [
+  { en: 'Practice makes perfect.', cn: '熟能生巧。' },
+  { en: 'Every day is a new start.', cn: '每一天都是新的开始。' },
+  { en: 'Little by little, one goes far.', cn: '一步一步，就能走得很远。' },
+  { en: 'Reading makes a full person.', cn: '阅读使人充实。' },
+  { en: 'A good beginning is half done.', cn: '好的开始是成功的一半。' },
+  { en: 'Never give up, and you will make it.', cn: '永不放弃，你就能做到。' },
+  { en: 'The early bird catches the worm.', cn: '早起的鸟儿有虫吃。' },
+  { en: 'Learn something new every day.', cn: '每天学一点新东西。' },
+  { en: 'Mistakes help us grow.', cn: '错误帮助我们成长。' },
+  { en: 'Where there is a will, there is a way.', cn: '有志者，事竟成。' },
+  { en: 'Do small things with great love.', cn: '用爱做好每件小事。' },
+  { en: 'Keep calm and keep learning.', cn: '保持冷静，继续学习。' },
+  { en: 'Action speaks louder than words.', cn: '行动胜过言语。' },
+  { en: "Today's work, tomorrow's success.", cn: '今天的努力，明天的成功。' },
+  { en: 'A happy heart makes a bright day.', cn: '好心情带来明亮的一天。' },
+  { en: 'Slow and steady wins the race.', cn: '稳扎稳打，就能赢。' },
+]
 
 export default function Home() {
   const [checkin, setCheckin] = useState(() => todayCheckin())
@@ -81,6 +112,9 @@ export default function Home() {
   const onToggle = (slot: 'am' | 'pm') => {
     setCheckin((c) => ({ ...c, [slot]: toggleCheckin(slot) }))
   }
+
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
+  const daily = DAILY_SENTENCES[dayOfYear % DAILY_SENTENCES.length]
 
   return (
     <div className="page">
@@ -112,6 +146,19 @@ export default function Home() {
         </p>
       </section>
 
+      {/* 每日一句：先听英文再听中文，跟读一遍 */}
+      <section className="card home-daily">
+        <p className="card-title">每日一句</p>
+        <p className="home-daily-en">{daily.en}</p>
+        <p className="home-daily-cn">{daily.cn}</p>
+        <button
+          className="home-daily-btn"
+          onClick={() => speakSequence([{ text: daily.en, rate: 0.8 }, { text: daily.cn, zh: true, rate: 0.9 }])}
+        >
+          🔊 听一句（英文 + 中文）
+        </button>
+      </section>
+
       {/* 学习进度总览 */}
       <section className="card">
         <p className="card-title">我的进度</p>
@@ -140,9 +187,9 @@ export default function Home() {
         )}
       </section>
 
-      {/* 四大板块入口 */}
+      {/* 六大板块入口 */}
       <section>
-        <h2>四大板块</h2>
+        <h2>六大板块</h2>
         <div className="home-grid">
           {ENTRIES.map((e) => (
             <div className="home-entry" key={e.name}>
