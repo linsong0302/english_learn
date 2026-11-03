@@ -333,6 +333,7 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
   const [showTrans, setShowTrans] = useState(true)
   const [card, setCard] = useState<WordCard | null>(null)
   const [paraTr, setParaTr] = useState<Record<number, ParaTr>>({})
+  const [fs, setFs] = useState(17)
 
   // 离开阅读视图时停掉发音
   useEffect(() => stopSpeaking, [])
@@ -438,6 +439,14 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
             译文
           </button>
         )}
+        <div className="rd-fs">
+          <button onClick={() => setFs((v) => Math.max(14, v - 1))} aria-label="缩小字号">
+            A-
+          </button>
+          <button onClick={() => setFs((v) => Math.min(22, v + 1))} aria-label="放大字号">
+            A+
+          </button>
+        </div>
       </div>
 
       <article className="rd-body">
@@ -446,7 +455,7 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
           si += para.length
           return (
             <section key={pi} className="rd-para">
-              <p className="rd-en">
+              <p className="rd-en" style={{ fontSize: fs }}>
                 {para.map((s, j) => {
                   const idx = start + j
                   return (

@@ -599,3 +599,24 @@
   padding: 8px 10px;
   font-size: 13px;
 }
+
+.rd-fs {
+  display: flex;
+  gap: 4px;
+}
+
+.rd-fs button {
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--sub);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rd-fs button:active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
