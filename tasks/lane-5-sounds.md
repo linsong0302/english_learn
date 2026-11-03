@@ -15,3 +15,4 @@
 - [x] 入口接线：Chant 页顶部工具行加「音标总表」按钮，onClick 里 `window.dispatchEvent(new CustomEvent('kk:open-extra', { detail: 'sounds' }))`
 - [x] 冲刺：详情浮层加「最近学过的音标」区（localStorage 独立 key 记录最近浏览的 8 个音标 id）
 - [x] 音标本音点读：phonemes.json 每条加 ASCII `audio` 文件名字段（41 个 slug 全局唯一，如 θ→th、tʃ→tch、ɝ→er）；types-phonemes.ts 加 `audio?: string`；Sounds 页卡片 🔊 改为听音标本音（speakPhoneme，无录音自动退回读例词），详情浮层加独立「听音标」按钮，intro 与浮层提示文案同步更新（依赖 lane2 的 speakPhoneme 先合入）
+- [x] 补缺失音标条目：phonemes.json 新增 /ŋg/（ngg）、/ŋk/（ngk）、/ɑr/（ar）三条（含 tip 与例词），规则 5 组合表与规则 2 正文的可点读全覆盖；validate.mjs 通过

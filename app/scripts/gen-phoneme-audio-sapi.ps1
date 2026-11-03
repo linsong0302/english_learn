@@ -65,6 +65,7 @@ $SYMS = @{
     th = 'th'; dh = 'dh'; sh = 'sh'; tch = 'ch'; dj = 'jh'; ng = 'ng'
     m = 'm'; n = 'n'; l = 'l'; r = 'r'; w = 'w'; j = 'y'; h = 'h'
     kw = 'k w'; ks = 'k s'
+    ngg = 'ng g ax'; ngk = 'ng k ax'; ar = 'aa r'
 }
 
 Add-Type -AssemblyName System.Speech

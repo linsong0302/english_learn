@@ -41,5 +41,9 @@
   { "id": "h", "kk": "/h/", "type": "consonant", "tip": "像哈气一样轻轻送气，不振动声带，像「喝」", "examples": [ { "word": "hat", "kk": "/hæt/" }, { "word": "hot", "kk": "/hɑt/" }, { "word": "hand", "kk": "/hænd/" } ], "audio": "h" },
 
   { "id": "kw", "kk": "/kw/", "type": "combo", "tip": "k 和 w 连读：先「渴」再嘟嘴「乌」，一口气滑出来", "examples": [ { "word": "quick", "kk": "/kwɪk/" }, { "word": "queen", "kk": "/kwin/" } ], "audio": "kw" },
-  { "id": "ks", "kk": "/ks/", "type": "combo", "tip": "k 和 s 连读：先「渴」再「斯」，中间不停顿", "examples": [ { "word": "box", "kk": "/bɑks/" }, { "word": "exercise", "kk": "/ˈɛksɚsaɪz/" } ], "audio": "ks" }
+  { "id": "ks", "kk": "/ks/", "type": "combo", "tip": "k 和 s 连读：先「渴」再「斯」，中间不停顿", "examples": [ { "word": "box", "kk": "/bɑks/" }, { "word": "exercise", "kk": "/ˈɛksɚsaɪz/" } ], "audio": "ks" },
+
+  { "id": "ŋg", "kk": "/ŋg/", "type": "combo", "tip": "鼻音「嗯」后面接一个 g 音，像「嗯-格」，english 里就是这个音", "examples": [ { "word": "english", "kk": "/ˈɪŋglɪʃ/" } ], "audio": "ngg" },
+  { "id": "ŋk", "kk": "/ŋk/", "type": "combo", "tip": "鼻音「嗯」直接接 k，像「嗯克」", "examples": [ { "word": "ink", "kk": "/ɪŋk/" }, { "word": "think", "kk": "/θɪŋk/" } ], "audio": "ngk" },
+  { "id": "ɑr", "kk": "/ɑr/", "type": "vowel", "tip": "先张大嘴「啊」，再卷舌收 r，像「啊-儿」，car 里的 ar 就是它", "examples": [ { "word": "car", "kk": "/kɑr/" }, { "word": "far", "kk": "/fɑr/" } ], "audio": "ar" }
 ]
