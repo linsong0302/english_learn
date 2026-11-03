@@ -9,3 +9,4 @@
 - [x] 写 `app/src/data/validate.mjs`：node 直接运行，校验全部 JSON 符合结构（字段存在且类型正确、words 无重复、rule id 合法、letters 恰好 26 项），通过时打印 OK，失败时列出问题
 - [x] kk-ipa.json 扩充到 ≥8 行 KK↔IPA 对照，`note` 说明差异与替换建议
 - [x] 冲刺：words.json 扩到 ≥150 词，按 level 分层均匀；validate.mjs 覆盖 mnemonic 与全部新字段
+- [x] KK/IPA 对照表数据扩充：kk-ipa.json 10 → 45 行，覆盖全部 44 个 KK 音标（每个音标一行，含例词与「写法差异/相同」说明，保留原有 10 行），供复习页对照表使用
