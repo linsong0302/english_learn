@@ -35,8 +35,20 @@ export default function App() {
       const detail = (e as CustomEvent<string>).detail
       if (detail === 'sounds' || detail === 'echo' || detail === 'plan') setExtra(detail)
     }
+    // 首页板块卡直达：kk:go-tab { detail: tabKey }
+    const go = (e: Event) => {
+      const key = (e as CustomEvent<string>).detail
+      if (TABS.some((t) => t.key === key)) {
+        setExtra(null)
+        setTab(key as TabKey)
+      }
+    }
     window.addEventListener('kk:open-extra', open)
-    return () => window.removeEventListener('kk:open-extra', open)
+    window.addEventListener('kk:go-tab', go)
+    return () => {
+      window.removeEventListener('kk:open-extra', open)
+      window.removeEventListener('kk:go-tab', go)
+    }
   }, [])
 
   return (
