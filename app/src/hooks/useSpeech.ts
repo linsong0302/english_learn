@@ -226,6 +226,8 @@ export interface SpeakItem extends SpeakOptions {
   pauseAfter?: number
   /** 用中文语音朗读（联想汉字近似音标音时使用） */
   zh?: boolean
+  /** 本段开始朗读时回调（文章逐句高亮用） */
+  onStart?: () => void
 }
 
 export interface SequenceOptions {
@@ -569,6 +571,13 @@ export function speakSequence(items: SpeakItem[], opts: SequenceOptions = {}) {
         applyVoice(u, item.lang)
       }
       u.rate = item.rate ?? DEFAULT_RATE
+      if (item.onStart) {
+        try {
+          item.onStart()
+        } catch {
+          // 回调出错不拖垮朗读
+        }
+      }
       u.onend = () => {
         if (token !== seqToken) return
         if (item.pauseAfter) {
@@ -589,6 +598,27 @@ export function speakSequence(items: SpeakItem[], opts: SequenceOptions = {}) {
     }
   }
   next()
+}
+
+export interface SentencesOptions {
+  rate?: number
+  /** 每句开始朗读时回调（index 为传入数组下标，文章阅读用它做高亮） */
+  onSentence?: (index: number) => void
+  /** 全部读完后的回调 */
+  onDone?: () => void
+}
+
+/** 逐句朗读英文句子（文章阅读用）；stopSpeaking 可随时打断。
+ *  例：speakSentences(sents, { onSentence: (i) => setCur(i) }) */
+export function speakSentences(sentences: string[], opts: SentencesOptions = {}) {
+  speakSequence(
+    sentences.map((text, i) => ({
+      text,
+      rate: opts.rate,
+      onStart: () => opts.onSentence?.(i),
+    })),
+    { onDone: opts.onDone },
+  )
 }
 
 // 语音列表是异步加载的：提前触发一次加载，加载完成后清缓存重新挑选
