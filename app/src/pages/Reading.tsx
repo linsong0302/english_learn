@@ -4,6 +4,7 @@ import type { Article, CustomArticle } from '../lib/articleTypes'
 import { speak, speakSentences, stopSpeaking } from '../hooks/useSpeech'
 import { loadProgress, markWrongMastered } from '../store'
 import { translateToChinese } from '../lib/translate'
+import { fetchArticleFromUrl } from '../lib/fetchArticle'
 import './reading.css'
 const ARTICLES = articlesData as unknown as Article[]
 const CUSTOM_KEY = 'kk-custom-articles-v1'
@@ -97,6 +98,8 @@ interface WordCard {
   meaning: string
   from: string
   loading: boolean
+  /** 该词所在句子的全文下标（供「从这句连播」） */
+  sentIdx?: number
 }
 
 // lane8 英文阅读页：内置分级短文 + 粘贴自定义文章；点句朗读、点词查义、参考译文/在线翻译。
@@ -123,6 +126,29 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
   const [quizOn, setQuizOn] = useState(false)
   const [manual, setManual] = useState('')
   const [adding, setAdding] = useState(false)
+  const [fetchUrl, setFetchUrl] = useState('')
+  const [fetching, setFetching] = useState(false)
+  const [fetchMsg, setFetchMsg] = useState('')
+
+  /** 从网址抓取文章（BBC 等），成功直接进入阅读 */
+  const grabUrl = async () => {
+    if (!fetchUrl.trim() || fetching) return
+    setFetching(true)
+    setFetchMsg('')
+    try {
+      const { title, text } = await fetchArticleFromUrl(fetchUrl)
+      const item: CustomArticle = { id: 'c' + Date.now(), title, text, added: Date.now() }
+      const next = [item, ...custom]
+      setCustom(next)
+      saveCustom(next)
+      setFetchUrl('')
+      onOpen({ kind: 'custom', id: item.id, title, source: '网页抓取', paragraphs: parseCustomText(text), glossary: {} })
+    } catch (e) {
+      setFetchMsg(`抓取失败：${e instanceof Error ? e.message : '网络不通'}。可以打开网页复制文字，用下面的粘贴方式。`)
+    } finally {
+      setFetching(false)
+    }
+  }
   const [wrong, setWrong] = useState(() =>
     Object.values(loadProgress().wrong).filter((w) => !w.mastered),
   )
@@ -317,6 +343,23 @@ function List({ onOpen }: { onOpen: (a: Active) => void }) {
         </button>
       ))}
 
+      <h2 className="rd-sec">从网址抓取（BBC 等英文网站）</h2>
+      <div className="rd-fetch">
+        <input
+          className="rd-input"
+          placeholder="粘贴文章网址，如 https://www.bbc.com/…"
+          value={fetchUrl}
+          onChange={(e) => setFetchUrl(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') grabUrl()
+          }}
+        />
+        <button className="btn-speak btn-speak-sm" onClick={grabUrl} disabled={fetching || !fetchUrl.trim()}>
+          {fetching ? '抓取中…' : '🌐 抓取'}
+        </button>
+      </div>
+      {fetchMsg && <p className="rd-fetch-msg">{fetchMsg}</p>}
+
       <h2 className="rd-sec">我的文章</h2>
       {!formOpen ? (
         <button className="rd-paste" onClick={() => setFormOpen(true)}>
@@ -411,6 +454,12 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
     else play(i)
   }
 
+  // 连播时当前句自动滚入视野（跟随朗读）
+  useEffect(() => {
+    if (cur === null) return
+    document.querySelector(`[data-sent="${cur}"]`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  }, [cur])
+
   const changeRate = (v: number) => {
     setRate(v)
     try {
@@ -421,22 +470,22 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
     if (playing && cur !== null) play(cur) // 朗读中调速：从当前句重读
   }
 
-  const lookupWord = async (raw: string) => {
+  const lookupWord = async (raw: string, sentIdx?: number) => {
     const word = raw.replace(/[^A-Za-z']/g, '').toLowerCase()
     if (!word) return
     const gloss = active.glossary[word]
     if (gloss) {
-      setCard({ word, meaning: gloss, from: '本文词表', loading: false })
+      setCard({ word, meaning: gloss, from: '本文词表', loading: false, sentIdx })
       addWordBookItem(word, gloss)
       return
     }
-    setCard({ word, meaning: '', from: '在线翻译', loading: true })
+    setCard({ word, meaning: '', from: '在线翻译', loading: true, sentIdx })
     try {
       const m = await translateToChinese(word)
-      setCard({ word, meaning: m || '没有查到这个词', from: '在线翻译', loading: false })
+      setCard({ word, meaning: m || '没有查到这个词', from: '在线翻译', loading: false, sentIdx })
       if (m) addWordBookItem(word, m)
     } catch {
-      setCard({ word, meaning: '没有查到这个词（在线翻译连不上，请检查网络）', from: '查询失败', loading: false })
+      setCard({ word, meaning: '没有查到这个词（在线翻译连不上，请检查网络）', from: '查询失败', loading: false, sentIdx })
     }
   }
 
@@ -467,7 +516,7 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
 
       <div className="rd-toolbar">
         <button className={`rd-play ${playing ? 'on' : ''}`} onClick={() => (playing ? stop() : play(0))}>
-          {playing ? '⏹ 停止' : '▶ 从头读'}
+          {playing ? '⏹ 停止' : '▶ 连播全文'}
         </button>
         <label className="rd-rate">
           语速
@@ -509,6 +558,7 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
                   return (
                     <span
                       key={j}
+                      data-sent={idx}
                       className={`rd-sent ${cur === idx ? 'cur' : ''} ${playing && (cur ?? -1) > idx ? 'done' : ''}`}
                       onClick={() => tapSentence(idx)}
                     >
@@ -521,7 +571,7 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
                             className="rd-word"
                             onClick={(e) => {
                               e.stopPropagation()
-                              lookupWord(tok)
+                              lookupWord(tok, idx)
                             }}
                           >
                             {tok}
@@ -574,9 +624,35 @@ function Reader({ active, onBack }: { active: Active; onBack: () => void }) {
                 <p className="rd-sheet-from">来源：{card.from}</p>
               </>
             )}
-            <button className="btn btn-ghost rd-sheet-close" onClick={() => setCard(null)}>
-              关闭
-            </button>
+            <div className="rd-sheet-btns">
+              {!card.loading && (
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    stopSpeaking()
+                    speak(card.word, { rate: 0.8 })
+                  }}
+                >
+                  🔊 听单词
+                </button>
+              )}
+              {card.sentIdx !== undefined && (
+                <button
+                  className="btn btn-warm"
+                  onClick={() => {
+                    setCard(null)
+                    tapSentence(card.sentIdx!)
+                  }}
+                >
+                  ▶ 从这句连播
+                </button>
+              )}
+              {!card.loading && card.sentIdx === undefined && (
+                <button className="btn btn-ghost rd-sheet-close" onClick={() => setCard(null)}>
+                  关闭
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

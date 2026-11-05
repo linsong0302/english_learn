@@ -609,12 +609,14 @@ export interface SentencesOptions {
 }
 
 /** 逐句朗读英文句子（文章阅读用）；stopSpeaking 可随时打断。
+ *  句间留 120ms 自然停顿，连播更像老师带读。
  *  例：speakSentences(sents, { onSentence: (i) => setCur(i) }) */
 export function speakSentences(sentences: string[], opts: SentencesOptions = {}) {
   speakSequence(
     sentences.map((text, i) => ({
       text,
       rate: opts.rate,
+      pauseAfter: i < sentences.length - 1 ? 120 : 0,
       onStart: () => opts.onSentence?.(i),
     })),
     { onDone: opts.onDone },

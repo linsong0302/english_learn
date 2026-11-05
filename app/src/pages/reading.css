@@ -630,3 +630,35 @@
 .rd-wrong .rd-book-head b {
   color: var(--bad);
 }
+
+.rd-sheet-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.rd-sheet-btns .btn {
+  flex: 1;
+  min-height: 40px;
+  font-size: 14px;
+}
+
+/* 从网址抓取 */
+.rd-fetch {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.rd-fetch .rd-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.rd-fetch-msg {
+  font-size: 12px;
+  color: var(--bad);
+  margin: 0 2px 10px;
+  line-height: 1.6;
+}
