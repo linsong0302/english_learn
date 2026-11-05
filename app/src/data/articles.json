@@ -223,5 +223,253 @@
       "sea": "大海",
       "tonight": "今晚"
     }
+  },
+  {
+    "id": "a7",
+    "title": "Protecting Our Blue Planet",
+    "source": "雅思风格阅读 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "The ocean covers more than seventy percent of our planet.",
+        "It produces much of the oxygen we breathe and feeds billions of people.",
+        "Yet human activity is pushing it to the edge."
+      ],
+      [
+        "Plastic waste has become a serious problem.",
+        "Every year, millions of tons of plastic end up in the sea.",
+        "Sea animals often mistake plastic bags for food, which can be deadly."
+      ],
+      [
+        "Governments around the world are now taking action.",
+        "Some countries have banned single-use plastic bags.",
+        "Scientists also suggest recycling and cleaning up beaches.",
+        "Small daily choices, like carrying a cloth bag, can make a difference."
+      ]
+    ],
+    "translation": [
+      "海洋覆盖了我们星球百分之七十以上的面积。它产生我们呼吸的大部分氧气，养育着数十亿人。然而人类活动正把它推向极限。",
+      "塑料垃圾已成为严重问题。每年有数百万吨塑料进入大海。海洋动物常常把塑料袋误当成食物，这可能是致命的。",
+      "世界各国政府正在采取行动。一些国家已禁止使用一次性塑料袋。科学家还建议回收利用和清理海滩。像自带布袋这样的日常小选择，也能带来改变。"
+    ],
+    "glossary": {
+      "oxygen": "氧气",
+      "billions of": "数十亿的",
+      "activity": "活动",
+      "plastic": "塑料",
+      "mistake…for…": "把……误当成……",
+      "deadly": "致命的",
+      "ban": "禁止",
+      "single-use": "一次性的",
+      "recycle": "回收利用",
+      "make a difference": "带来改变"
+    }
+  },
+  {
+    "id": "a8",
+    "title": "Learning a Language in the Digital Age",
+    "source": "六级风格阅读 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "Twenty years ago, language learners depended on paper dictionaries and cassette tapes.",
+        "Today, a phone can check a word in one second and read it aloud.",
+        "Technology has completely changed the way we study."
+      ],
+      [
+        "Apps remind us to practice every day and track our progress.",
+        "Online videos let us hear real conversations from around the world.",
+        "Some learners even chat with artificial intelligence to improve their speaking."
+      ],
+      [
+        "However, experts warn that tools alone are not enough.",
+        "Learning still requires patience, review and real communication.",
+        "The best result comes from combining technology with daily effort."
+      ]
+    ],
+    "translation": [
+      "二十年前，语言学习者依赖纸质词典和磁带。今天，一部手机一秒钟就能查一个词并朗读出来。科技彻底改变了我们的学习方式。",
+      "应用提醒我们每天练习并记录进度。在线视频让我们听到世界各地的真实对话。一些学习者甚至和人工智能聊天来提高口语。",
+      "然而，专家警告：只有工具是不够的。学习仍需要耐心、复习和真实的交流。最好的结果来自科技与每日努力的结合。"
+    ],
+    "glossary": {
+      "depend on": "依赖",
+      "cassette tape": "磁带",
+      "completely": "彻底地",
+      "track": "记录；跟踪",
+      "artificial intelligence": "人工智能",
+      "expert": "专家",
+      "require": "需要",
+      "combine": "结合",
+      "effort": "努力"
+    }
+  },
+  {
+    "id": "a9",
+    "title": "Should Students Wear Uniforms?",
+    "source": "雅思风格讨论 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "In many countries, students wear the same clothes at school.",
+        "People have discussed this tradition for years, and opinions differ."
+      ],
+      [
+        "Supporters say uniforms make everyone equal.",
+        "When nobody wears expensive brands, students focus more on study than on clothes.",
+        "Uniforms also build a feeling of belonging to the school."
+      ],
+      [
+        "Critics, however, believe uniforms limit personal freedom.",
+        "Teenagers want to express themselves, and clothes are one way to do that.",
+        "A fixed uniform may also cost families extra money."
+      ],
+      [
+        "Perhaps the best answer lies in balance.",
+        "Schools could allow free dress on some days while keeping uniforms on others."
+      ]
+    ],
+    "translation": [
+      "在许多国家，学生在学校穿同样的衣服。人们围绕这一传统讨论了很多年，看法不一。",
+      "支持者说校服让每个人平等。当没有人穿名牌时，学生会更专注于学习而不是衣着。校服还能建立对学校的归属感。",
+      "而批评者认为校服限制了个人自由。青少年想要表达自我，衣服是方式之一。固定款式的校服也可能让家庭多花钱。",
+      "也许最好的答案是平衡：学校可以部分日子允许自由着装，其余日子穿校服。"
+    ],
+    "glossary": {
+      "uniform": "校服",
+      "tradition": "传统",
+      "opinion": "看法",
+      "supporter": "支持者",
+      "equal": "平等的",
+      "brand": "品牌",
+      "belonging": "归属感",
+      "critic": "批评者",
+      "limit": "限制",
+      "express oneself": "表达自我",
+      "balance": "平衡"
+    }
+  },
+  {
+    "id": "a10",
+    "title": "Food Miles and Fresh Vegetables",
+    "source": "六级风格阅读 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "Have you checked where your dinner comes from?",
+        "The term \"food miles\" describes how far food travels before it reaches your plate."
+      ],
+      [
+        "Long journeys need planes, ships and trucks, all of which burn fuel and produce carbon dioxide.",
+        "A strawberry flown across the world can leave a bigger footprint than one grown nearby."
+      ],
+      [
+        "Local markets offer a simple solution.",
+        "Vegetables sold there are usually fresher because they are picked recently.",
+        "Buying local food also supports small farmers in your area."
+      ],
+      [
+        "Next weekend, try visiting a farmers' market.",
+        "You may eat healthier and help the planet at the same time."
+      ]
+    ],
+    "translation": [
+      "你查过晚餐食材的来源吗？「食物里程」这个词描述的是食物到达你餐桌前走了多远。",
+      "长途运输需要飞机、轮船和卡车，它们都燃烧燃料、排放二氧化碳。一颗空运 across 世界的草莓，留下的碳足迹可能比本地种植的大得多。",
+      "本地市场提供了一个简单的解决办法。那里卖的蔬菜通常更新鲜，因为刚采摘不久。购买本地食物还能支持当地的小农户。",
+      "下周末，试着逛逛农夫市集吧。你可能吃得更健康，同时也帮了地球一把。"
+    ],
+    "glossary": {
+      "food miles": "食物里程",
+      "fuel": "燃料",
+      "carbon dioxide": "二氧化碳",
+      "footprint": "足迹",
+      "local": "本地的",
+      "solution": "解决办法",
+      "fresh": "新鲜的",
+      "support": "支持"
+    }
+  },
+  {
+    "id": "a11",
+    "title": "Why We Sleep",
+    "source": "六级风格阅读 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "We spend about one third of our lives asleep, but why?",
+        "Scientists are still exploring this question, and recent studies offer interesting answers."
+      ],
+      [
+        "During sleep, the brain is not resting completely.",
+        "It sorts the memories of the day, keeping what matters and dropping what does not.",
+        "That is why a good night's sleep helps students remember what they learned."
+      ],
+      [
+        "Sleep also repairs the body.",
+        "Growth hormone is released mainly at night, and the immune system becomes stronger while we dream."
+      ],
+      [
+        "Most teenagers need eight to ten hours of sleep every night.",
+        "Putting the phone away one hour before bed may be the simplest way to get them."
+      ]
+    ],
+    "translation": [
+      "我们一生约三分之一在睡觉，这是为什么？科学家仍在探索这个问题，最近的研究给出了有趣的答案。",
+      "睡眠中，大脑并没有完全休息。它整理一天的记忆，留下重要的，丢弃不重要的。这就是为什么睡个好觉能帮助学生记住学过的内容。",
+      "睡眠还能修复身体。生长激素主要在夜间分泌，做梦时免疫系统也会变强。",
+      "大多数青少年每晚需要八到十小时睡眠。睡前一小时把手机放远一点，也许就是获得睡眠最简单的办法。"
+    ],
+    "glossary": {
+      "explore": "探索",
+      "memory": "记忆",
+      "matter": "重要",
+      "repair": "修复",
+      "growth hormone": "生长激素",
+      "immune system": "免疫系统",
+      "teenager": "青少年"
+    }
+  },
+  {
+    "id": "a12",
+    "title": "The Rise of Remote Work",
+    "source": "雅思风格阅读 · Level 2",
+    "level": 2,
+    "paragraphs": [
+      [
+        "Ten years ago, working from home was a rare privilege.",
+        "After 2020, it became normal for millions of office workers around the world."
+      ],
+      [
+        "Remote work saves commuting time, which employees can spend with family or on hobbies.",
+        "Companies also save money on offices, and they can hire talented people from any city."
+      ],
+      [
+        "Still, the practice brings challenges.",
+        "Some workers feel lonely without colleagues around them.",
+        "It is also harder to separate work life from home life when both happen in the same room."
+      ],
+      [
+        "Many companies now choose a mixed model: a few days at the office, a few days at home.",
+        "The future of work may be neither fully remote nor fully traditional."
+      ]
+    ],
+    "translation": [
+      "十年前，在家工作还是少见的特权。2020 年之后，它成为全球数百万上班族的常态。",
+      "远程办公省去了通勤时间，员工可以把时间留给家人或爱好。公司也节省了办公室开支，还能从任何城市招到人才。",
+      "不过，这种做法也带来挑战。有些员工在身边没有同事时感到孤独。当工作和生活发生在同一个房间，也更难把两者分开。",
+      "许多公司现在选择混合模式：几天在办公室，几天在家。未来的工作方式也许既不会完全远程，也不会完全传统。"
+    ],
+    "glossary": {
+      "remote": "远程的",
+      "privilege": "特权",
+      "commuting": "通勤",
+      "employee": "员工",
+      "hire": "雇用",
+      "talented": "有才华的",
+      "colleague": "同事",
+      "separate": "分开",
+      "mixed model": "混合模式"
+    }
   }
 ]
